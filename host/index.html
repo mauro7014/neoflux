@@ -72,13 +72,8 @@
     }
     .form-group input::placeholder { color: #555; }
     .form-group input:focus { border-color: var(--accent); }
-    .password-wrap {
-      position: relative;
-    }
-    .password-wrap input {
-      width: 100%;
-      padding-right: 3rem;
-    }
+    .password-wrap { position: relative; }
+    .password-wrap input { width: 100%; padding-right: 3rem; }
     .eye-btn {
       position: absolute;
       right: 0.75rem;
@@ -119,9 +114,9 @@
 
       <div id="tab-login">
         <div class="form-group">
-          <input type="email" id="login-email" placeholder="Email" autocomplete="email"/>
+          <input type="text" id="login-email" placeholder="Email" autocomplete="off"/>
           <div class="password-wrap">
-            <input type="password" id="login-password" placeholder="Contraseña" autocomplete="current-password"/>
+            <input type="password" id="login-password" placeholder="Contraseña" autocomplete="off"/>
             <button class="eye-btn" onclick="togglePassword('login-password', this)" type="button">👁️</button>
           </div>
         </div>
@@ -131,10 +126,10 @@
 
       <div id="tab-register" style="display:none">
         <div class="form-group">
-          <input type="text" id="reg-hotel" placeholder="Nombre del hotel"/>
-          <input type="email" id="reg-email" placeholder="Email" autocomplete="email"/>
+          <input type="text" id="reg-hotel" placeholder="Nombre del hotel" autocomplete="off"/>
+          <input type="text" id="reg-email" placeholder="Email" autocomplete="off"/>
           <div class="password-wrap">
-            <input type="password" id="reg-password" placeholder="Contraseña (mín. 6 caracteres)" autocomplete="new-password"/>
+            <input type="password" id="reg-password" placeholder="Contraseña (mín. 6 caracteres)" autocomplete="off"/>
             <button class="eye-btn" onclick="togglePassword('reg-password', this)" type="button">👁️</button>
           </div>
         </div>
