@@ -31,11 +31,10 @@ body {
   padding: 2rem;
 }
 
-.logo {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: var(--accent);
-  letter-spacing: -0.5px;
+.logo-img {
+  width: 160px;
+  height: auto;
+  object-fit: contain;
 }
 
 .tagline {
@@ -53,32 +52,42 @@ body {
 }
 
 .menu a {
-  display: block;
-  background: var(--surface);
-  color: var(--text);
-  padding: 0.9rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #ffffff;
+  color: #000000;
+  padding: 0.75rem 1.25rem;
   border-radius: var(--radius);
   text-decoration: none;
-  border: 1px solid #2a2a2a;
+  border: 1px solid #dddddd;
   font-size: 0.95rem;
-  transition: border-color 0.2s, color 0.2s;
+  font-weight: 600;
+  transition: border-color 0.2s, opacity 0.2s;
 }
 
 .menu a:hover {
-  border-color: var(--accent);
-  color: var(--accent);
+  opacity: 0.85;
+  border-color: #aaaaaa;
 }
 
-.menu a:last-child {
-  background: var(--accent);
-  color: #0f0f0f;
+.menu-img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.btn-subscribe {
+  justify-content: center;
+  background: var(--accent) !important;
+  color: #0f0f0f !important;
   font-weight: 700;
-  border-color: var(--accent);
+  border-color: var(--accent) !important;
+  margin-top: 0.5rem;
 }
 
-.menu a:last-child:hover {
+.btn-subscribe:hover {
   opacity: 0.9;
-  color: #0f0f0f;
 }
 
 .footer-note {
