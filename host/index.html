@@ -59,17 +59,38 @@
       margin-bottom: 1rem;
     }
     .form-group input {
-      background: #111;
+      background: #111 !important;
       border: 1px solid #222;
       border-radius: 10px;
       padding: 0.85rem 1rem;
-      color: #ffffff;
+      color: #ffffff !important;
       font-family: var(--font);
       font-size: 0.95rem;
       outline: none;
+      -webkit-text-fill-color: #ffffff !important;
+      -webkit-box-shadow: 0 0 0px 1000px #111 inset !important;
     }
     .form-group input::placeholder { color: #555; }
     .form-group input:focus { border-color: var(--accent); }
+    .password-wrap {
+      position: relative;
+    }
+    .password-wrap input {
+      width: 100%;
+      padding-right: 3rem;
+    }
+    .eye-btn {
+      position: absolute;
+      right: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1.1rem;
+      color: #555;
+      padding: 0;
+    }
     .btn-primary {
       width: 100%;
       padding: 0.9rem;
@@ -98,8 +119,11 @@
 
       <div id="tab-login">
         <div class="form-group">
-          <input type="email" id="login-email" placeholder="Email"/>
-          <input type="password" id="login-password" placeholder="Contraseña"/>
+          <input type="email" id="login-email" placeholder="Email" autocomplete="email"/>
+          <div class="password-wrap">
+            <input type="password" id="login-password" placeholder="Contraseña" autocomplete="current-password"/>
+            <button class="eye-btn" onclick="togglePassword('login-password', this)" type="button">👁️</button>
+          </div>
         </div>
         <button class="btn-primary" onclick="doLogin()">Ingresar</button>
         <p class="msg" id="login-msg"></p>
@@ -108,8 +132,11 @@
       <div id="tab-register" style="display:none">
         <div class="form-group">
           <input type="text" id="reg-hotel" placeholder="Nombre del hotel"/>
-          <input type="email" id="reg-email" placeholder="Email"/>
-          <input type="password" id="reg-password" placeholder="Contraseña (mín. 6 caracteres)"/>
+          <input type="email" id="reg-email" placeholder="Email" autocomplete="email"/>
+          <div class="password-wrap">
+            <input type="password" id="reg-password" placeholder="Contraseña (mín. 6 caracteres)" autocomplete="new-password"/>
+            <button class="eye-btn" onclick="togglePassword('reg-password', this)" type="button">👁️</button>
+          </div>
         </div>
         <button class="btn-primary" onclick="doRegister()">Crear cuenta</button>
         <p class="msg" id="register-msg"></p>
@@ -130,6 +157,17 @@
       if (user) window.location.href = 'dashboard.html';
     });
 
+    window.togglePassword = (id, btn) => {
+      const input = document.getElementById(id);
+      if (input.type === 'password') {
+        input.type = 'text';
+        btn.textContent = '🙈';
+      } else {
+        input.type = 'password';
+        btn.textContent = '👁️';
+      }
+    };
+
     window.showTab = (tab) => {
       document.getElementById('tab-login').style.display = tab === 'login' ? 'block' : 'none';
       document.getElementById('tab-register').style.display = tab === 'register' ? 'block' : 'none';
@@ -139,9 +177,11 @@
     };
 
     window.doLogin = async () => {
-      const email = document.getElementById('login-email').value;
+      const email = document.getElementById('login-email').value.trim();
       const password = document.getElementById('login-password').value;
       const msg = document.getElementById('login-msg');
+      msg.textContent = 'Ingresando...';
+      msg.className = 'msg';
       try {
         await signInWithEmailAndPassword(auth, email, password);
         window.location.href = 'dashboard.html';
@@ -152,10 +192,12 @@
     };
 
     window.doRegister = async () => {
-      const hotel = document.getElementById('reg-hotel').value;
-      const email = document.getElementById('reg-email').value;
+      const hotel = document.getElementById('reg-hotel').value.trim();
+      const email = document.getElementById('reg-email').value.trim();
       const password = document.getElementById('reg-password').value;
       const msg = document.getElementById('register-msg');
+      msg.textContent = 'Creando cuenta...';
+      msg.className = 'msg';
       try {
         const cred = await createUserWithEmailAndPassword(auth, email, password);
         await setDoc(doc(db, 'hotels', cred.user.uid), {
