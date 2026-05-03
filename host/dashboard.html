@@ -3,186 +3,271 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>NeoFlux — Acceso</title>
+  <title>NeoFlux — Panel Host</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/main.css"/>
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --accent: #e8c87a;
-      --font: 'DM Sans', sans-serif;
+    .dashboard {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 1.5rem;
     }
-    body {
-      background: #ffffff;
+    .dash-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+    .dash-header img { width: 80px; }
+    .hotel-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #2a3542;
+    }
+    .btn-logout {
+      background: transparent;
+      border: 1px solid #dddddd;
+      color: #888888;
+      padding: 0.4rem 0.8rem;
+      border-radius: 8px;
+      cursor: pointer;
       font-family: var(--font);
-      min-height: 100vh;
+      font-size: 0.8rem;
     }
-    .page-center {
+    .section-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #888888;
+      margin-bottom: 0.75rem;
+    }
+    .rooms-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+    .room-card {
+      background: #f8f9fa;
+      border: 1px solid #e0e0e0;
+      border-radius: 14px;
+      padding: 1rem;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .room-card:hover { border-color: #2a3542; }
+    .room-number {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+      color: #1a1a1a;
+    }
+    .room-status {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 20px;
+      display: inline-block;
+      font-weight: 600;
+    }
+    .status-free { background: #e6f7ee; color: #2a8a4a; }
+    .status-occupied { background: #e6e6ff; color: #4a4aaa; }
+    .status-dirty { background: #ffe6e6; color: #aa2a2a; }
+    .status-cleaning { background: #fff3e0; color: #aa6a00; }
+    .btn-add {
+      width: 100%;
+      padding: 0.85rem;
+      background: transparent;
+      border: 1px dashed #cccccc;
+      border-radius: 14px;
+      color: #888888;
+      font-family: var(--font);
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+      margin-bottom: 1.5rem;
+    }
+    .btn-add:hover { border-color: #2a3542; color: #2a3542; }
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 100vh;
-      padding: 2rem;
+      padding: 1.5rem;
+      z-index: 100;
     }
-    .auth-box {
-      background: #2a3542;
+    .modal {
+      background: #ffffff;
+      border: 1px solid #e0e0e0;
       border-radius: 16px;
-      padding: 2rem;
+      padding: 1.5rem;
       width: 100%;
-      max-width: 360px;
+      max-width: 320px;
       box-shadow: 0 8px 32px rgba(0,0,0,0.15);
     }
-    .auth-logo {
-      width: 100px;
-      display: block;
-      margin: 0 auto 1.5rem;
-    }
-    .auth-tabs {
-      display: flex;
-      margin-bottom: 1.5rem;
-      border-radius: 10px;
-      overflow: hidden;
-      border: 1px solid #3a4a5a;
-    }
-    .auth-tabs button {
-      flex: 1;
-      padding: 0.6rem;
-      border: none;
-      background: transparent;
-      color: #aaa;
-      font-family: var(--font);
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .auth-tabs button.active {
-      background: var(--accent);
-      color: #000;
-      font-weight: 700;
-    }
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
+    .modal h3 {
       margin-bottom: 1rem;
+      font-size: 1rem;
+      color: #1a1a1a;
     }
-    .form-group input {
-      background: #1a2530;
-      border: 1px solid #3a4a5a;
+    .modal input, .modal select {
+      width: 100%;
+      background: #f8f9fa;
+      border: 1px solid #e0e0e0;
       border-radius: 10px;
-      padding: 0.85rem 1rem;
-      color: #ffffff;
+      padding: 0.75rem 1rem;
+      color: #1a1a1a;
       font-family: var(--font);
       font-size: 0.95rem;
+      margin-bottom: 0.75rem;
       outline: none;
     }
-    .form-group input::placeholder { color: #778; }
-    .form-group input:focus { border-color: var(--accent); }
-    .btn-primary {
-      width: 100%;
-      padding: 0.9rem;
-      background: var(--accent);
-      color: #000;
-      font-weight: 700;
-      font-family: var(--font);
-      font-size: 1rem;
-      border: none;
+    .modal-btns {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+    .btn-secondary {
+      flex: 1;
+      padding: 0.75rem;
+      background: transparent;
+      border: 1px solid #dddddd;
       border-radius: 10px;
+      color: #888888;
+      font-family: var(--font);
       cursor: pointer;
     }
-    .msg {
-      margin-top: 1rem;
-      font-size: 0.85rem;
-      text-align: center;
-      min-height: 1.2rem;
+    .btn-primary {
+      flex: 1;
+      padding: 0.75rem;
+      background: #2a3542;
+      border: none;
+      border-radius: 10px;
+      color: #ffffff;
+      font-weight: 700;
+      font-family: var(--font);
+      cursor: pointer;
     }
-    .msg.error { color: #e05252; }
-    .msg.success { color: #52c07a; }
+    .hidden { display: none; }
   </style>
 </head>
 <body>
-  <div class="page-center">
-    <div class="auth-box">
-      <img src="../images/neoflux.png" alt="NeoFlux" class="auth-logo"/>
-      <div class="auth-tabs">
-        <button class="active" onclick="showTab('login')">Ingresar</button>
-        <button onclick="showTab('register')">Registrarse</button>
-      </div>
+  <div class="dashboard">
+    <div class="dash-header">
+      <img src="../images/host.png" alt="Host"/>
+      <span class="hotel-name" id="hotel-name">Cargando...</span>
+      <button class="btn-logout" onclick="doLogout()">Salir</button>
+    </div>
 
-      <div id="tab-login">
-        <div class="form-group">
-          <input type="email" id="login-email" placeholder="Email"/>
-          <input type="password" id="login-password" placeholder="Contraseña"/>
-        </div>
-        <button class="btn-primary" onclick="doLogin()">Ingresar</button>
-        <p class="msg" id="login-msg"></p>
-      </div>
+    <p class="section-title">Habitaciones</p>
+    <div class="rooms-grid" id="rooms-grid"></div>
+    <button class="btn-add" onclick="openAddRoom()">+ Agregar habitación</button>
+  </div>
 
-      <div id="tab-register" style="display:none">
-        <div class="form-group">
-          <input type="text" id="reg-hotel" placeholder="Nombre del hotel"/>
-          <input type="email" id="reg-email" placeholder="Email"/>
-          <input type="password" id="reg-password" placeholder="Contraseña (mín. 6 caracteres)"/>
-        </div>
-        <button class="btn-primary" onclick="doRegister()">Crear cuenta</button>
-        <p class="msg" id="register-msg"></p>
+  <div class="modal-overlay hidden" id="modal-add">
+    <div class="modal">
+      <h3>Nueva habitación</h3>
+      <input type="text" id="room-number" placeholder="Número o nombre (ej: 101)"/>
+      <select id="room-status">
+        <option value="free">Libre</option>
+        <option value="occupied">Ocupada</option>
+        <option value="dirty">Sucia</option>
+        <option value="cleaning">Limpiando</option>
+      </select>
+      <div class="modal-btns">
+        <button class="btn-secondary" onclick="closeModal()">Cancelar</button>
+        <button class="btn-primary" onclick="addRoom()">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay hidden" id="modal-edit">
+    <div class="modal">
+      <h3>Editar habitación</h3>
+      <input type="text" id="edit-room-number" placeholder="Número o nombre"/>
+      <select id="edit-room-status">
+        <option value="free">Libre</option>
+        <option value="occupied">Ocupada</option>
+        <option value="dirty">Sucia</option>
+        <option value="cleaning">Limpiando</option>
+      </select>
+      <div class="modal-btns">
+        <button class="btn-secondary" onclick="closeModal()">Cancelar</button>
+        <button class="btn-primary" onclick="saveRoom()">Guardar</button>
       </div>
     </div>
   </div>
 
   <script type="module">
     import { auth, db } from '../js/firebase-config.js';
-    import {
-      createUserWithEmailAndPassword,
-      signInWithEmailAndPassword,
-      onAuthStateChanged
-    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-    import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { doc, getDoc, collection, onSnapshot, addDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-    onAuthStateChanged(auth, (user) => {
-      if (user) window.location.href = 'dashboard.html';
+    let hotelId = null;
+    let editingRoomId = null;
+
+    const statusLabel = { free: 'Libre', occupied: 'Ocupada', dirty: 'Sucia', cleaning: 'Limpiando' };
+    const statusClass = { free: 'status-free', occupied: 'status-occupied', dirty: 'status-dirty', cleaning: 'status-cleaning' };
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) { window.location.href = 'index.html'; return; }
+      hotelId = user.uid;
+      const hotelDoc = await getDoc(doc(db, 'hotels', hotelId));
+      if (hotelDoc.exists()) {
+        document.getElementById('hotel-name').textContent = hotelDoc.data().name;
+      }
+      loadRooms();
     });
 
-    window.showTab = (tab) => {
-      document.getElementById('tab-login').style.display = tab === 'login' ? 'block' : 'none';
-      document.getElementById('tab-register').style.display = tab === 'register' ? 'block' : 'none';
-      document.querySelectorAll('.auth-tabs button').forEach((b, i) => {
-        b.classList.toggle('active', (tab === 'login' && i === 0) || (tab === 'register' && i === 1));
-      });
-    };
-
-    window.doLogin = async () => {
-      const email = document.getElementById('login-email').value;
-      const password = document.getElementById('login-password').value;
-      const msg = document.getElementById('login-msg');
-      try {
-        await signInWithEmailAndPassword(auth, email, password);
-        window.location.href = 'dashboard.html';
-      } catch(e) {
-        msg.className = 'msg error';
-        msg.textContent = 'Email o contraseña incorrectos';
-      }
-    };
-
-    window.doRegister = async () => {
-      const hotel = document.getElementById('reg-hotel').value;
-      const email = document.getElementById('reg-email').value;
-      const password = document.getElementById('reg-password').value;
-      const msg = document.getElementById('register-msg');
-      try {
-        const cred = await createUserWithEmailAndPassword(auth, email, password);
-        await setDoc(doc(db, 'hotels', cred.user.uid), {
-          name: hotel,
-          email: email,
-          createdAt: new Date(),
-          plan: 'trial',
-          trialEnds: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000)
+    function loadRooms() {
+      const roomsRef = collection(db, 'hotels', hotelId, 'rooms');
+      onSnapshot(roomsRef, (snap) => {
+        const grid = document.getElementById('rooms-grid');
+        grid.innerHTML = '';
+        snap.forEach(d => {
+          const r = d.data();
+          const card = document.createElement('div');
+          card.className = 'room-card';
+          card.innerHTML = `
+            <div class="room-number">🚪 ${r.number}</div>
+            <span class="room-status ${statusClass[r.status]}">${statusLabel[r.status]}</span>
+          `;
+          card.onclick = () => openEditRoom(d.id, r.number, r.status);
+          grid.appendChild(card);
         });
-        window.location.href = 'dashboard.html';
-      } catch(e) {
-        msg.className = 'msg error';
-        msg.textContent = e.message;
-      }
+      });
+    }
+
+    window.openAddRoom = () => document.getElementById('modal-add').classList.remove('hidden');
+    window.closeModal = () => {
+      document.getElementById('modal-add').classList.add('hidden');
+      document.getElementById('modal-edit').classList.add('hidden');
+    };
+    window.addRoom = async () => {
+      const number = document.getElementById('room-number').value.trim();
+      const status = document.getElementById('room-status').value;
+      if (!number) return;
+      await addDoc(collection(db, 'hotels', hotelId, 'rooms'), { number, status });
+      closeModal();
+      document.getElementById('room-number').value = '';
+    };
+    window.openEditRoom = (id, number, status) => {
+      editingRoomId = id;
+      document.getElementById('edit-room-number').value = number;
+      document.getElementById('edit-room-status').value = status;
+      document.getElementById('modal-edit').classList.remove('hidden');
+    };
+    window.saveRoom = async () => {
+      const number = document.getElementById('edit-room-number').value.trim();
+      const status = document.getElementById('edit-room-status').value;
+      await updateDoc(doc(db, 'hotels', hotelId, 'rooms', editingRoomId), { number, status });
+      closeModal();
+    };
+    window.doLogout = async () => {
+      await signOut(auth);
+      window.location.href = 'index.html';
     };
   </script>
 </body>
