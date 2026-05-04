@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NeoFlux — Order</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/main.css"/>
+  <style>
+    .dashboard { max-width: 480px; margin: 0 auto; padding: 1.5rem; }
+    .dash-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
+    .dash-header img { width: 60px; cursor: pointer; }
+    .panel-name { font-size: 1rem; font-weight: 700; color: #2a3542; }
+    .btn-logout { background: transparent; border: 1px solid #ddd; color: #888; padding: 0.4rem 0.8rem; border-radius: 8px; cursor: pointer; font-family: var(--font); font-size: 0.8rem; }
+    .section-title { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: #888; margin-bottom: 0.75rem; margin-top: 1rem; }
+    .filter-tabs { display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
+    .filter-btn { padding: 0.4rem 0.9rem; border-radius: 20px; border: 1px solid #ddd; background: #fff; color: #888; font-family: var(--font); font-size: 0.8rem; cursor: pointer; transition: all 0.2s; }
+    .filter-btn.active { background: #2a3542; color: #fff; border-color: #2a3542; }
+    .orders-list { display: flex; flex-direction: column; gap: 0.75rem; }
+    .order-card { background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 14px; padding: 1rem; }
+    .order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+    .order-room { font-weight: 700; color: #1a1a1a; font-size: 0.95rem; }
+    .order-status { font-size: 0.75rem; padding: 0.25rem 0.6rem; border-radius: 20px; font-weight: 600; }
+    .status-pending { background: #ffe6e6; color: #aa2a2a; }
+    .status-progress { background: #fff3e0; color: #aa6a00; }
+    .status-done { background: #e6f7ee; color: #2a8a4a; }
+    .order-items { font-size: 0.85rem; color: #444; margin-bottom: 0.5rem; }
+    .order-note { font-size: 0.8rem; color: #888; margin-bottom: 0.5rem; }
+    .order-total { font-size: 0.85rem; font-weight: 700; color: #2a3542; margin-bottom: 0.75rem; }
+    .order-time { font-size: 0.75rem; color: #aaa; }
+    .order-actions { display: flex; gap: 0.5rem; margin-top: 0.75rem; }
+    .btn-action { flex: 1; padding: 0.5rem; border: none; border-radius: 8px; font-family: var(--font); font-size: 0.8rem; font-weight: 700; cursor: pointer; }
+    .btn-progress { background: #fff3e0; color: #aa6a00; }
+    .btn-done { background: #e6f7ee; color: #2a8a4a; }
+    .btn-cancel { background: #ffe6e6; color: #aa2a2a; }
+    .empty-msg { text-align: center; color: #888; padding: 2rem; font-size: 0.95rem; }
+    .auth-box { background: #000; border-radius: 16px; padding: 2rem; width: 100%; max-width: 360px; margin: auto; }
+    .auth-logo { width: 100px; display: block; margin: 0 auto 1.5rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1rem; }
+    .form-group input { background: #111; border: 1px solid #333; border-radius: 10px; padding: 0.85rem 1rem; color: #fff; font-family: var(--font); font-size: 0.95rem; outline: none; width: 100%; }
+    .form-group input::placeholder { color: #555; }
+    .form-group input:focus { border-color: var(--accent); }
+    .btn-login { width: 100%; padding: 0.9rem; background: var(--accent); color: #000; font-weight: 700; font-family: var(--font); font-size: 1rem; border: none; border-radius: 10px; cursor: pointer; }
+    .login-msg { margin-top: 1rem; font-size: 0.85rem; text-align: center; color: #aaa; min-height: 1.2rem; }
+    .login-msg.error { color: #e05252; }
+    .page-center { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 2rem; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+
+  <!-- LOGIN -->
+  <div id="login-screen" class="page-center">
+    <div class="auth-box">
+      <img src="../images/order.png" alt="Order" class="auth-logo"/>
+      <div class="form-group">
+        <input type="email" id="order-email" placeholder="Email"/>
+        <input type="password" id="order-password" placeholder="Contraseña"/>
+      </div>
+      <button class="btn-login" onclick="doLogin()">Ingresar</button>
+      <p class="login-msg" id="order-msg"></p>
+    </div>
+  </div>
+
+  <!-- PANEL ORDER -->
+  <div id="order-screen" class="hidden">
+    <div class="dashboard">
+      <div class="dash-header">
+        <img src="../images/neoflux.png" alt="NeoFlux" onclick="window.location.href='../index.html'"/>
+        <span class="panel-name">Panel Pedidos</span>
+        <button class="btn-logout" onclick="doLogout()">Salir</button>
+      </div>
+
+      <div class="filter-tabs">
+        <button class="filter-btn active" onclick="setFilter('all')">Todos</button>
+        <button class="filter-btn" onclick="setFilter('pending')">Pendientes</button>
+        <button class="filter-btn" onclick="setFilter('progress')">En curso</button>
+        <button class="filter-btn" onclick="setFilter('done')">Completados</button>
+      </div>
+
+      <div class="orders-list" id="orders-list">
+        <p class="empty-msg">Cargando...</p>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { auth, db } from '../js/firebase-config.js';
+    import { signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { doc, getDoc, collection, onSnapshot, updateDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    let hotelId = null;
+    let currentFilter = 'all';
+    let allOrders = [];
+
+    const statusLabel = { pending:'Pendiente', progress:'En curso', done:'Completado' };
+    const statusClass = { pending:'status-pending', progress:'status-progress', done:'status-done' };
+
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const userDoc = await getDoc(doc(db, 'users', user.uid));
+        hotelId = userDoc.exists() ? userDoc.data().hotelId : user.uid;
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('order-screen').classList.remove('hidden');
+        loadOrders();
+      } else {
+        document.getElementById('login-screen').style.display = 'flex';
+        document.getElementById('order-screen').classList.add('hidden');
+      }
+    });
+
+    function loadOrders() {
+      const q = query(collection(db, 'hotels', hotelId, 'orders'), orderBy('createdAt', 'desc'));
+      onSnapshot(q, (snap) => {
+        allOrders = [];
+        snap.forEach(d => allOrders.push({ id: d.id, ...d.data() }));
+        renderOrders();
+      });
+    }
+
+    function renderOrders() {
+      const list = document.getElementById('orders-list');
+      list.innerHTML = '';
+      const filtered = currentFilter === 'all' ? allOrders : allOrders.filter(o => o.status === currentFilter);
+      if (filtered.length === 0) {
+        list.innerHTML = '<p class="empty-msg">No hay pedidos</p>';
+        return;
+      }
+      filtered.forEach(o => {
+        const card = document.createElement('div');
+        card.className = 'order-card';
+        const time = o.createdAt?.toDate ? o.createdAt.toDate().toLocaleTimeString('es', {hour:'2-digit', minute:'2-digit'}) : '';
+        const itemsText = o.items ? o.items.map(i => i.name).join(', ') : '';
+        card.innerHTML = `
+          <div class="order-header">
+            <span class="order-room">🚪 ${o.roomNumber || 'Habitación'}</span>
+            <span class="order-status ${statusClass[o.status]}">${statusLabel[o.status]}</span>
+          </div>
+          ${itemsText ? `<p class="order-items">📦 ${itemsText}</p>` : ''}
+          ${o.note ? `<p class="order-note">📝 ${o.note}</p>` : ''}
+          ${o.total > 0 ? `<p class="order-total">💰 Total: $${o.total}</p>` : ''}
+          <p class="order-time">🕐 ${time}</p>
+          <div class="order-actions">
+            ${o.status === 'pending' ? `<button class="btn-action btn-progress" onclick="updateOrder('${o.id}','progress')">En curso</button>` : ''}
+            ${o.status === 'progress' ? `<button class="btn-action btn-done" onclick="updateOrder('${o.id}','done')">Completado</button>` : ''}
+            ${o.status !== 'done' ? `<button class="btn-action btn-cancel" onclick="updateOrder('${o.id}','done')">Cancelar</button>` : ''}
+          </div>
+        `;
+        list.appendChild(card);
+      });
+    }
+
+    window.setFilter = (filter) => {
+      currentFilter = filter;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+      renderOrders();
+    };
+
+    window.updateOrder = async (id, status) => {
+      await updateDoc(doc(db, 'hotels', hotelId, 'orders', id), { status });
+    };
+
+    window.doLogin = async () => {
+      const email = document.getElementById('order-email').value.trim();
+      const password = document.getElementById('order-password').value;
+      const msg = document.getElementById('order-msg');
+      msg.className = 'login-msg';
+      msg.textContent = 'Ingresando...';
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+      } catch(e) {
+        msg.className = 'login-msg error';
+        msg.textContent = 'Email o contraseña incorrectos';
+      }
+    };
+
+    window.doLogout = async () => { await signOut(auth); };
+  </script>
+</body>
+</html>
