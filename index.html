@@ -3,7 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="theme-color" content="#0f0f0f"/>
+  <meta name="theme-color" content="#ffffff"/>
+  <link rel="icon" type="image/png" href="images/neoflux.png"/>
+  <link rel="apple-touch-icon" href="images/neoflux.png"/>
+  <link rel="manifest" href="manifest.json"/>
   <title>NeoFlux — Gestión Hotelera</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
@@ -12,7 +15,7 @@
 <body>
   <div class="landing">
     <img src="images/neoflux.png" alt="NeoFlux" class="logo-img" />
-    <p class="tagline">Sistema de gestión hotelera</p>
+    <p class="tagline" id="tagline"></p>
     <nav class="menu">
       <a href="host/">
         <img src="images/host.png" alt="Host" class="menu-img" />
@@ -30,11 +33,17 @@
         <img src="images/guest.png" alt="Guest Check-In" class="menu-img" />
         <span>Guest Check-In</span>
       </a>
-      <a href="subscribe/" class="btn-subscribe">
-        💳 Suscribirse — 49€/mes
-      </a>
+      <a href="subscribe/" class="btn-subscribe" id="btn-subscribe"></a>
     </nav>
-    <p class="footer-note">14 días gratis · Sin tarjeta · Cancelás cuando querés</p>
+    <p class="footer-note" id="footer-note"></p>
   </div>
+
+  <script type="module">
+    import { t } from './js/i18n.js';
+    document.getElementById('tagline').textContent = t('tagline');
+    document.getElementById('btn-subscribe').textContent = t('subscribe');
+    document.getElementById('footer-note').textContent = t('trial');
+    document.documentElement.lang = navigator.language.slice(0,2);
+  </script>
 </body>
 </html>
