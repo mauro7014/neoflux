@@ -7,117 +7,96 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/main.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <style>
     .dashboard { max-width: 480px; margin: 0 auto; padding: 1.5rem; }
-    .dash-header {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 1.5rem;
-    }
-    .dash-header img { width: 60px; cursor: pointer; }
+    .dash-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
+    .dash-header img { width: 60px; }
     .hotel-name { font-size: 1rem; font-weight: 700; color: #2a3542; }
-    .btn-logout {
-      background: transparent; border: 1px solid #ddd; color: #888;
-      padding: 0.4rem 0.8rem; border-radius: 8px; cursor: pointer;
-      font-family: var(--font); font-size: 0.8rem;
-    }
-    .section-title {
-      font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;
-      color: #888; margin-bottom: 0.75rem; margin-top: 1.5rem;
-    }
-    .rooms-grid {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 0.75rem; margin-bottom: 1rem;
-    }
-    .room-card {
-      background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 14px;
-      padding: 1rem; cursor: pointer; transition: border-color 0.2s;
-    }
+    .btn-logout { background: transparent; border: 1px solid #ddd; color: #888; padding: 0.4rem 0.8rem; border-radius: 8px; cursor: pointer; font-family: var(--font); font-size: 0.8rem; }
+    .section-title { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: #888; margin-bottom: 0.75rem; margin-top: 1.5rem; }
+    .nav-tabs { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+    .nav-tab { padding: 0.5rem 1rem; border-radius: 20px; border: 1px solid #ddd; background: #fff; color: #888; font-family: var(--font); font-size: 0.85rem; cursor: pointer; transition: all 0.2s; }
+    .nav-tab.active { background: #2a3542; color: #fff; border-color: #2a3542; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .rooms-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem; }
+    .room-card { background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 14px; padding: 1rem; cursor: pointer; transition: border-color 0.2s; }
     .room-card:hover { border-color: #2a3542; }
     .room-number { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.4rem; color: #1a1a1a; }
-    .room-status {
-      font-size: 0.75rem; padding: 0.25rem 0.6rem; border-radius: 20px;
-      display: inline-block; font-weight: 600;
-    }
+    .room-status { font-size: 0.75rem; padding: 0.25rem 0.6rem; border-radius: 20px; display: inline-block; font-weight: 600; }
     .status-free { background: #e6f7ee; color: #2a8a4a; }
     .status-occupied { background: #e6e6ff; color: #4a4aaa; }
     .status-dirty { background: #ffe6e6; color: #aa2a2a; }
     .status-cleaning { background: #fff3e0; color: #aa6a00; }
-    .btn-add {
-      width: 100%; padding: 0.85rem; background: transparent;
-      border: 1px dashed #ccc; border-radius: 14px; color: #888;
-      font-family: var(--font); font-size: 0.95rem; cursor: pointer;
-      transition: border-color 0.2s, color 0.2s; margin-bottom: 0.5rem;
-    }
+    .room-staff { font-size: 0.75rem; color: #888; margin-top: 0.3rem; }
+    .btn-add { width: 100%; padding: 0.85rem; background: transparent; border: 1px dashed #ccc; border-radius: 14px; color: #888; font-family: var(--font); font-size: 0.95rem; cursor: pointer; transition: border-color 0.2s, color 0.2s; margin-bottom: 0.5rem; }
     .btn-add:hover { border-color: #2a3542; color: #2a3542; }
-    .extra-item {
-      display: flex; justify-content: space-between; align-items: center;
-      background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 10px;
-      padding: 0.75rem 1rem; margin-bottom: 0.5rem;
-    }
-    .extra-name { font-weight: 600; color: #1a1a1a; }
-    .extra-price { color: #2a3542; font-weight: 700; }
-    .staff-item {
-      display: flex; justify-content: space-between; align-items: center;
-      background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 10px;
-      padding: 0.75rem 1rem; margin-bottom: 0.5rem;
-    }
-    .modal-overlay {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.5);
-      display: flex; align-items: center; justify-content: center;
-      padding: 1.5rem; z-index: 100;
-    }
-    .modal {
-      background: #fff; border: 1px solid #e0e0e0; border-radius: 16px;
-      padding: 1.5rem; width: 100%; max-width: 320px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.15);
-    }
+    .extra-item { display: flex; justify-content: space-between; align-items: center; background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 10px; padding: 0.75rem 1rem; margin-bottom: 0.5rem; }
+    .staff-item { display: flex; justify-content: space-between; align-items: center; background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 10px; padding: 0.75rem 1rem; margin-bottom: 0.5rem; }
+    .order-card { background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 14px; padding: 1rem; margin-bottom: 0.75rem; }
+    .order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+    .order-room { font-weight: 700; color: #1a1a1a; font-size: 0.95rem; }
+    .order-status { font-size: 0.75rem; padding: 0.25rem 0.6rem; border-radius: 20px; font-weight: 600; }
+    .status-pending { background: #ffe6e6; color: #aa2a2a; }
+    .status-progress { background: #fff3e0; color: #aa6a00; }
+    .status-done { background: #e6f7ee; color: #2a8a4a; }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; padding: 1.5rem; z-index: 100; overflow-y: auto; }
+    .modal { background: #fff; border-radius: 16px; padding: 1.5rem; width: 100%; max-width: 340px; box-shadow: 0 8px 32px rgba(0,0,0,0.15); margin: auto; }
     .modal h3 { margin-bottom: 1rem; font-size: 1rem; color: #1a1a1a; }
-    .modal input, .modal select {
-      width: 100%; background: #f8f9fa; border: 1px solid #e0e0e0;
-      border-radius: 10px; padding: 0.75rem 1rem; color: #1a1a1a;
-      font-family: var(--font); font-size: 0.95rem; margin-bottom: 0.75rem; outline: none;
-    }
+    .modal input, .modal select { width: 100%; background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 10px; padding: 0.75rem 1rem; color: #1a1a1a; font-family: var(--font); font-size: 0.95rem; margin-bottom: 0.75rem; outline: none; }
     .modal-btns { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
-    .btn-secondary {
-      flex: 1; padding: 0.75rem; background: transparent; border: 1px solid #ddd;
-      border-radius: 10px; color: #888; font-family: var(--font); cursor: pointer;
-    }
-    .btn-primary {
-      flex: 1; padding: 0.75rem; background: #2a3542; border: none;
-      border-radius: 10px; color: #fff; font-weight: 700;
-      font-family: var(--font); cursor: pointer;
-    }
+    .btn-secondary { flex: 1; padding: 0.75rem; background: transparent; border: 1px solid #ddd; border-radius: 10px; color: #888; font-family: var(--font); cursor: pointer; }
+    .btn-primary { flex: 1; padding: 0.75rem; background: #2a3542; border: none; border-radius: 10px; color: #fff; font-weight: 700; font-family: var(--font); cursor: pointer; }
     .msg { margin-top: 0.5rem; font-size: 0.8rem; text-align: center; color: #888; min-height: 1rem; }
     .msg.error { color: #e05252; }
     .msg.ok { color: #52c07a; }
+    #qr-container { display: flex; justify-content: center; margin: 1rem 0; }
+    .qr-url { font-size: 0.7rem; color: #888; text-align: center; word-break: break-all; margin-bottom: 0.5rem; }
     .hidden { display: none; }
   </style>
 </head>
 <body>
   <div class="dashboard">
     <div class="dash-header">
-      <img src="../images/neoflux.png" alt="NeoFlux" onclick="window.location.href='../index.html'"/>
+      <img src="../images/host.png" alt="Host"/>
       <span class="hotel-name" id="hotel-name">Cargando...</span>
       <button class="btn-logout" onclick="doLogout()">Salir</button>
     </div>
 
-    <!-- HABITACIONES -->
-    <p class="section-title">Habitaciones</p>
-    <div class="rooms-grid" id="rooms-grid"></div>
-    <button class="btn-add" onclick="openAddRoom()">+ Agregar habitación</button>
+    <!-- TABS -->
+    <div class="nav-tabs">
+      <button class="nav-tab active" onclick="showTab('rooms')">🚪 Habitaciones</button>
+      <button class="nav-tab" onclick="showTab('orders')">🛎️ Pedidos</button>
+      <button class="nav-tab" onclick="showTab('extras')">💰 Extras</button>
+      <button class="nav-tab" onclick="showTab('staff')">👥 Personal</button>
+    </div>
 
-    <!-- EXTRAS -->
-    <p class="section-title">Extras</p>
-    <div id="extras-list"></div>
-    <button class="btn-add" onclick="openAddExtra()">+ Agregar extra</button>
+    <!-- TAB HABITACIONES -->
+    <div id="tab-rooms" class="tab-content active">
+      <div class="rooms-grid" id="rooms-grid"></div>
+      <button class="btn-add" onclick="openAddRoom()">+ Agregar habitación</button>
+    </div>
 
-    <!-- MUCAMAS -->
-    <p class="section-title">Personal de limpieza</p>
-    <div id="staff-list"></div>
-    <button class="btn-add" onclick="openAddStaff()">+ Registrar mucama</button>
+    <!-- TAB PEDIDOS -->
+    <div id="tab-orders" class="tab-content">
+      <div id="orders-list"><p style="color:#888;text-align:center;padding:2rem">Cargando...</p></div>
+    </div>
+
+    <!-- TAB EXTRAS -->
+    <div id="tab-extras" class="tab-content">
+      <div id="extras-list"></div>
+      <button class="btn-add" onclick="openAddExtra()">+ Agregar extra</button>
+    </div>
+
+    <!-- TAB PERSONAL -->
+    <div id="tab-staff" class="tab-content">
+      <div id="staff-list"></div>
+      <button class="btn-add" onclick="openAddStaff()">+ Registrar personal</button>
+    </div>
   </div>
 
-  <!-- Modal habitación nueva -->
+  <!-- Modal nueva habitación -->
   <div class="modal-overlay hidden" id="modal-add">
     <div class="modal">
       <h3>Nueva habitación</h3>
@@ -138,18 +117,34 @@
   <!-- Modal editar habitación -->
   <div class="modal-overlay hidden" id="modal-edit">
     <div class="modal">
-      <h3>Editar habitación</h3>
-      <input type="text" id="edit-room-number" placeholder="Número o nombre"/>
+      <h3 id="edit-room-title">Habitación</h3>
       <select id="edit-room-status">
         <option value="free">Libre</option>
         <option value="occupied">Ocupada</option>
         <option value="dirty">Sucia</option>
         <option value="cleaning">Limpiando</option>
       </select>
+      <select id="edit-room-staff">
+        <option value="">Sin asignar</option>
+      </select>
       <div class="modal-btns">
-        <button class="btn-secondary" onclick="closeModal()">Cancelar</button>
+        <button class="btn-secondary" onclick="showQR()">Ver QR</button>
         <button class="btn-primary" onclick="saveRoom()">Guardar</button>
       </div>
+      <div style="margin-top:0.5rem">
+        <button class="btn-secondary" style="width:100%" onclick="closeModal()">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal QR -->
+  <div class="modal-overlay hidden" id="modal-qr">
+    <div class="modal" style="text-align:center">
+      <h3 id="qr-title">QR Habitación</h3>
+      <p class="qr-url" id="qr-url"></p>
+      <div id="qr-container"></div>
+      <p style="font-size:0.8rem;color:#888;margin-bottom:1rem">El huésped escanea este QR para hacer check-in</p>
+      <button class="btn-primary" style="width:100%" onclick="closeModal()">Cerrar</button>
     </div>
   </div>
 
@@ -166,13 +161,17 @@
     </div>
   </div>
 
-  <!-- Modal mucama -->
+  <!-- Modal personal -->
   <div class="modal-overlay hidden" id="modal-staff">
     <div class="modal">
-      <h3>Registrar mucama</h3>
+      <h3>Registrar personal</h3>
       <input type="text" id="staff-name" placeholder="Nombre"/>
       <input type="email" id="staff-email" placeholder="Email"/>
       <input type="password" id="staff-password" placeholder="Contraseña (mín. 6 caracteres)"/>
+      <select id="staff-role">
+        <option value="cleaner">Mucama (solo Clean)</option>
+        <option value="staff">Staff (Host reducido)</option>
+      </select>
       <div class="modal-btns">
         <button class="btn-secondary" onclick="closeModal()">Cancelar</button>
         <button class="btn-primary" onclick="addStaff()">Registrar</button>
@@ -184,13 +183,18 @@
   <script type="module">
     import { auth, db } from '../js/firebase-config.js';
     import { onAuthStateChanged, signOut, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-    import { doc, getDoc, setDoc, collection, onSnapshot, addDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { doc, getDoc, setDoc, collection, onSnapshot, addDoc, updateDoc, query, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     let hotelId = null;
     let editingRoomId = null;
+    let editingRoomNumber = '';
+    let staffList = [];
+    let allOrders = [];
 
     const statusLabel = { free:'Libre', occupied:'Ocupada', dirty:'Sucia', cleaning:'Limpiando' };
     const statusClass = { free:'status-free', occupied:'status-occupied', dirty:'status-dirty', cleaning:'status-cleaning' };
+    const orderStatusLabel = { pending:'Pendiente', progress:'En curso', done:'Completado' };
+    const orderStatusClass = { pending:'status-pending', progress:'status-progress', done:'status-done' };
 
     onAuthStateChanged(auth, async (user) => {
       if (!user) { window.location.href = 'index.html'; return; }
@@ -202,7 +206,16 @@
       loadRooms();
       loadExtras();
       loadStaff();
+      loadOrders();
     });
+
+    // TABS
+    window.showTab = (tab) => {
+      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+      document.getElementById('tab-' + tab).classList.add('active');
+      event.target.classList.add('active');
+    };
 
     // HABITACIONES
     function loadRooms() {
@@ -213,14 +226,19 @@
           const r = d.data();
           const card = document.createElement('div');
           card.className = 'room-card';
-          card.innerHTML = `<div class="room-number">🚪 ${r.number}</div><span class="room-status ${statusClass[r.status]}">${statusLabel[r.status]}</span>`;
-          card.onclick = () => openEditRoom(d.id, r.number, r.status);
+          card.innerHTML = `
+            <div class="room-number">🚪 ${r.number}</div>
+            <span class="room-status ${statusClass[r.status]}">${statusLabel[r.status]}</span>
+            ${r.assignedStaff ? `<p class="room-staff">👤 ${r.assignedStaff}</p>` : ''}
+          `;
+          card.onclick = () => openEditRoom(d.id, r.number, r.status, r.assignedStaffId);
           grid.appendChild(card);
         });
       });
     }
 
     window.openAddRoom = () => document.getElementById('modal-add').classList.remove('hidden');
+
     window.addRoom = async () => {
       const number = document.getElementById('room-number').value.trim();
       const status = document.getElementById('room-status').value;
@@ -229,17 +247,94 @@
       closeModal();
       document.getElementById('room-number').value = '';
     };
-    window.openEditRoom = (id, number, status) => {
+
+    window.openEditRoom = (id, number, status, assignedStaffId) => {
       editingRoomId = id;
-      document.getElementById('edit-room-number').value = number;
+      editingRoomNumber = number;
+      document.getElementById('edit-room-title').textContent = `🚪 Habitación ${number}`;
       document.getElementById('edit-room-status').value = status;
+
+      // Cargar staff en select
+      const sel = document.getElementById('edit-room-staff');
+      sel.innerHTML = '<option value="">Sin asignar</option>';
+      staffList.forEach(s => {
+        const opt = document.createElement('option');
+        opt.value = s.uid;
+        opt.textContent = s.name;
+        if (s.uid === assignedStaffId) opt.selected = true;
+        sel.appendChild(opt);
+      });
+
       document.getElementById('modal-edit').classList.remove('hidden');
     };
+
     window.saveRoom = async () => {
-      const number = document.getElementById('edit-room-number').value.trim();
       const status = document.getElementById('edit-room-status').value;
-      await updateDoc(doc(db, 'hotels', hotelId, 'rooms', editingRoomId), { number, status });
+      const staffSel = document.getElementById('edit-room-staff');
+      const staffId = staffSel.value;
+      const staffName = staffId ? staffSel.options[staffSel.selectedIndex].text : '';
+      await updateDoc(doc(db, 'hotels', hotelId, 'rooms', editingRoomId), {
+        status,
+        assignedStaffId: staffId,
+        assignedStaff: staffName
+      });
       closeModal();
+    };
+
+    window.showQR = () => {
+      const url = `https://mauro7014.github.io/neoflux/guest/?h=${hotelId}&r=${editingRoomId}`;
+      document.getElementById('qr-title').textContent = `QR — Habitación ${editingRoomNumber}`;
+      document.getElementById('qr-url').textContent = url;
+      document.getElementById('qr-container').innerHTML = '';
+      new QRCode(document.getElementById('qr-container'), {
+        text: url, width: 200, height: 200,
+        colorDark: '#2a3542', colorLight: '#ffffff'
+      });
+      document.getElementById('modal-edit').classList.add('hidden');
+      document.getElementById('modal-qr').classList.remove('hidden');
+    };
+
+    // PEDIDOS
+    function loadOrders() {
+      const q = query(collection(db, 'hotels', hotelId, 'orders'), orderBy('createdAt', 'desc'));
+      onSnapshot(q, (snap) => {
+        allOrders = [];
+        snap.forEach(d => allOrders.push({ id: d.id, ...d.data() }));
+        renderOrders();
+      });
+    }
+
+    function renderOrders() {
+      const list = document.getElementById('orders-list');
+      list.innerHTML = '';
+      const pending = allOrders.filter(o => o.status !== 'done');
+      if (pending.length === 0) {
+        list.innerHTML = '<p style="color:#888;text-align:center;padding:2rem">No hay pedidos pendientes</p>';
+        return;
+      }
+      pending.forEach(o => {
+        const card = document.createElement('div');
+        card.className = 'order-card';
+        const itemsText = o.items ? o.items.map(i => i.name).join(', ') : '';
+        card.innerHTML = `
+          <div class="order-header">
+            <span class="order-room">🚪 ${o.roomNumber || '—'}</span>
+            <span class="order-status ${orderStatusClass[o.status]}">${orderStatusLabel[o.status]}</span>
+          </div>
+          ${itemsText ? `<p style="font-size:0.85rem;color:#444;margin-bottom:0.3rem">📦 ${itemsText}</p>` : ''}
+          ${o.note ? `<p style="font-size:0.8rem;color:#888;margin-bottom:0.3rem">📝 ${o.note}</p>` : ''}
+          ${o.total > 0 ? `<p style="font-size:0.85rem;font-weight:700;color:#2a3542;margin-bottom:0.5rem">💰 $${o.total}</p>` : ''}
+          <div style="display:flex;gap:0.5rem">
+            ${o.status === 'pending' ? `<button style="flex:1;padding:0.5rem;border:none;border-radius:8px;background:#fff3e0;color:#aa6a00;font-weight:700;cursor:pointer" onclick="updateOrder('${o.id}','progress')">En curso</button>` : ''}
+            ${o.status === 'progress' ? `<button style="flex:1;padding:0.5rem;border:none;border-radius:8px;background:#e6f7ee;color:#2a8a4a;font-weight:700;cursor:pointer" onclick="updateOrder('${o.id}','done')">Completado</button>` : ''}
+          </div>
+        `;
+        list.appendChild(card);
+      });
+    }
+
+    window.updateOrder = async (id, status) => {
+      await updateDoc(doc(db, 'hotels', hotelId, 'orders', id), { status });
     };
 
     // EXTRAS
@@ -255,10 +350,7 @@
           const e = d.data();
           const item = document.createElement('div');
           item.className = 'extra-item';
-          item.innerHTML = `
-            <span class="extra-name">${e.name}</span>
-            <span class="extra-price">${e.price > 0 ? '$' + e.price : 'Sin cargo'}</span>
-          `;
+          item.innerHTML = `<span style="font-weight:600;color:#1a1a1a">${e.name}</span><span style="font-weight:700;color:#2a3542">${e.price > 0 ? '$' + e.price : 'Sin cargo'}</span>`;
           list.appendChild(item);
         });
       });
@@ -278,6 +370,7 @@
     // STAFF
     function loadStaff() {
       onSnapshot(collection(db, 'hotels', hotelId, 'staff'), (snap) => {
+        staffList = [];
         const list = document.getElementById('staff-list');
         list.innerHTML = '';
         if (snap.empty) {
@@ -286,11 +379,16 @@
         }
         snap.forEach(d => {
           const s = d.data();
+          staffList.push(s);
+          const roleLabel = s.role === 'cleaner' ? '🧹 Mucama' : '👤 Staff';
           const item = document.createElement('div');
           item.className = 'staff-item';
           item.innerHTML = `
-            <span style="font-weight:600;color:#1a1a1a">🧹 ${s.name}</span>
-            <span style="color:#888;font-size:0.8rem">${s.email}</span>
+            <div>
+              <p style="font-weight:600;color:#1a1a1a">${s.name}</p>
+              <p style="font-size:0.75rem;color:#888">${s.email}</p>
+            </div>
+            <span style="font-size:0.75rem;color:#2a3542;font-weight:600">${roleLabel}</span>
           `;
           list.appendChild(item);
         });
@@ -302,19 +400,16 @@
       const name = document.getElementById('staff-name').value.trim();
       const email = document.getElementById('staff-email').value.trim();
       const password = document.getElementById('staff-password').value;
+      const role = document.getElementById('staff-role').value;
       const msg = document.getElementById('staff-msg');
       msg.className = 'msg';
       msg.textContent = 'Registrando...';
       try {
         const cred = await createUserWithEmailAndPassword(auth, email, password);
-        await setDoc(doc(db, 'users', cred.user.uid), {
-          name, email, role: 'cleaner', hotelId
-        });
-        await addDoc(collection(db, 'hotels', hotelId, 'staff'), {
-          name, email, uid: cred.user.uid, role: 'cleaner'
-        });
+        await setDoc(doc(db, 'users', cred.user.uid), { name, email, role, hotelId });
+        await addDoc(collection(db, 'hotels', hotelId, 'staff'), { name, email, uid: cred.user.uid, role });
         msg.className = 'msg ok';
-        msg.textContent = '✅ Mucama registrada';
+        msg.textContent = '✅ Personal registrado';
         document.getElementById('staff-name').value = '';
         document.getElementById('staff-email').value = '';
         document.getElementById('staff-password').value = '';
