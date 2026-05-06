@@ -10,209 +10,184 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --bg: #f5f7fa;
-      --surface: #ffffff;
-      --surface2: #f0f2f5;
-      --gold: #e8c87a;
-      --gold2: #c9a84c;
-      --text: #1a1a2e;
-      --muted: #6b7280;
-      --success: #3fb950;
-      --danger: #f85149;
-      --warning: #d29922;
-      --blue: #58a6ff;
-      --radius: 16px;
-      --font: 'DM Sans', sans-serif;
+      --bg: #f5f7fa; --surface: #ffffff; --surface2: #f0f2f5;
+      --border: #e5e7eb; --gold: #e8c87a; --gold2: #c9a84c;
+      --navy: #2a3542; --text: #1a1a2e; --muted: #6b7280;
+      --success: #3fb950; --danger: #f85149; --warning: #d29922;
+      --blue: #2563eb; --font: 'DM Sans', sans-serif; --radius: 16px;
     }
     body { background: var(--bg); color: var(--text); font-family: var(--font); min-height: 100vh; }
 
-    /* HEADER */
     .header {
-      background: var(--surface);
-      border-bottom: 1px solid #e5e7eb;
-      padding: 1rem 1.25rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 50;
+      background: var(--navy); padding: 1rem 1.25rem;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 50;
     }
     .header-left { display: flex; align-items: center; gap: 0.75rem; }
-    .header-logo { width: 44px; height: 44px; object-fit: contain; }
-    .header-title { font-size: 1rem; font-weight: 700; color: var(--text); line-height: 1.2; }
-    .header-sub { font-size: 0.7rem; color: var(--muted); }
+    .header-logo { width: 42px; height: 42px; object-fit: contain; }
+    .header-title { font-size: 0.95rem; font-weight: 700; color: #fff; }
+    .header-sub { font-size: 0.7rem; color: rgba(255,255,255,0.6); }
     .header-right { display: flex; align-items: center; gap: 0.5rem; }
-    .btn-icon {
-      background: var(--surface2); border: 1px solid #30363d; border-radius: 10px;
-      padding: 0.5rem 0.75rem; color: var(--muted); font-size: 0.8rem;
-      cursor: pointer; font-family: var(--font); transition: all 0.2s;
+    .trial-badge {
+      background: rgba(232,200,122,0.2); border: 1px solid rgba(232,200,122,0.4);
+      border-radius: 8px; padding: 0.3rem 0.6rem; font-size: 0.72rem;
+      font-weight: 600; color: var(--gold);
     }
-    .btn-icon:hover { border-color: var(--gold); color: var(--gold); }
-    .hotel-badge {
-      background: var(--surface2); border: 1px solid #30363d; border-radius: 10px;
-      padding: 0.4rem 0.75rem; font-size: 0.8rem; font-weight: 600; color: var(--gold);
+    .btn-logout {
+      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 8px; padding: 0.4rem 0.75rem; color: #fff;
+      font-family: var(--font); font-size: 0.78rem; cursor: pointer;
     }
 
-    /* NAV TABS */
     .nav-tabs {
-      display: flex; gap: 0; background: var(--surface);
-      border-bottom: 1px solid #e5e7eb;; overflow-x: auto;
-      scrollbar-width: none;
+      display: flex; background: var(--surface); border-bottom: 1px solid var(--border);
+      overflow-x: auto; scrollbar-width: none;
     }
     .nav-tabs::-webkit-scrollbar { display: none; }
     .nav-tab {
       flex: 1; min-width: 80px; padding: 0.85rem 0.5rem; border: none;
       background: transparent; color: var(--muted); font-family: var(--font);
       font-size: 0.78rem; font-weight: 600; cursor: pointer;
-      border-bottom: 2px solid transparent; transition: all 0.2s;
-      white-space: nowrap;
+      border-bottom: 2px solid transparent; transition: all 0.2s; white-space: nowrap;
     }
-    .nav-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
-    .nav-tab:hover { color: var(--text); }
+    .nav-tab.active { color: var(--navy); border-bottom-color: var(--navy); }
 
-    /* CONTENT */
     .content { padding: 1.25rem; max-width: 520px; margin: 0 auto; }
     .tab-content { display: none; }
     .tab-content.active { display: block; }
 
-    /* STATS ROW */
-    .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.6rem; margin-bottom: 1.25rem; }
+    .stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 0.6rem; margin-bottom: 1.25rem; }
     .stat-card {
-      background: var(--surface); border: 1px solid #30363d; border-radius: 12px;
-      padding: 0.75rem 0.5rem; text-align: center;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; padding: 0.75rem 0.5rem; text-align: center;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
     }
-    .stat-number { font-size: 1.5rem; font-weight: 700; color: var(--gold); }
-    .stat-label { font-size: 0.65rem; color: var(--muted); margin-top: 0.2rem; text-transform: uppercase; letter-spacing: 0.5px; }
+    .stat-number { font-size: 1.5rem; font-weight: 700; color: var(--navy); }
+    .stat-label { font-size: 0.62rem; color: var(--muted); margin-top: 0.2rem; text-transform: uppercase; letter-spacing: 0.5px; }
 
-    /* SECTION TITLE */
     .section-title {
       font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px;
       color: var(--muted); margin-bottom: 0.75rem; margin-top: 1.25rem;
       display: flex; align-items: center; gap: 0.5rem;
     }
-    .section-title::after { content: ''; flex: 1; height: 1px; background: #30363d; }
+    .section-title::after { content:''; flex:1; height:1px; background: var(--border); }
 
-    /* ROOMS GRID */
     .rooms-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem; }
     .room-card {
-      background: var(--surface); border: 1px solid #30363d; border-radius: var(--radius);
-      padding: 1rem; cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1rem; cursor: pointer;
+      transition: all 0.2s; position: relative; overflow: hidden;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
     }
     .room-card::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-      background: var(--status-color, #30363d);
+      content:''; position: absolute; top:0; left:0; right:0; height:3px;
+      background: var(--status-color, var(--border));
     }
-    .room-card:hover { border-color: var(--gold); transform: translateY(-1px); }
+    .room-card:hover { border-color: var(--navy); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
     .room-card.free { --status-color: #3fb950; }
-    .room-card.occupied { --status-color: #58a6ff; }
+    .room-card.occupied { --status-color: #2563eb; }
     .room-card.dirty { --status-color: #f85149; }
     .room-card.cleaning { --status-color: #d29922; }
-    .room-number { font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: 0.4rem; }
+    .room-number { font-size: 1.05rem; font-weight: 700; color: var(--text); margin-bottom: 0.4rem; }
     .room-status-badge {
       font-size: 0.7rem; padding: 0.2rem 0.5rem; border-radius: 6px;
       display: inline-block; font-weight: 600;
     }
-    .badge-free { background: rgba(63,185,80,0.15); color: #3fb950; }
-    .badge-occupied { background: rgba(88,166,255,0.15); color: #58a6ff; }
-    .badge-dirty { background: rgba(248,81,73,0.15); color: #f85149; }
-    .badge-cleaning { background: rgba(210,153,34,0.15); color: #d29922; }
-    .room-staff-tag { font-size: 0.7rem; color: var(--muted); margin-top: 0.4rem; }
+    .badge-free { background: rgba(63,185,80,0.12); color: #2a8a4a; }
+    .badge-occupied { background: rgba(37,99,235,0.12); color: #2563eb; }
+    .badge-dirty { background: rgba(248,81,73,0.12); color: #c0392b; }
+    .badge-cleaning { background: rgba(210,153,34,0.12); color: #aa6a00; }
+    .room-staff-tag { font-size: 0.68rem; color: var(--muted); margin-top: 0.4rem; }
 
-    /* BTN ADD */
     .btn-add {
       width: 100%; padding: 0.8rem; background: transparent;
-      border: 1px dashed #30363d; border-radius: var(--radius); color: var(--muted);
-      font-family: var(--font); font-size: 0.9rem; cursor: pointer;
-      transition: all 0.2s; margin-bottom: 0.5rem;
+      border: 1px dashed var(--border); border-radius: var(--radius);
+      color: var(--muted); font-family: var(--font); font-size: 0.9rem;
+      cursor: pointer; transition: all 0.2s; margin-bottom: 0.5rem;
     }
-    .btn-add:hover { border-color: var(--gold); color: var(--gold); }
+    .btn-add:hover { border-color: var(--navy); color: var(--navy); }
 
-    /* ORDER CARDS */
     .order-card {
-      background: var(--surface); border: 1px solid #30363d; border-radius: var(--radius);
-      padding: 1rem; margin-bottom: 0.75rem; transition: border-color 0.2s;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1rem; margin-bottom: 0.75rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
     }
-    .order-card:hover { border-color: #58a6ff; }
     .order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; }
     .order-room-label { font-weight: 700; font-size: 0.95rem; }
-    .order-badge {
-      font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 6px; font-weight: 600;
-    }
-    .badge-pending { background: rgba(248,81,73,0.15); color: #f85149; }
-    .badge-progress { background: rgba(210,153,34,0.15); color: #d29922; }
-    .badge-done { background: rgba(63,185,80,0.15); color: #3fb950; }
-    .order-items-text { font-size: 0.82rem; color: var(--muted); margin-bottom: 0.3rem; }
-    .order-note-text { font-size: 0.78rem; color: var(--muted); margin-bottom: 0.4rem; }
-    .order-total-text { font-size: 0.85rem; font-weight: 700; color: var(--gold); margin-bottom: 0.6rem; }
-    .order-actions { display: flex; gap: 0.5rem; }
-    .btn-sm {
-      flex: 1; padding: 0.45rem; border: none; border-radius: 8px;
-      font-family: var(--font); font-size: 0.78rem; font-weight: 700; cursor: pointer;
-    }
-    .btn-progress-sm { background: rgba(210,153,34,0.2); color: #d29922; }
-    .btn-done-sm { background: rgba(63,185,80,0.2); color: #3fb950; }
+    .order-badge { font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 6px; font-weight: 600; }
+    .badge-pending { background: rgba(248,81,73,0.12); color: #c0392b; }
+    .badge-progress { background: rgba(210,153,34,0.12); color: #aa6a00; }
+    .badge-done { background: rgba(63,185,80,0.12); color: #2a8a4a; }
 
-    /* EXTRAS & STAFF */
     .list-item {
-      background: var(--surface); border: 1px solid #30363d; border-radius: 12px;
-      padding: 0.75rem 1rem; margin-bottom: 0.5rem;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 0.75rem 1rem; margin-bottom: 0.5rem;
       display: flex; justify-content: space-between; align-items: center;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
     }
     .list-item-name { font-weight: 600; font-size: 0.9rem; }
-    .list-item-value { font-weight: 700; color: var(--gold); font-size: 0.85rem; }
-    .btn-del { background: none; border: none; color: var(--danger); cursor: pointer; font-size: 1rem; padding: 0.2rem; }
-    .staff-role-tag { font-size: 0.7rem; color: var(--blue); font-weight: 600; background: rgba(88,166,255,0.1); padding: 0.2rem 0.5rem; border-radius: 6px; }
+    .list-item-value { font-weight: 700; color: var(--navy); font-size: 0.85rem; }
+    .btn-del { background: none; border: none; color: var(--danger); cursor: pointer; font-size: 1rem; }
+    .staff-role-tag {
+      font-size: 0.7rem; color: var(--blue); font-weight: 600;
+      background: rgba(37,99,235,0.1); padding: 0.2rem 0.5rem; border-radius: 6px;
+    }
 
-    /* MODALS */
     .modal-overlay {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.75);
+      position: fixed; inset: 0; background: rgba(0,0,0,0.5);
       display: flex; align-items: center; justify-content: center;
       padding: 1.5rem; z-index: 100; overflow-y: auto;
     }
     .modal {
-      background: var(--surface); border: 1px solid #30363d; border-radius: 20px;
-      padding: 1.5rem; width: 100%; max-width: 340px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.5); margin: auto;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 20px; padding: 1.5rem; width: 100%; max-width: 340px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15); margin: auto;
     }
     .modal h3 { font-size: 1rem; font-weight: 700; margin-bottom: 1rem; color: var(--text); }
     .modal input, .modal select {
-      width: 100%; background: var(--bg); border: 1px solid #30363d;
+      width: 100%; background: var(--bg); border: 1px solid var(--border);
       border-radius: 10px; padding: 0.75rem 1rem; color: var(--text);
-      font-family: var(--font); font-size: 0.9rem; margin-bottom: 0.75rem;
-      outline: none; transition: border-color 0.2s;
+      font-family: var(--font); font-size: 0.9rem; margin-bottom: 0.75rem; outline: none;
+      transition: border-color 0.2s;
     }
-    .modal input:focus, .modal select:focus { border-color: var(--gold); }
-    .modal input::placeholder { color: var(--muted); }
-    .modal select option { background: var(--surface); }
+    .modal input:focus, .modal select:focus { border-color: var(--navy); }
     .modal-btns { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
     .btn-cancel {
-      flex: 1; padding: 0.75rem; background: transparent; border: 1px solid #30363d;
+      flex: 1; padding: 0.75rem; background: transparent; border: 1px solid var(--border);
       border-radius: 10px; color: var(--muted); font-family: var(--font); cursor: pointer;
     }
     .btn-save {
-      flex: 1; padding: 0.75rem; background: var(--gold); border: none;
-      border-radius: 10px; color: #000; font-weight: 700; font-family: var(--font); cursor: pointer;
+      flex: 1; padding: 0.75rem; background: var(--navy); border: none;
+      border-radius: 10px; color: #fff; font-weight: 700; font-family: var(--font); cursor: pointer;
     }
     .btn-danger-modal {
-      flex: 1; padding: 0.75rem; background: rgba(248,81,73,0.15); border: none;
+      flex: 1; padding: 0.75rem; background: rgba(248,81,73,0.1); border: none;
       border-radius: 10px; color: var(--danger); font-weight: 700; font-family: var(--font); cursor: pointer;
     }
-    .msg { margin-top: 0.75rem; font-size: 0.8rem; text-align: center; min-height: 1rem; color: var(--muted); }
+    .btn-print {
+      flex: 1; padding: 0.75rem; background: rgba(37,99,235,0.1); border: none;
+      border-radius: 10px; color: var(--blue); font-weight: 700; font-family: var(--font); cursor: pointer;
+    }
+    .msg { margin-top: 0.75rem; font-size: 0.8rem; text-align: center; min-height: 1rem; }
     .msg.error { color: var(--danger); }
     .msg.ok { color: var(--success); }
 
-    /* QR */
-    #qr-container { display: flex; justify-content: center; margin: 1rem 0; background: #fff; padding: 1rem; border-radius: 12px; }
-    .qr-url { font-size: 0.65rem; color: var(--muted); text-align: center; word-break: break-all; margin-bottom: 0.5rem; }
+    .qr-print-area {
+      background: #fff; border: 1px solid var(--border); border-radius: 16px;
+      padding: 1.5rem; margin: 1rem 0; text-align: center;
+    }
+    .qr-hotel-name { font-size: 0.9rem; font-weight: 700; color: var(--navy); margin-bottom: 0.3rem; }
+    .qr-room-name { font-size: 0.78rem; color: var(--muted); margin-bottom: 1rem; }
+    .qr-hint { font-size: 0.72rem; color: var(--muted); margin-top: 1rem; }
+    .qr-url-text { font-size: 0.58rem; color: #aaa; margin-top: 0.3rem; word-break: break-all; }
+    #qr-container { display: flex; justify-content: center; }
 
-    .hidden { display: none; }
     .empty-state { text-align: center; color: var(--muted); padding: 2rem; font-size: 0.9rem; }
+    .hidden { display: none; }
   </style>
 </head>
 <body>
 
-  <!-- HEADER -->
   <div class="header">
     <div class="header-left">
       <img src="../images/host.png" alt="Host" class="header-logo"/>
@@ -222,12 +197,11 @@
       </div>
     </div>
     <div class="header-right">
-      <span class="hotel-badge" id="trial-badge"></span>
-      <button class="btn-icon" onclick="doLogout()">Salir</button>
+      <span class="trial-badge hidden" id="trial-badge"></span>
+      <button class="btn-logout" onclick="doLogout()">Salir</button>
     </div>
   </div>
 
-  <!-- NAV TABS -->
   <div class="nav-tabs">
     <button class="nav-tab active" onclick="showTab('rooms',this)">🚪 Habitaciones</button>
     <button class="nav-tab" onclick="showTab('orders',this)">🛎️ Pedidos</button>
@@ -235,12 +209,9 @@
     <button class="nav-tab" onclick="showTab('staff',this)">👥 Personal</button>
   </div>
 
-  <!-- CONTENT -->
   <div class="content">
-
-    <!-- TAB HABITACIONES -->
     <div id="tab-rooms" class="tab-content active">
-      <div class="stats-row" id="stats-row">
+      <div class="stats-row">
         <div class="stat-card"><div class="stat-number" id="stat-free">0</div><div class="stat-label">Libres</div></div>
         <div class="stat-card"><div class="stat-number" id="stat-occupied">0</div><div class="stat-label">Ocupadas</div></div>
         <div class="stat-card"><div class="stat-number" id="stat-dirty">0</div><div class="stat-label">Sucias</div></div>
@@ -251,26 +222,22 @@
       <button class="btn-add" onclick="openAddRoom()">+ Agregar habitación</button>
     </div>
 
-    <!-- TAB PEDIDOS -->
     <div id="tab-orders" class="tab-content">
       <p class="section-title">Pedidos activos</p>
       <div id="orders-list"><p class="empty-state">Cargando...</p></div>
     </div>
 
-    <!-- TAB EXTRAS -->
     <div id="tab-extras" class="tab-content">
       <p class="section-title">Extras configurados</p>
       <div id="extras-list"></div>
       <button class="btn-add" onclick="openAddExtra()">+ Agregar extra</button>
     </div>
 
-    <!-- TAB PERSONAL -->
     <div id="tab-staff" class="tab-content">
       <p class="section-title">Personal registrado</p>
       <div id="staff-list"></div>
       <button class="btn-add" onclick="openAddStaff()">+ Registrar personal</button>
     </div>
-
   </div>
 
   <!-- Modal nueva habitación -->
@@ -320,12 +287,19 @@
   <div class="modal-overlay hidden" id="modal-qr">
     <div class="modal" style="text-align:center">
       <h3 id="qr-title">QR Habitación</h3>
-      <p class="qr-url" id="qr-url"></p>
-      <div id="qr-container"></div>
-      <p style="font-size:0.78rem;color:var(--muted);margin-bottom:1rem">El huésped escanea este QR para hacer check-in</p>
+      <div class="qr-print-area" id="qr-print-area">
+        <div class="qr-hotel-name" id="qr-hotel-print"></div>
+        <div class="qr-room-name" id="qr-room-print"></div>
+        <div id="qr-container"></div>
+        <div class="qr-hint">📱 Escaneá para hacer Check-In</div>
+        <div class="qr-url-text" id="qr-url"></div>
+      </div>
       <div class="modal-btns">
         <button class="btn-cancel" onclick="backToEdit()">← Volver</button>
-        <button class="btn-save" onclick="closeModal()">Cerrar</button>
+        <button class="btn-print" onclick="printQR()">🖨️ Imprimir</button>
+      </div>
+      <div style="margin-top:0.5rem">
+        <button class="btn-cancel" style="width:100%" onclick="closeModal()">Cerrar</button>
       </div>
     </div>
   </div>
@@ -368,6 +342,7 @@
     import { doc, getDoc, setDoc, collection, onSnapshot, addDoc, updateDoc, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     let hotelId = null;
+    let hotelNameText = '';
     let editingRoomId = null;
     let editingRoomNumber = '';
     let staffList = [];
@@ -384,12 +359,15 @@
       const hotelDoc = await getDoc(doc(db, 'hotels', hotelId));
       if (hotelDoc.exists()) {
         const data = hotelDoc.data();
+        hotelNameText = data.name;
         document.getElementById('hotel-name').textContent = data.name;
-        if (data.plan === 'trial') {
+        if (data.plan === 'trial' && data.trialEnds) {
           const end = data.trialEnds?.toDate?.();
           if (end) {
             const days = Math.ceil((end - new Date()) / 86400000);
-            document.getElementById('trial-badge').textContent = days > 0 ? `⏱ ${days}d prueba` : '⚠️ Trial expirado';
+            const badge = document.getElementById('trial-badge');
+            badge.textContent = days > 0 ? `⏱ ${days}d prueba` : '⚠️ Prueba expirada';
+            badge.classList.remove('hidden');
           }
         }
       }
@@ -399,7 +377,6 @@
       loadOrders();
     });
 
-    // TABS
     window.showTab = (tab, btn) => {
       document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
       document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
@@ -465,7 +442,9 @@
       const staffSel = document.getElementById('edit-room-staff');
       const staffId = staffSel.value;
       const staffName = staffId ? staffSel.options[staffSel.selectedIndex].text : '';
-      await updateDoc(doc(db, 'hotels', hotelId, 'rooms', editingRoomId), { number, status, assignedStaffId: staffId, assignedStaff: staffName });
+      await updateDoc(doc(db, 'hotels', hotelId, 'rooms', editingRoomId), {
+        number, status, assignedStaffId: staffId, assignedStaff: staffName
+      });
       closeModal();
     };
     window.deleteRoom = async () => {
@@ -477,14 +456,39 @@
       const url = `https://mauro7014.github.io/neoflux/guest/?h=${hotelId}&r=${editingRoomId}`;
       document.getElementById('qr-title').textContent = `QR — Habitación ${editingRoomNumber}`;
       document.getElementById('qr-url').textContent = url;
+      document.getElementById('qr-hotel-print').textContent = hotelNameText;
+      document.getElementById('qr-room-print').textContent = `🚪 Habitación ${editingRoomNumber}`;
       document.getElementById('qr-container').innerHTML = '';
-      new QRCode(document.getElementById('qr-container'), { text: url, width: 180, height: 180, colorDark:'#0d1117', colorLight:'#ffffff' });
+      new QRCode(document.getElementById('qr-container'), {
+        text: url, width: 180, height: 180, colorDark:'#2a3542', colorLight:'#ffffff'
+      });
       document.getElementById('modal-edit').classList.add('hidden');
       document.getElementById('modal-qr').classList.remove('hidden');
     };
     window.backToEdit = () => {
       document.getElementById('modal-qr').classList.add('hidden');
       document.getElementById('modal-edit').classList.remove('hidden');
+    };
+    window.printQR = () => {
+      const area = document.getElementById('qr-print-area').innerHTML;
+      const win = window.open('', '_blank');
+      win.document.write(`
+        <html><head><title>QR NeoFlux — Habitación ${editingRoomNumber}</title>
+        <style>
+          @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&display=swap');
+          * { box-sizing: border-box; margin: 0; padding: 0; }
+          body { font-family: 'DM Sans', sans-serif; display:flex; align-items:center; justify-content:center; min-height:100vh; background:#f5f7fa; }
+          .wrap { background:#fff; border:2px solid #e5e7eb; border-radius:24px; padding:2.5rem; text-align:center; max-width:320px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+          .qr-hotel-name { font-size:1rem; font-weight:700; color:#2a3542; margin-bottom:0.3rem; }
+          .qr-room-name { font-size:0.85rem; color:#6b7280; margin-bottom:1.25rem; }
+          .qr-hint { font-size:0.78rem; color:#6b7280; margin-top:1.25rem; }
+          .qr-url-text { font-size:0.55rem; color:#aaa; margin-top:0.4rem; word-break:break-all; }
+          img { max-width:200px; }
+        </style></head>
+        <body><div class="wrap">${area}</div></body></html>
+      `);
+      win.document.close();
+      setTimeout(() => win.print(), 500);
     };
 
     // PEDIDOS
@@ -501,19 +505,19 @@
           const card = document.createElement('div');
           card.className = 'order-card';
           const itemsText = o.items ? o.items.map(i => i.name).join(', ') : '';
-          const time = o.createdAt?.toDate ? o.createdAt.toDate().toLocaleTimeString('es', {hour:'2-digit',minute:'2-digit'}) : '';
+          const time = o.createdAt?.toDate ? o.createdAt.toDate().toLocaleTimeString('es',{hour:'2-digit',minute:'2-digit'}) : '';
           card.innerHTML = `
             <div class="order-header">
-              <span class="order-room-label">🚪 ${o.roomNumber || '—'}</span>
+              <span class="order-room-label">🚪 ${o.roomNumber || '—'} ${o.guestName ? '· '+o.guestName : ''}</span>
               <span class="order-badge ${orderBadge[o.status]}">${orderLabel[o.status]}</span>
             </div>
-            ${itemsText ? `<p class="order-items-text">📦 ${itemsText}</p>` : ''}
-            ${o.note ? `<p class="order-note-text">📝 ${o.note}</p>` : ''}
-            ${o.total > 0 ? `<p class="order-total-text">💰 $${o.total}</p>` : ''}
-            <p style="font-size:0.72rem;color:var(--muted);margin-bottom:0.5rem">🕐 ${time}</p>
-            <div class="order-actions">
-              ${o.status === 'pending' ? `<button class="btn-sm btn-progress-sm" onclick="updateOrder('${o.id}','progress')">En curso</button>` : ''}
-              ${o.status === 'progress' ? `<button class="btn-sm btn-done-sm" onclick="updateOrder('${o.id}','done')">Completado ✓</button>` : ''}
+            ${itemsText ? `<p style="font-size:0.82rem;color:var(--muted);margin-bottom:0.3rem">📦 ${itemsText}</p>` : ''}
+            ${o.note ? `<p style="font-size:0.78rem;color:var(--muted);margin-bottom:0.3rem">📝 ${o.note}</p>` : ''}
+            ${o.total > 0 ? `<p style="font-size:0.82rem;font-weight:700;color:var(--navy);margin-bottom:0.5rem">💰 $${o.total}</p>` : ''}
+            <p style="font-size:0.7rem;color:var(--muted);margin-bottom:0.5rem">🕐 ${time}</p>
+            <div style="display:flex;gap:0.5rem">
+              ${o.status==='pending' ? `<button style="flex:1;padding:0.5rem;border:none;border-radius:8px;background:rgba(210,153,34,0.12);color:#aa6a00;font-weight:700;cursor:pointer;font-family:var(--font)" onclick="updateOrder('${o.id}','progress')">En curso</button>` : ''}
+              ${o.status==='progress' ? `<button style="flex:1;padding:0.5rem;border:none;border-radius:8px;background:rgba(63,185,80,0.12);color:#2a8a4a;font-weight:700;cursor:pointer;font-family:var(--font)" onclick="updateOrder('${o.id}','done')">Completado ✓</button>` : ''}
             </div>
           `;
           list.appendChild(card);
@@ -576,7 +580,7 @@
               <p class="list-item-name">${s.name}</p>
               <p style="font-size:0.72rem;color:var(--muted)">${s.email}</p>
             </div>
-            <span class="staff-role-tag">${s.role === 'cleaner' ? '🧹 Mucama' : '👤 Staff'}</span>
+            <span class="staff-role-tag">${s.role==='cleaner' ? '🧹 Mucama' : '👤 Staff'}</span>
           `;
           list.appendChild(item);
         });
@@ -603,7 +607,6 @@
       }
     };
 
-    // GENERAL
     window.closeModal = () => document.querySelectorAll('.modal-overlay').forEach(m => m.classList.add('hidden'));
     window.doLogout = async () => { await signOut(auth); window.location.href = 'index.html'; };
   </script>
