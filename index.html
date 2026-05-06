@@ -1,49 +1,159 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="theme-color" content="#ffffff"/>
+  <meta name="theme-color" content="#0d1117"/>
   <link rel="icon" type="image/png" href="images/neoflux.png"/>
   <link rel="apple-touch-icon" href="images/neoflux.png"/>
   <link rel="manifest" href="manifest.json"/>
-  <title>NeoFlux — Gestión Hotelera</title>
+  <title>NeoFlux</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/main.css" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --font: 'DM Sans', sans-serif; --gold: #e8c87a; --bg: #0d1117; }
+    body { background: var(--bg); font-family: var(--font); min-height: 100vh; overflow: hidden; }
+
+    /* SPLASH */
+    #splash {
+      position: fixed; inset: 0; background: var(--bg);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      z-index: 100; transition: opacity 0.6s ease;
+    }
+    #splash.fade-out { opacity: 0; pointer-events: none; }
+    .splash-logo { width: 120px; animation: pulse 1.5s ease-in-out infinite; }
+    .splash-name {
+      font-size: 2rem; font-weight: 700; color: #fff; margin-top: 1rem; letter-spacing: -0.5px;
+    }
+    .splash-name span { color: var(--gold); }
+    .splash-tagline { font-size: 0.85rem; color: #8b949e; margin-top: 0.5rem; }
+    .splash-loader {
+      width: 40px; height: 4px; background: #21262d; border-radius: 2px;
+      margin-top: 2rem; overflow: hidden;
+    }
+    .splash-loader-bar {
+      height: 100%; background: var(--gold); border-radius: 2px;
+      animation: load 1.8s ease forwards;
+    }
+    @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.05)} }
+    @keyframes load { from{width:0} to{width:100%} }
+
+    /* LANDING */
+    #landing {
+      display: none; min-height: 100vh;
+      background: linear-gradient(180deg, #0d1117 0%, #161b22 100%);
+    }
+    .landing-header {
+      padding: 2rem 1.5rem 0; text-align: center;
+    }
+    .landing-logo { width: 90px; margin-bottom: 0.75rem; }
+    .landing-title { font-size: 1.6rem; font-weight: 700; color: #fff; letter-spacing: -0.5px; }
+    .landing-title span { color: var(--gold); }
+    .landing-sub { font-size: 0.85rem; color: #8b949e; margin-top: 0.3rem; }
+
+    .menu-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 0.75rem; padding: 1.5rem;
+    }
+    .menu-card {
+      background: #161b22; border: 1px solid #21262d; border-radius: 20px;
+      padding: 1.25rem 1rem; text-align: center; text-decoration: none;
+      transition: all 0.2s; display: flex; flex-direction: column;
+      align-items: center; gap: 0.6rem;
+    }
+    .menu-card:hover { border-color: var(--gold); transform: translateY(-2px); }
+    .menu-card img { width: 52px; height: 52px; object-fit: contain; }
+    .menu-card-name { font-size: 0.9rem; font-weight: 700; color: #fff; }
+    .menu-card-desc { font-size: 0.7rem; color: #8b949e; }
+
+    .subscribe-btn {
+      display: block; margin: 0 1.5rem 1rem; padding: 1rem;
+      background: linear-gradient(135deg, var(--gold), #c9a84c);
+      border-radius: 16px; text-align: center; text-decoration: none;
+      color: #000; font-weight: 700; font-size: 1rem;
+      box-shadow: 0 4px 20px rgba(232,200,122,0.3);
+      transition: opacity 0.2s;
+    }
+    .subscribe-btn:hover { opacity: 0.9; }
+    .footer-note {
+      text-align: center; font-size: 0.75rem; color: #8b949e;
+      padding: 0 1.5rem 2rem;
+    }
+  </style>
 </head>
 <body>
-  <div class="landing">
-    <img src="images/neoflux.png" alt="NeoFlux" class="logo-img" />
-    <p class="tagline" id="tagline"></p>
-    <nav class="menu">
-      <a href="host/">
-        <img src="images/host.png" alt="Host" class="menu-img" />
-        <span>Host</span>
+
+  <!-- SPLASH -->
+  <div id="splash">
+    <img src="images/neoflux.png" alt="NeoFlux" class="splash-logo"/>
+    <div class="splash-name">Neo<span>Flux</span></div>
+    <div class="splash-tagline" id="splash-tagline">Sistema de gestión hotelera</div>
+    <div class="splash-loader"><div class="splash-loader-bar"></div></div>
+  </div>
+
+  <!-- LANDING -->
+  <div id="landing">
+    <div class="landing-header">
+      <img src="images/neoflux.png" alt="NeoFlux" class="landing-logo"/>
+      <div class="landing-title">Neo<span>Flux</span></div>
+      <div class="landing-sub" id="landing-sub">Sistema de gestión hotelera</div>
+    </div>
+
+    <div class="menu-grid">
+      <a href="host/" class="menu-card">
+        <img src="images/host.png" alt="Host"/>
+        <div class="menu-card-name">Host</div>
+        <div class="menu-card-desc" id="desc-host">Panel propietario</div>
       </a>
-      <a href="clean/">
-        <img src="images/clean.png" alt="Clean" class="menu-img" />
-        <span>Clean</span>
+      <a href="clean/" class="menu-card">
+        <img src="images/clean.png" alt="Clean"/>
+        <div class="menu-card-name">Clean</div>
+        <div class="menu-card-desc" id="desc-clean">Panel limpieza</div>
       </a>
-      <a href="order/">
-        <img src="images/order.png" alt="Order" class="menu-img" />
-        <span>Order</span>
+      <a href="order/" class="menu-card">
+        <img src="images/order.png" alt="Order"/>
+        <div class="menu-card-name">Order</div>
+        <div class="menu-card-desc" id="desc-order">Panel pedidos</div>
       </a>
-      <a href="guest/">
-        <img src="images/guest.png" alt="Guest Check-In" class="menu-img" />
-        <span>Guest Check-In</span>
+      <a href="guest/" class="menu-card">
+        <img src="images/guest.png" alt="Guest"/>
+        <div class="menu-card-name">Guest</div>
+        <div class="menu-card-desc" id="desc-guest">Check-In QR</div>
       </a>
-      <a href="subscribe/" class="btn-subscribe" id="btn-subscribe"></a>
-    </nav>
-    <p class="footer-note" id="footer-note"></p>
+    </div>
+
+    <a href="subscribe/" class="subscribe-btn" id="btn-subscribe">
+      💳 Suscribirse — 49€/mes
+    </a>
+    <p class="footer-note" id="footer-note">
+      14 días gratis · Sin tarjeta · Cancelás cuando querés
+    </p>
   </div>
 
   <script type="module">
     import { t } from './js/i18n.js';
-    document.getElementById('tagline').textContent = t('tagline');
+
+    // Aplicar traducciones
+    document.getElementById('splash-tagline').textContent = t('tagline');
+    document.getElementById('landing-sub').textContent = t('tagline');
     document.getElementById('btn-subscribe').textContent = t('subscribe');
     document.getElementById('footer-note').textContent = t('trial');
-    document.documentElement.lang = navigator.language.slice(0,2);
+    document.getElementById('desc-host').textContent = t('desc_host') || 'Panel propietario';
+    document.getElementById('desc-clean').textContent = t('desc_clean') || 'Panel limpieza';
+    document.getElementById('desc-order').textContent = t('desc_order') || 'Panel pedidos';
+    document.getElementById('desc-guest').textContent = t('desc_guest') || 'Check-In QR';
+
+    // Splash → Landing después de 2s
+    setTimeout(() => {
+      const splash = document.getElementById('splash');
+      const landing = document.getElementById('landing');
+      splash.classList.add('fade-out');
+      setTimeout(() => {
+        splash.style.display = 'none';
+        landing.style.display = 'block';
+      }, 600);
+    }, 2000);
   </script>
 </body>
 </html>
