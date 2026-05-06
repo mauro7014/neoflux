@@ -5,187 +5,210 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>NeoFlux — Acceso</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/main.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --gold: #e8c87a; --navy: #2a3542; --font: 'DM Sans', sans-serif; --danger: #f85149; --success: #3fb950; }
+    body { background: #f5f7fa; font-family: var(--font); min-height: 100vh; }
+
+    .page {
+      display: flex; align-items: center; justify-content: center;
+      min-height: 100vh; padding: 2rem;
+    }
     .auth-box {
-      background: #000000;
-      border: 1px solid #222222;
-      border-radius: 16px;
-      padding: 2rem;
-      width: 100%;
-      max-width: 360px;
-      margin: auto;
+      background: #0d1117; border-radius: 24px; padding: 2rem;
+      width: 100%; max-width: 360px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
     }
-    .auth-logo {
-      width: 100px;
-      display: block;
-      margin: 0 auto 1.5rem;
-    }
+    .auth-logo { width: 90px; display: block; margin: 0 auto 0.5rem; }
+    .auth-title { text-align: center; font-size: 1.3rem; font-weight: 700; color: #fff; margin-bottom: 0.25rem; }
+    .auth-sub { text-align: center; font-size: 0.8rem; color: #8b949e; margin-bottom: 1.5rem; }
+
     .auth-tabs {
-      display: flex;
-      gap: 0;
-      margin-bottom: 1.5rem;
-      border-radius: 10px;
-      overflow: hidden;
-      border: 1px solid #222222;
+      display: flex; margin-bottom: 1.5rem; border-radius: 12px;
+      overflow: hidden; background: #161b22;
     }
-    .auth-tabs button {
-      flex: 1;
-      padding: 0.6rem;
-      border: none;
-      background: transparent;
-      color: #aaaaaa;
-      font-family: var(--font);
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: all 0.2s;
+    .auth-tab {
+      flex: 1; padding: 0.65rem; border: none; background: transparent;
+      color: #8b949e; font-family: var(--font); font-size: 0.88rem;
+      font-weight: 600; cursor: pointer; transition: all 0.2s;
     }
-    .auth-tabs button.active {
-      background: var(--accent);
-      color: #000;
-      font-weight: 700;
-    }
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      margin-bottom: 1rem;
-    }
-    .form-group input {
-      background: #111111;
-      border: 1px solid #333333;
-      border-radius: 10px;
-      padding: 0.85rem 1rem;
-      color: #ffffff;
-      font-family: var(--font);
-      font-size: 0.95rem;
-      outline: none;
+    .auth-tab.active { background: var(--gold); color: #000; border-radius: 10px; }
+
+    .form-group { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1rem; }
+    .input-wrap { position: relative; }
+    .form-input {
+      width: 100%; background: #161b22; border: 1px solid #30363d;
+      border-radius: 12px; padding: 0.85rem 3rem 0.85rem 1rem;
+      color: #fff; font-family: var(--font); font-size: 0.95rem; outline: none;
       transition: border-color 0.2s;
     }
-    .form-group input::placeholder { color: #555555; }
-    .form-group input:focus {
-      border-color: var(--accent);
+    .form-input:focus { border-color: var(--gold); }
+    .form-input::placeholder { color: #8b949e; }
+    .eye-btn {
+      position: absolute; right: 0.85rem; top: 50%; transform: translateY(-50%);
+      background: none; border: none; cursor: pointer; font-size: 1.1rem;
+      color: #8b949e; padding: 0; line-height: 1;
     }
+
     .btn-primary {
-      width: 100%;
-      padding: 0.9rem;
-      background: var(--accent);
-      color: #000;
-      font-weight: 700;
-      font-family: var(--font);
-      font-size: 1rem;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
+      width: 100%; padding: 0.95rem;
+      background: linear-gradient(135deg, var(--gold), #c9a84c);
+      color: #000; font-weight: 700; font-family: var(--font);
+      font-size: 1rem; border: none; border-radius: 12px; cursor: pointer;
       transition: opacity 0.2s;
     }
     .btn-primary:hover { opacity: 0.9; }
-    .msg {
-      margin-top: 1rem;
-      font-size: 0.85rem;
-      text-align: center;
-      min-height: 1.2rem;
-    }
+    .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .msg { margin-top: 0.75rem; font-size: 0.82rem; text-align: center; min-height: 1rem; }
     .msg.error { color: var(--danger); }
-    .msg.success { color: var(--success); }
-    .page-center {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      padding: 2rem;
+    .msg.ok { color: var(--success); }
+
+    .back-link {
+      display: block; text-align: center; color: #8b949e;
+      font-size: 0.8rem; margin-top: 1.25rem; text-decoration: none;
+    }
+    .back-link:hover { color: var(--gold); }
+
+    #loading-screen {
+      display: flex; align-items: center; justify-content: center;
+      min-height: 100vh; color: #8b949e; font-size: 0.9rem;
+      background: #f5f7fa;
     }
   </style>
 </head>
 <body>
-  <div class="page-center">
+
+  <div id="loading-screen">Verificando sesión...</div>
+
+  <div id="auth-screen" class="page" style="display:none">
     <div class="auth-box">
       <img src="../images/neoflux.png" alt="NeoFlux" class="auth-logo"/>
+      <div class="auth-title">NeoFlux</div>
+      <div class="auth-sub">Sistema de gestión hotelera</div>
+
       <div class="auth-tabs">
-        <button class="active" onclick="showTab('login')">Ingresar</button>
-        <button onclick="showTab('register')">Registrarse</button>
+        <button class="auth-tab active" onclick="showTab('login')">Ingresar</button>
+        <button class="auth-tab" onclick="showTab('register')">Registrarse</button>
       </div>
 
       <!-- LOGIN -->
       <div id="tab-login">
         <div class="form-group">
-          <input type="email" id="login-email" placeholder="Email"/>
-          <input type="password" id="login-password" placeholder="Contraseña"/>
+          <div class="input-wrap">
+            <input type="email" class="form-input" id="login-email" placeholder="Email"/>
+          </div>
+          <div class="input-wrap">
+            <input type="password" class="form-input" id="login-password" placeholder="Contraseña"/>
+            <button class="eye-btn" type="button" onclick="toggleEye('login-password', this)">👁️</button>
+          </div>
         </div>
-        <button class="btn-primary" onclick="doLogin()">Ingresar</button>
+        <button class="btn-primary" id="btn-login" onclick="doLogin()">Ingresar</button>
         <p class="msg" id="login-msg"></p>
       </div>
 
       <!-- REGISTRO -->
       <div id="tab-register" style="display:none">
         <div class="form-group">
-          <input type="text" id="reg-hotel" placeholder="Nombre del hotel"/>
-          <input type="email" id="reg-email" placeholder="Email"/>
-          <input type="password" id="reg-password" placeholder="Contraseña (mín. 6 caracteres)"/>
+          <div class="input-wrap">
+            <input type="text" class="form-input" id="reg-hotel" placeholder="Nombre del hotel"/>
+          </div>
+          <div class="input-wrap">
+            <input type="email" class="form-input" id="reg-email" placeholder="Email"/>
+          </div>
+          <div class="input-wrap">
+            <input type="password" class="form-input" id="reg-password" placeholder="Contraseña (mín. 6 caracteres)"/>
+            <button class="eye-btn" type="button" onclick="toggleEye('reg-password', this)">👁️</button>
+          </div>
         </div>
-        <button class="btn-primary" onclick="doRegister()">Crear cuenta</button>
+        <button class="btn-primary" id="btn-register" onclick="doRegister()">Crear cuenta</button>
         <p class="msg" id="register-msg"></p>
       </div>
+
+      <a href="../" class="back-link">← Volver al inicio</a>
     </div>
   </div>
 
   <script type="module">
     import { auth, db } from '../js/firebase-config.js';
-    import { 
-      createUserWithEmailAndPassword, 
-      signInWithEmailAndPassword,
-      onAuthStateChanged
-    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-    import { 
-      doc, setDoc, getDoc
-    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-    onAuthStateChanged(auth, async (user) => {
+    onAuthStateChanged(auth, (user) => {
       if (user) {
-        window.location.href = 'dashboard.html';
+        window.location.replace('dashboard.html');
+      } else {
+        document.getElementById('loading-screen').style.display = 'none';
+        document.getElementById('auth-screen').style.display = 'flex';
       }
     });
+
+    window.toggleEye = (id, btn) => {
+      const input = document.getElementById(id);
+      if (input.type === 'password') {
+        input.type = 'text';
+        btn.textContent = '🙈';
+      } else {
+        input.type = 'password';
+        btn.textContent = '👁️';
+      }
+    };
 
     window.showTab = (tab) => {
       document.getElementById('tab-login').style.display = tab === 'login' ? 'block' : 'none';
       document.getElementById('tab-register').style.display = tab === 'register' ? 'block' : 'none';
-      document.querySelectorAll('.auth-tabs button').forEach((b, i) => {
-        b.classList.toggle('active', (tab === 'login' && i === 0) || (tab === 'register' && i === 1));
+      document.querySelectorAll('.auth-tab').forEach((b, i) => {
+        b.classList.toggle('active', (tab==='login'&&i===0)||(tab==='register'&&i===1));
       });
     };
 
     window.doLogin = async () => {
-      const email = document.getElementById('login-email').value;
+      const email = document.getElementById('login-email').value.trim();
       const password = document.getElementById('login-password').value;
       const msg = document.getElementById('login-msg');
+      const btn = document.getElementById('btn-login');
+      if (!email || !password) {
+        msg.className = 'msg error';
+        msg.textContent = 'Completá email y contraseña';
+        return;
+      }
+      btn.disabled = true;
+      msg.className = 'msg';
+      msg.textContent = 'Ingresando...';
       try {
         await signInWithEmailAndPassword(auth, email, password);
-        window.location.href = 'dashboard.html';
       } catch(e) {
         msg.className = 'msg error';
         msg.textContent = 'Email o contraseña incorrectos';
+        btn.disabled = false;
       }
     };
 
     window.doRegister = async () => {
-      const hotel = document.getElementById('reg-hotel').value;
-      const email = document.getElementById('reg-email').value;
+      const hotel = document.getElementById('reg-hotel').value.trim();
+      const email = document.getElementById('reg-email').value.trim();
       const password = document.getElementById('reg-password').value;
       const msg = document.getElementById('register-msg');
+      const btn = document.getElementById('btn-register');
+      if (!hotel || !email || !password) {
+        msg.className = 'msg error';
+        msg.textContent = 'Completá todos los campos';
+        return;
+      }
+      btn.disabled = true;
+      msg.className = 'msg';
+      msg.textContent = 'Creando cuenta...';
       try {
         const cred = await createUserWithEmailAndPassword(auth, email, password);
         await setDoc(doc(db, 'hotels', cred.user.uid), {
-          name: hotel,
-          email: email,
-          createdAt: new Date(),
-          plan: 'trial',
+          name: hotel, email, createdAt: new Date(), plan: 'trial',
           trialEnds: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000)
         });
-        window.location.href = 'dashboard.html';
       } catch(e) {
         msg.className = 'msg error';
         msg.textContent = e.message;
+        btn.disabled = false;
       }
     };
   </script>
