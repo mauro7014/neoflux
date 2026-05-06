@@ -3,229 +3,442 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>NeoFlux — Bienvenido</title>
+  <title>NeoFlux — Guest</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/main.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    .guest-wrap { max-width: 480px; margin: 0 auto; padding: 1.5rem; }
-    .guest-header { text-align: center; margin-bottom: 2rem; }
-    .guest-header img { width: 100px; margin-bottom: 1rem; }
-    .hotel-name { font-size: 1.3rem; font-weight: 700; color: #2a3542; }
-    .room-badge {
-      display: inline-block; background: #e6e6ff; color: #4a4aaa;
-      padding: 0.3rem 1rem; border-radius: 20px; font-size: 0.85rem;
-      font-weight: 600; margin-top: 0.5rem;
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #ffffff; --surface: #f8f9fa; --border: #e5e7eb;
+      --text: #1a1a2e; --muted: #6b7280; --gold: #e8c87a;
+      --navy: #2a3542; --success: #3fb950; --danger: #f85149;
+      --font: 'DM Sans', sans-serif; --radius: 16px;
     }
-    .section-title { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: #888; margin-bottom: 0.75rem; margin-top: 1.5rem; }
-    .form-group { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1rem; }
-    .form-group input, .form-group textarea {
-      width: 100%; background: #f8f9fa; border: 1px solid #e0e0e0;
-      border-radius: 10px; padding: 0.85rem 1rem; color: #1a1a1a;
+    body { background: var(--bg); color: var(--text); font-family: var(--font); min-height: 100vh; }
+
+    .screen { display: none; }
+    .screen.active { display: block; }
+
+    /* HEADER */
+    .header {
+      background: var(--navy); padding: 1.25rem 1.5rem;
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .header img { width: 44px; height: 44px; object-fit: contain; }
+    .header-text { flex: 1; }
+    .header-title { font-size: 1rem; font-weight: 700; color: #fff; }
+    .header-sub { font-size: 0.75rem; color: rgba(255,255,255,0.6); }
+    .btn-back {
+      background: rgba(255,255,255,0.1); border: none; border-radius: 10px;
+      padding: 0.5rem 0.75rem; color: #fff; font-family: var(--font);
+      font-size: 0.8rem; cursor: pointer;
+    }
+
+    /* WELCOME CARD */
+    .welcome-card {
+      background: linear-gradient(135deg, var(--navy), #1a2535);
+      margin: 1rem; border-radius: 20px; padding: 1.5rem; color: #fff;
+      text-align: center;
+    }
+    .welcome-emoji { font-size: 2.5rem; margin-bottom: 0.5rem; }
+    .welcome-name { font-size: 1.3rem; font-weight: 700; color: var(--gold); }
+    .welcome-room { font-size: 0.85rem; color: rgba(255,255,255,0.7); margin-top: 0.3rem; }
+
+    /* CONTENT */
+    .content { padding: 0 1rem 2rem; }
+    .section-title {
+      font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px;
+      color: var(--muted); margin: 1.25rem 0 0.75rem;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .section-title::after { content:''; flex:1; height:1px; background: var(--border); }
+
+    /* FORM */
+    .form-group { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 0.75rem; }
+    .input-wrap { position: relative; }
+    .form-input {
+      width: 100%; background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 0.85rem 1rem; color: var(--text);
       font-family: var(--font); font-size: 0.95rem; outline: none;
+      transition: border-color 0.2s;
     }
-    .form-group input:focus, .form-group textarea:focus { border-color: #2a3542; }
-    .form-group textarea { resize: none; }
+    .form-input:focus { border-color: var(--navy); }
+    .form-input::placeholder { color: var(--muted); }
+    .eye-btn {
+      position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%);
+      background: none; border: none; cursor: pointer; font-size: 1rem; color: var(--muted);
+    }
+
+    /* DOC UPLOAD */
     .doc-upload {
-      display: flex; flex-direction: column; align-items: center;
-      background: #f8f9fa; border: 1px dashed #ccc; border-radius: 10px;
-      padding: 1.5rem; cursor: pointer; text-align: center;
+      background: var(--surface); border: 1px dashed var(--border);
+      border-radius: 12px; padding: 1.25rem; text-align: center; cursor: pointer;
     }
     .doc-upload input { display: none; }
-    .doc-upload p { color: #888; font-size: 0.85rem; margin-top: 0.5rem; }
+    .doc-upload-icon { font-size: 1.8rem; margin-bottom: 0.4rem; }
+    .doc-upload-text { font-size: 0.82rem; color: var(--muted); }
     .doc-preview { width: 100%; border-radius: 10px; margin-top: 0.75rem; display: none; }
-    .signature-wrap { border: 1px solid #e0e0e0; border-radius: 10px; overflow: hidden; background: #f8f9fa; }
-    canvas { width: 100%; height: 160px; display: block; touch-action: none; }
-    .btn-clear-sig { background: transparent; border: none; color: #888; font-size: 0.8rem; cursor: pointer; padding: 0.3rem 0.5rem; }
 
-    .order-section { margin-top: 1.5rem; }
-    .order-items { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem; }
+    /* SIGNATURE */
+    .sig-wrap { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: var(--surface); }
+    canvas { width: 100%; height: 140px; display: block; touch-action: none; }
+    .btn-clear { background: none; border: none; color: var(--muted); font-size: 0.78rem; cursor: pointer; padding: 0.4rem 0.5rem; }
+
+    /* AUTHORIZATION */
+    .auth-box {
+      background: #fff8e1; border: 1px solid #f0d080; border-radius: 12px;
+      padding: 1rem; margin-bottom: 0.75rem;
+    }
+    .auth-text { font-size: 0.82rem; color: #7a5c00; line-height: 1.5; }
+    .auth-check { display: flex; align-items: flex-start; gap: 0.6rem; margin-top: 0.75rem; }
+    .auth-check input { width: 18px; height: 18px; margin-top: 2px; cursor: pointer; flex-shrink: 0; }
+    .auth-check label { font-size: 0.82rem; color: #7a5c00; cursor: pointer; }
+
+    /* ORDER ITEMS */
+    .order-grid { display: flex; flex-direction: column; gap: 0.5rem; }
     .order-item {
-      display: flex; align-items: center; gap: 0.75rem;
-      background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 10px;
-      padding: 0.75rem 1rem; cursor: pointer; transition: all 0.2s;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+      padding: 0.85rem 1rem; display: flex; justify-content: space-between;
+      align-items: center; cursor: pointer; transition: all 0.2s;
     }
-    .order-item.selected { background: #e6f7ee; border-color: #2a8a4a; }
-    .order-item span { font-size: 0.9rem; color: #1a1a1a; }
-    .order-item .item-price { margin-left: auto; font-weight: 700; color: #2a3542; font-size: 0.85rem; }
+    .order-item.selected { background: #e6f7ee; border-color: var(--success); }
+    .order-item-left { display: flex; align-items: center; gap: 0.6rem; }
+    .order-item-name { font-size: 0.9rem; font-weight: 600; }
+    .order-item-price { font-size: 0.8rem; font-weight: 700; color: var(--navy); }
 
+    /* MY ORDERS */
+    .my-order-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1rem; margin-bottom: 0.6rem;
+    }
+    .my-order-header { display: flex; justify-content: space-between; margin-bottom: 0.4rem; }
+    .my-order-items { font-size: 0.82rem; color: var(--muted); }
+    .badge { font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 6px; font-weight: 600; }
+    .badge-pending { background: rgba(248,81,73,0.1); color: var(--danger); }
+    .badge-progress { background: rgba(210,153,34,0.1); color: #d29922; }
+    .badge-done { background: rgba(63,185,80,0.1); color: var(--success); }
+
+    /* BUTTONS */
     .btn-primary {
-      width: 100%; padding: 1rem; background: #2a3542; border: none;
-      border-radius: 14px; color: #fff; font-weight: 700;
-      font-family: var(--font); font-size: 1rem; cursor: pointer;
-      margin-top: 1.5rem; margin-bottom: 2rem;
+      width: 100%; padding: 1rem; background: var(--navy); border: none;
+      border-radius: 14px; color: #fff; font-weight: 700; font-family: var(--font);
+      font-size: 1rem; cursor: pointer; margin-top: 1rem; transition: opacity 0.2s;
     }
-    .msg { text-align: center; padding: 1rem; font-size: 0.9rem; color: #888; margin-top: 0.5rem; }
-    .msg.error { color: #e05252; }
-    .msg.ok { color: #2a8a4a; font-weight: 700; }
+    .btn-primary:hover { opacity: 0.9; }
+    .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+    .btn-gold {
+      width: 100%; padding: 1rem;
+      background: linear-gradient(135deg, var(--gold), #c9a84c);
+      border: none; border-radius: 14px; color: #000; font-weight: 700;
+      font-family: var(--font); font-size: 1rem; cursor: pointer; margin-top: 0.75rem;
+    }
 
-    /* Pantalla éxito */
-    .success-screen {
-      text-align: center; padding: 3rem 2rem; max-width: 480px; margin: 0 auto;
-    }
+    /* SUCCESS */
+    .success-wrap { text-align: center; padding: 3rem 2rem; }
     .success-icon { font-size: 4rem; margin-bottom: 1rem; }
-    .success-title { font-size: 1.5rem; font-weight: 700; color: #2a3542; margin-bottom: 0.5rem; }
-    .success-sub { color: #888; font-size: 0.95rem; margin-bottom: 2rem; }
-    .btn-more-orders {
-      background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 14px;
-      padding: 0.85rem 1.5rem; color: #2a3542; font-weight: 700;
-      font-family: var(--font); font-size: 0.95rem; cursor: pointer;
+    .success-title { font-size: 1.5rem; font-weight: 700; color: var(--navy); margin-bottom: 0.5rem; }
+    .success-sub { color: var(--muted); font-size: 0.9rem; line-height: 1.6; }
+
+    /* ERROR */
+    .error-wrap { text-align: center; padding: 3rem 2rem; }
+
+    .msg { text-align: center; padding: 0.75rem; font-size: 0.85rem; margin-top: 0.5rem; border-radius: 10px; }
+    .msg.error { background: rgba(248,81,73,0.1); color: var(--danger); }
+    .msg.ok { background: rgba(63,185,80,0.1); color: var(--success); }
+
+    .total-row {
+      display: flex; justify-content: space-between; align-items: center;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 0.85rem 1rem; margin-top: 0.5rem;
     }
-    .error-screen { text-align: center; padding: 3rem 2rem; }
+    .total-label { font-weight: 700; }
+    .total-amount { font-weight: 700; color: var(--navy); font-size: 1.1rem; }
+
     .hidden { display: none; }
+    .tab-bar {
+      display: flex; background: var(--surface); border-bottom: 1px solid var(--border);
+    }
+    .tab-btn {
+      flex: 1; padding: 0.85rem; border: none; background: transparent;
+      font-family: var(--font); font-size: 0.85rem; font-weight: 600;
+      color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent;
+      transition: all 0.2s;
+    }
+    .tab-btn.active { color: var(--navy); border-bottom-color: var(--navy); }
   </style>
 </head>
 <body>
 
-  <!-- ERROR si no hay parámetros -->
-  <div id="error-screen" class="error-screen hidden">
-    <p style="font-size:3rem">❌</p>
-    <p style="color:#888;margin-top:1rem">QR inválido o habitación no encontrada.</p>
+  <!-- ERROR SCREEN -->
+  <div id="screen-error" class="screen active">
+    <div class="error-wrap">
+      <p style="font-size:3rem">❌</p>
+      <p style="color:var(--muted);margin-top:1rem">QR inválido o habitación no encontrada.</p>
+      <p style="font-size:0.8rem;color:var(--muted);margin-top:0.5rem">Solicitá un nuevo QR al hotel.</p>
+    </div>
   </div>
 
-  <!-- PANTALLA ÉXITO -->
-  <div id="success-screen" class="success-screen hidden">
-    <div class="success-icon">✅</div>
-    <h2 class="success-title">¡Listo!</h2>
-    <p class="success-sub">Tu check-in fue registrado.<br>Si necesitás algo más, escaneá el QR nuevamente.</p>
-    <button class="btn-more-orders" onclick="showOrders()">Hacer un pedido</button>
+  <!-- CHECKIN SCREEN -->
+  <div id="screen-checkin" class="screen">
+    <div class="header">
+      <img src="../images/guest.png" alt="Guest"/>
+      <div class="header-text">
+        <div class="header-title" id="hotel-name-header">Bienvenido</div>
+        <div class="header-sub" id="room-badge-header">Habitación —</div>
+      </div>
+    </div>
+
+    <div class="content">
+      <p class="section-title">Check-In</p>
+      <div class="form-group">
+        <input type="text" class="form-input" id="guest-name" placeholder="Nombre completo"/>
+        <input type="text" class="form-input" id="guest-doc" placeholder="Número de documento"/>
+        <input type="email" class="form-input" id="guest-email" placeholder="Email (opcional)"/>
+      </div>
+
+      <p class="section-title">Foto del documento</p>
+      <div class="doc-upload" onclick="document.getElementById('doc-file').click()">
+        <div class="doc-upload-icon">📷</div>
+        <div class="doc-upload-text">Tocá para sacar foto o subir imagen</div>
+        <input type="file" id="doc-file" accept="image/*" capture="environment"/>
+        <img id="doc-preview" class="doc-preview"/>
+      </div>
+
+      <p class="section-title">Firma</p>
+      <div class="sig-wrap">
+        <canvas id="sig-canvas"></canvas>
+      </div>
+      <button class="btn-clear" onclick="clearSig()">🗑️ Borrar firma</button>
+
+      <p class="section-title">Autorización</p>
+      <div class="auth-box">
+        <p class="auth-text">Al firmar este formulario, autorizo al establecimiento a registrar mis consumos durante la estadía y a emitir el comprobante correspondiente al momento del check-out.</p>
+        <div class="auth-check">
+          <input type="checkbox" id="auth-check"/>
+          <label for="auth-check">Acepto los términos y autorizo el registro de consumos</label>
+        </div>
+      </div>
+
+      <button class="btn-primary" id="btn-checkin" onclick="submitCheckin()">
+        Confirmar Check-In ✓
+      </button>
+      <p class="msg hidden" id="checkin-msg"></p>
+    </div>
   </div>
 
-  <!-- FORMULARIO PRINCIPAL -->
-  <div id="main-screen" class="hidden">
-    <div class="guest-wrap">
-      <div class="guest-header">
-        <img src="../images/guest.png" alt="Guest"/>
-        <h1 class="hotel-name" id="hotel-name">Bienvenido</h1>
-        <span class="room-badge" id="room-badge">Habitación —</span>
+  <!-- GUEST DASHBOARD -->
+  <div id="screen-dashboard" class="screen">
+    <div class="header">
+      <img src="../images/guest.png" alt="Guest"/>
+      <div class="header-text">
+        <div class="header-title" id="dash-hotel-name">Hotel</div>
+        <div class="header-sub" id="dash-guest-name">Huésped</div>
+      </div>
+    </div>
+
+    <div class="welcome-card" style="margin:1rem">
+      <div class="welcome-emoji">👋</div>
+      <div class="welcome-name" id="welcome-name">Bienvenido</div>
+      <div class="welcome-room" id="welcome-room">Habitación —</div>
+    </div>
+
+    <div class="tab-bar">
+      <button class="tab-btn active" onclick="showGuestTab('orders', this)">🛎️ Pedidos</button>
+      <button class="tab-btn" onclick="showGuestTab('my-orders', this)">📋 Mis pedidos</button>
+    </div>
+
+    <!-- TAB PEDIDOS -->
+    <div id="gtab-orders" class="content">
+      <p class="section-title">¿Qué necesitás?</p>
+      <div class="order-grid" id="order-items-list"></div>
+
+      <p class="section-title" style="margin-top:1rem">Mensaje al hotel</p>
+      <textarea class="form-input" id="guest-note" rows="3" placeholder="Ej: necesito toallas, hay un problema con el aire..." style="resize:none"></textarea>
+
+      <div class="total-row">
+        <span class="total-label">Total</span>
+        <span class="total-amount" id="order-total">$0</span>
       </div>
 
-      <!-- CHECK-IN -->
-      <div id="checkin-section">
-        <p class="section-title">Check-In</p>
-        <div class="form-group">
-          <input type="text" id="guest-name" placeholder="Nombre completo"/>
-          <input type="text" id="guest-doc" placeholder="Número de documento"/>
-          <input type="email" id="guest-email" placeholder="Email (opcional)"/>
-        </div>
+      <button class="btn-gold" onclick="submitOrder()">Enviar pedido 📨</button>
+      <p class="msg hidden" id="order-msg"></p>
+    </div>
 
-        <p class="section-title">Foto del documento</p>
-        <div class="doc-upload" onclick="document.getElementById('doc-file').click()">
-          <span style="font-size:2rem">📷</span>
-          <p>Tocá para sacar foto o subir imagen</p>
-          <input type="file" id="doc-file" accept="image/*" capture="environment"/>
-          <img id="doc-preview" class="doc-preview"/>
-        </div>
+    <!-- TAB MIS PEDIDOS -->
+    <div id="gtab-my-orders" class="content hidden">
+      <p class="section-title">Mis pedidos</p>
+      <div id="my-orders-list"><p style="color:var(--muted);text-align:center;padding:2rem">Sin pedidos aún</p></div>
+    </div>
+  </div>
 
-        <p class="section-title">Firma</p>
-        <div class="signature-wrap">
-          <canvas id="sig-canvas"></canvas>
-        </div>
-        <button class="btn-clear-sig" onclick="clearSig()">🗑️ Borrar firma</button>
-      </div>
-
-      <!-- PEDIDOS -->
-      <div class="order-section">
-        <p class="section-title">¿Necesitás algo?</p>
-        <div class="order-items" id="order-items">
-          <div class="order-item" onclick="toggleItem(this,'limpieza','🧹 Limpieza',0)">
-            <span>🧹 Limpieza</span>
-            <span class="item-price">Sin cargo</span>
-          </div>
-          <div class="order-item" onclick="toggleItem(this,'toallas','🛁 Toallas',0)">
-            <span>🛁 Toallas</span>
-            <span class="item-price">Sin cargo</span>
-          </div>
-        </div>
-        <div id="extra-items"></div>
-        <div class="form-group">
-          <textarea id="guest-note" rows="3" placeholder="Mensaje libre (opcional)..."></textarea>
-        </div>
-      </div>
-
-      <button class="btn-primary" onclick="submitCheckin()">Confirmar Check-In</button>
-      <p class="msg" id="guest-msg"></p>
+  <!-- SUCCESS SCREEN -->
+  <div id="screen-success" class="screen">
+    <div class="success-wrap">
+      <div class="success-icon">✅</div>
+      <h2 class="success-title">¡Check-In completado!</h2>
+      <p class="success-sub" id="success-msg">Tu check-in fue registrado exitosamente.</p>
+      <button class="btn-primary" onclick="goToDashboard()" style="max-width:300px;margin:1.5rem auto 0">
+        Ir al panel de pedidos →
+      </button>
     </div>
   </div>
 
   <script type="module">
     import { db } from '../js/firebase-config.js';
-    import { doc, getDoc, collection, addDoc, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { doc, getDoc, collection, addDoc, getDocs, onSnapshot, query, where, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     const params = new URLSearchParams(window.location.search);
     const hotelId = params.get('h');
     const roomId = params.get('r');
     let roomNumber = '';
+    let hotelName = '';
+    let guestName = '';
     let selectedItems = {};
+    let extras = [];
     let sigDrawing = false;
+    let canvas, ctx;
+
+    function show(id) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
 
     async function init() {
-      if (!hotelId || !roomId) {
-        show('error-screen'); return;
-      }
+      if (!hotelId || !roomId) { show('screen-error'); return; }
       try {
         const hotelDoc = await getDoc(doc(db, 'hotels', hotelId));
         const roomDoc = await getDoc(doc(db, 'hotels', hotelId, 'rooms', roomId));
-        if (!hotelDoc.exists() || !roomDoc.exists()) { show('error-screen'); return; }
-        document.getElementById('hotel-name').textContent = hotelDoc.data().name;
+        if (!hotelDoc.exists() || !roomDoc.exists()) { show('screen-error'); return; }
+        hotelName = hotelDoc.data().name;
         roomNumber = roomDoc.data().number;
-        document.getElementById('room-badge').textContent = `🚪 Habitación ${roomNumber}`;
+
+        // Verificar si ya hizo check-in
+        const stored = localStorage.getItem(`checkin_${hotelId}_${roomId}`);
+        if (stored) {
+          const data = JSON.parse(stored);
+          guestName = data.name;
+          setupDashboard();
+          show('screen-dashboard');
+        } else {
+          document.getElementById('hotel-name-header').textContent = hotelName;
+          document.getElementById('room-badge-header').textContent = `🚪 Habitación ${roomNumber}`;
+          show('screen-checkin');
+          initCanvas();
+        }
         await loadExtras();
-        show('main-screen');
-        initCanvas();
       } catch(e) {
-        show('error-screen');
+        show('screen-error');
       }
     }
 
     async function loadExtras() {
       const snap = await getDocs(collection(db, 'hotels', hotelId, 'extras'));
-      const container = document.getElementById('extra-items');
-      snap.forEach(d => {
-        const e = d.data();
+      extras = [];
+      snap.forEach(d => extras.push({ id: d.id, ...d.data() }));
+      renderOrderItems();
+    }
+
+    function renderOrderItems() {
+      const container = document.getElementById('order-items-list');
+      container.innerHTML = '';
+      const defaultItems = [
+        { id: 'limpieza', name: '🧹 Limpieza', price: 0 },
+        { id: 'toallas', name: '🛁 Toallas', price: 0 },
+      ];
+      [...defaultItems, ...extras].forEach(e => {
         const item = document.createElement('div');
         item.className = 'order-item';
-        item.innerHTML = `<span>${e.name}</span><span class="item-price">${e.price > 0 ? '$' + e.price : 'Sin cargo'}</span>`;
-        item.onclick = () => toggleItem(item, d.id, e.name, e.price);
+        item.id = `oi-${e.id}`;
+        item.innerHTML = `
+          <div class="order-item-left">
+            <span class="order-item-name">${e.name}</span>
+          </div>
+          <span class="order-item-price">${e.price > 0 ? '$'+e.price : 'Sin cargo'}</span>
+        `;
+        item.onclick = () => toggleItem(e, item);
         container.appendChild(item);
       });
     }
 
-    window.toggleItem = (el, id, name, price) => {
-      if (selectedItems[id]) {
-        delete selectedItems[id];
+    function toggleItem(e, el) {
+      if (selectedItems[e.id]) {
+        delete selectedItems[e.id];
         el.classList.remove('selected');
       } else {
-        selectedItems[id] = { name, price };
+        selectedItems[e.id] = e;
         el.classList.add('selected');
       }
-    };
+      updateTotal();
+    }
+
+    function updateTotal() {
+      const total = Object.values(selectedItems).reduce((s, e) => s + (e.price || 0), 0);
+      document.getElementById('order-total').textContent = '$' + total;
+    }
+
+    function setupDashboard() {
+      document.getElementById('dash-hotel-name').textContent = hotelName;
+      document.getElementById('dash-guest-name').textContent = `🚪 Habitación ${roomNumber}`;
+      document.getElementById('welcome-name').textContent = `¡Hola, ${guestName}!`;
+      document.getElementById('welcome-room').textContent = `Habitación ${roomNumber} — ${hotelName}`;
+      loadMyOrders();
+    }
+
+    function loadMyOrders() {
+      const q = query(
+        collection(db, 'hotels', hotelId, 'orders'),
+        where('roomId', '==', roomId),
+        orderBy('createdAt', 'desc')
+      );
+      onSnapshot(q, (snap) => {
+        const list = document.getElementById('my-orders-list');
+        list.innerHTML = '';
+        if (snap.empty) {
+          list.innerHTML = '<p style="color:var(--muted);text-align:center;padding:2rem">Sin pedidos aún</p>';
+          return;
+        }
+        const badgeClass = { pending:'badge-pending', progress:'badge-progress', done:'badge-done' };
+        const badgeLabel = { pending:'Pendiente', progress:'En curso', done:'Completado' };
+        snap.forEach(d => {
+          const o = d.data();
+          const card = document.createElement('div');
+          card.className = 'my-order-card';
+          const itemsText = o.items ? o.items.map(i => i.name).join(', ') : '';
+          card.innerHTML = `
+            <div class="my-order-header">
+              <span style="font-weight:700;font-size:0.9rem">${itemsText || 'Pedido'}</span>
+              <span class="badge ${badgeClass[o.status]}">${badgeLabel[o.status]}</span>
+            </div>
+            ${o.note ? `<p class="my-order-items">📝 ${o.note}</p>` : ''}
+            ${o.total > 0 ? `<p style="font-size:0.8rem;font-weight:700;color:var(--navy);margin-top:0.3rem">💰 $${o.total}</p>` : ''}
+          `;
+          list.appendChild(card);
+        });
+      });
+    }
 
     // CANVAS FIRMA
-    let canvas, ctx;
     function initCanvas() {
       canvas = document.getElementById('sig-canvas');
       ctx = canvas.getContext('2d');
       canvas.width = canvas.offsetWidth;
-      canvas.height = 160;
+      canvas.height = 140;
       ctx.strokeStyle = '#2a3542';
       ctx.lineWidth = 2;
       ctx.lineCap = 'round';
-
-      canvas.addEventListener('mousedown', e => { sigDrawing = true; ctx.beginPath(); ctx.moveTo(e.offsetX, e.offsetY); });
-      canvas.addEventListener('mousemove', e => { if (!sigDrawing) return; ctx.lineTo(e.offsetX, e.offsetY); ctx.stroke(); });
-      canvas.addEventListener('mouseup', () => sigDrawing = false);
-      canvas.addEventListener('touchstart', e => { e.preventDefault(); sigDrawing = true; const t = e.touches[0]; const r = canvas.getBoundingClientRect(); ctx.beginPath(); ctx.moveTo(t.clientX - r.left, t.clientY - r.top); });
-      canvas.addEventListener('touchmove', e => { e.preventDefault(); if (!sigDrawing) return; const t = e.touches[0]; const r = canvas.getBoundingClientRect(); ctx.lineTo(t.clientX - r.left, t.clientY - r.top); ctx.stroke(); });
-      canvas.addEventListener('touchend', () => sigDrawing = false);
+      canvas.addEventListener('mousedown', e => { sigDrawing=true; ctx.beginPath(); ctx.moveTo(e.offsetX,e.offsetY); });
+      canvas.addEventListener('mousemove', e => { if(!sigDrawing)return; ctx.lineTo(e.offsetX,e.offsetY); ctx.stroke(); });
+      canvas.addEventListener('mouseup', ()=>sigDrawing=false);
+      canvas.addEventListener('touchstart', e => { e.preventDefault(); sigDrawing=true; const t=e.touches[0],r=canvas.getBoundingClientRect(); ctx.beginPath(); ctx.moveTo(t.clientX-r.left,t.clientY-r.top); });
+      canvas.addEventListener('touchmove', e => { e.preventDefault(); if(!sigDrawing)return; const t=e.touches[0],r=canvas.getBoundingClientRect(); ctx.lineTo(t.clientX-r.left,t.clientY-r.top); ctx.stroke(); });
+      canvas.addEventListener('touchend', ()=>sigDrawing=false);
     }
+    window.clearSig = () => { if(ctx) ctx.clearRect(0,0,canvas.width,canvas.height); };
 
-    window.clearSig = () => { if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height); };
-
-    // FOTO DOCUMENTO
+    // FOTO DOC
     document.getElementById('doc-file').addEventListener('change', e => {
       const file = e.target.files[0];
-      if (!file) return;
+      if(!file) return;
       const reader = new FileReader();
       reader.onload = ev => {
         const preview = document.getElementById('doc-preview');
@@ -235,56 +448,92 @@
       reader.readAsDataURL(file);
     });
 
+    // SUBMIT CHECKIN
     window.submitCheckin = async () => {
       const name = document.getElementById('guest-name').value.trim();
       const docNum = document.getElementById('guest-doc').value.trim();
       const email = document.getElementById('guest-email').value.trim();
-      const note = document.getElementById('guest-note').value.trim();
-      const msg = document.getElementById('guest-msg');
+      const authChecked = document.getElementById('auth-check').checked;
+      const msg = document.getElementById('checkin-msg');
 
       if (!name || !docNum) {
-        msg.className = 'msg error';
-        msg.textContent = 'Por favor completá nombre y documento';
-        return;
+        msg.className = 'msg error'; msg.classList.remove('hidden');
+        msg.textContent = 'Por favor completá nombre y documento'; return;
+      }
+      if (!authChecked) {
+        msg.className = 'msg error'; msg.classList.remove('hidden');
+        msg.textContent = 'Debés aceptar la autorización para continuar'; return;
       }
 
-      msg.className = 'msg';
+      document.getElementById('btn-checkin').disabled = true;
+      msg.className = 'msg'; msg.classList.remove('hidden');
       msg.textContent = 'Guardando...';
 
       const signature = canvas ? canvas.toDataURL() : '';
-      const items = Object.values(selectedItems);
-      const total = items.reduce((sum, i) => sum + i.price, 0);
 
       try {
-        // Guardar check-in
         await addDoc(collection(db, 'hotels', hotelId, 'guests'), {
           name, document: docNum, email, roomId, roomNumber,
-          signature, createdAt: serverTimestamp()
+          signature, authorized: true, createdAt: serverTimestamp()
         });
 
-        // Guardar pedido si hay items o nota
-        if (items.length > 0 || note) {
-          await addDoc(collection(db, 'hotels', hotelId, 'orders'), {
-            roomId, roomNumber, items, note, total,
-            status: 'pending', createdAt: serverTimestamp()
-          });
-        }
+        // Guardar en localStorage para recordar al huésped
+        localStorage.setItem(`checkin_${hotelId}_${roomId}`, JSON.stringify({ name, roomNumber }));
+        guestName = name;
 
-        show('success-screen');
+        document.getElementById('success-msg').textContent = `¡Hola ${name}! Tu check-in en habitación ${roomNumber} fue registrado.`;
+        show('screen-success');
       } catch(e) {
         msg.className = 'msg error';
         msg.textContent = 'Error al guardar. Intentá de nuevo.';
+        document.getElementById('btn-checkin').disabled = false;
       }
     };
 
-    window.showOrders = () => show('main-screen');
+    // SUBMIT ORDER
+    window.submitOrder = async () => {
+      const note = document.getElementById('guest-note').value.trim();
+      const items = Object.values(selectedItems);
+      const msg = document.getElementById('order-msg');
 
-    function show(id) {
-      ['error-screen','success-screen','main-screen'].forEach(s => {
-        document.getElementById(s).classList.add('hidden');
-      });
-      document.getElementById(id).classList.remove('hidden');
-    }
+      if (items.length === 0 && !note) {
+        msg.className = 'msg error'; msg.classList.remove('hidden');
+        msg.textContent = 'Seleccioná algo o escribí un mensaje'; return;
+      }
+
+      const total = items.reduce((s, e) => s + (e.price||0), 0);
+      msg.className = 'msg'; msg.classList.remove('hidden');
+      msg.textContent = 'Enviando...';
+
+      try {
+        await addDoc(collection(db, 'hotels', hotelId, 'orders'), {
+          roomId, roomNumber, guestName, items, note, total,
+          status: 'pending', createdAt: serverTimestamp()
+        });
+        msg.className = 'msg ok';
+        msg.textContent = '✅ Pedido enviado al hotel';
+        selectedItems = {};
+        document.querySelectorAll('.order-item').forEach(el => el.classList.remove('selected'));
+        updateTotal();
+        document.getElementById('guest-note').value = '';
+        setTimeout(() => { msg.classList.add('hidden'); }, 3000);
+      } catch(e) {
+        msg.className = 'msg error';
+        msg.textContent = 'Error al enviar. Intentá de nuevo.';
+      }
+    };
+
+    window.goToDashboard = () => {
+      setupDashboard();
+      show('screen-dashboard');
+    };
+
+    window.showGuestTab = (tab, btn) => {
+      document.querySelectorAll('[id^="gtab-"]').forEach(t => t.classList.add('hidden'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('gtab-' + tab).classList.remove('hidden');
+      btn.classList.add('active');
+    };
 
     init();
   </script>
