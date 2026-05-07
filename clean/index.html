@@ -5,195 +5,193 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>NeoFlux — Clean</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --gold: #c9a84c; --gold-light: #e8c87a;
-      --navy: #1e2d3d; --font: 'DM Sans', sans-serif;
-      --bg: #f5f7fa; --surface: #fff; --border: #f0e8d0;
-      --muted: #8892a4; --success: #27ae60; --danger: #e74c3c;
-      --warning: #f39c12; --radius: 20px;
+      --cyan: #00AEEF; --green: #39B54A; --blue: #0056A3;
+      --navy: #1A1A2E; --font: 'Inter', sans-serif;
+      --bg: #f5f7fa; --surface: #fff; --border: #e8f4fd;
+      --muted: #8892a4; --danger: #e74c3c; --warning: #f39c12;
     }
     body { background: var(--bg); font-family: var(--font); min-height: 100vh; }
 
     /* LOGIN */
     .login-page {
-      display: flex; align-items: center; justify-content: center;
-      min-height: 100vh; padding: 2rem; background: #fff;
+      min-height: 100vh; background: #fff;
+      display: flex; flex-direction: column;
+    }
+    .login-header {
+      background: linear-gradient(135deg, var(--navy), #0d1b2a);
+      padding: 1.25rem 1.5rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .login-header-title { color: #fff; font-size: 1rem; font-weight: 800; }
+    .login-header-sub { color: rgba(255,255,255,0.5); font-size: 0.72rem; font-weight: 500; margin-top: 0.1rem; }
+    .lang-select-header {
+      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 8px; padding: 0.35rem 0.6rem;
+      font-family: var(--font); font-size: 0.78rem; font-weight: 600;
+      color: #fff; outline: none; cursor: pointer;
+    }
+    .login-body {
+      flex: 1; display: flex; align-items: center; justify-content: center; padding: 2rem;
     }
     .auth-box {
       background: #fff; border: 2px solid var(--border);
       border-radius: 28px; padding: 2rem; width: 100%; max-width: 380px;
-      box-shadow: 0 8px 40px rgba(201,168,76,0.1);
+      box-shadow: 0 8px 40px rgba(0,174,239,0.1);
     }
-    .auth-logo-wrap {
-      width: 80px; height: 80px; border-radius: 50%;
-      background: #fffbf0; border: 2px solid var(--border);
+    .auth-icon {
+      width: 72px; height: 72px; border-radius: 20px;
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
       display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 1rem;
+      margin: 0 auto 1rem; font-size: 2rem;
     }
-    .auth-logo-wrap img { width: 56px; height: 56px; object-fit: contain; }
-    .auth-title { text-align: center; font-size: 1.3rem; font-weight: 700; color: var(--navy); margin-bottom: 0.25rem; }
-    .auth-sub { text-align: center; font-size: 0.82rem; color: var(--muted); margin-bottom: 1.75rem; }
+    .auth-title { text-align: center; font-size: 1.3rem; font-weight: 800; color: var(--navy); margin-bottom: 0.2rem; }
+    .auth-sub { text-align: center; font-size: 0.82rem; color: var(--muted); margin-bottom: 1.75rem; font-weight: 500; }
     .input-wrap { position: relative; margin-bottom: 0.85rem; }
     .form-input {
       width: 100%; background: var(--bg); border: 2px solid var(--border);
       border-radius: 14px; padding: 1rem 3rem 1rem 1.1rem;
       color: var(--navy); font-family: var(--font); font-size: 0.95rem;
-      outline: none; transition: border-color 0.2s;
+      font-weight: 500; outline: none; transition: border-color 0.2s;
     }
-    .form-input:focus { border-color: var(--gold); }
+    .form-input:focus { border-color: var(--cyan); }
     .form-input::placeholder { color: var(--muted); }
     .eye-btn {
       position: absolute; right: 1rem; top: 50%; transform: translateY(-50%);
-      background: none; border: none; cursor: pointer; font-size: 1.1rem;
-      color: var(--muted); padding: 0;
+      background: none; border: none; cursor: pointer; font-size: 1.1rem; color: var(--muted);
     }
     .btn-primary {
       width: 100%; padding: 1.05rem;
-      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
       border: none; border-radius: 14px; color: #fff; font-weight: 700;
       font-family: var(--font); font-size: 1rem; cursor: pointer;
-      box-shadow: 0 4px 16px rgba(201,168,76,0.3); transition: opacity 0.2s;
-      margin-top: 0.25rem;
+      box-shadow: 0 4px 16px rgba(0,174,239,0.3); transition: opacity 0.2s; margin-top: 0.25rem;
     }
     .btn-primary:hover { opacity: 0.92; }
     .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
-    .login-msg { margin-top: 0.85rem; font-size: 0.82rem; text-align: center; color: var(--muted); min-height: 1rem; }
+    .login-msg { margin-top: 0.85rem; font-size: 0.82rem; text-align: center; color: var(--muted); min-height: 1rem; font-weight: 500; }
     .login-msg.error { color: var(--danger); }
-    .back-link { display: block; text-align: center; color: var(--muted); font-size: 0.8rem; margin-top: 1.25rem; text-decoration: none; }
+    .back-link { display: block; text-align: center; color: var(--muted); font-size: 0.8rem; margin-top: 1.25rem; text-decoration: none; font-weight: 500; }
     .back-link:hover { color: var(--navy); }
 
     /* PANEL */
     .panel { display: none; min-height: 100vh; background: var(--bg); }
     .panel-header {
-      background: var(--surface); border-bottom: 3px solid var(--gold-light);
-      padding: 1.1rem 1.5rem; display: flex; align-items: center;
-      justify-content: space-between; position: sticky; top: 0; z-index: 50;
-      box-shadow: 0 2px 16px rgba(201,168,76,0.08);
+      background: linear-gradient(135deg, var(--navy), #0d1b2a);
+      padding: 1.1rem 1.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 50;
     }
-    .panel-header-left { display: flex; align-items: center; gap: 0.85rem; }
-    .panel-logo { width: 44px; height: 44px; object-fit: contain; border-radius: 12px; }
-    .panel-title { font-size: 1rem; font-weight: 700; color: var(--navy); }
-    .panel-sub { font-size: 0.7rem; color: var(--muted); margin-top: 0.1rem; }
+    .panel-header-left { flex: 1; }
+    .panel-welcome { font-size: 0.7rem; color: rgba(255,255,255,0.5); font-weight: 500; margin-bottom: 0.1rem; }
+    .panel-hotel { font-size: 1rem; font-weight: 800; color: #fff; }
+    .panel-header-right { display: flex; align-items: center; gap: 0.6rem; }
     .btn-logout {
-      background: var(--bg); border: 1.5px solid var(--border);
-      border-radius: 12px; padding: 0.5rem 1rem; color: var(--muted);
-      font-family: var(--font); font-size: 0.82rem; font-weight: 600; cursor: pointer;
+      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 8px; padding: 0.4rem 0.85rem; color: #fff;
+      font-family: var(--font); font-size: 0.78rem; font-weight: 600; cursor: pointer;
     }
-    .btn-logout:hover { border-color: var(--danger); color: var(--danger); }
 
-    .content { padding: 1.5rem; max-width: 540px; margin: 0 auto; }
+    .content { padding: 1.25rem; max-width: 540px; margin: 0 auto; }
     .section-title {
-      font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px;
-      color: var(--muted); margin: 1.25rem 0 1rem; font-weight: 600;
-      display: flex; align-items: center; gap: 0.6rem;
+      font-size: 0.68rem; text-transform: uppercase; letter-spacing: 1.5px;
+      color: var(--muted); margin: 1.25rem 0 0.85rem; font-weight: 700;
+      display: flex; align-items: center; gap: 0.5rem;
     }
     .section-title::after { content:''; flex:1; height:1px; background: #eee; }
 
+    /* ROOM CARDS */
     .room-card {
       background: var(--surface); border: 2px solid var(--border);
-      border-radius: var(--radius); padding: 1.25rem; margin-bottom: 1rem;
-      cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden;
+      border-radius: 18px; padding: 1.1rem; margin-bottom: 0.85rem;
+      position: relative; overflow: hidden;
       box-shadow: 0 2px 8px rgba(0,0,0,0.04);
     }
-    .room-card::before {
-      content:''; position: absolute; top:0; left:0; right:0; height:4px;
-      background: var(--status-color, #eee);
-    }
-    .room-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); border-color: var(--gold-light); }
-    .room-card.dirty { --status-color: #e74c3c; }
-    .room-card.cleaning { --status-color: #f39c12; }
-    .room-card.free { --status-color: #27ae60; }
-    .room-card.occupied { --status-color: #2563eb; }
-
-    .room-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
-    .room-number { font-size: 1.1rem; font-weight: 700; color: var(--navy); }
-    .room-status-badge { font-size: 0.72rem; padding: 0.28rem 0.7rem; border-radius: 8px; font-weight: 700; }
-    .badge-free { background: #eafaf1; color: #1e8449; }
-    .badge-occupied { background: #eaf0fb; color: #1a5276; }
-    .badge-dirty { background: #fdf2f2; color: #922b21; }
-    .badge-cleaning { background: #fef9e7; color: #9a7d0a; }
-    .room-note { font-size: 0.82rem; color: var(--muted); margin-bottom: 0.75rem; }
-
-    .room-actions { display: flex; gap: 0.75rem; }
+    .room-card::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; }
+    .room-card.dirty::before { background: var(--danger); }
+    .room-card.cleaning::before { background: var(--warning); }
+    .room-card.free::before { background: var(--green); }
+    .room-card.occupied::before { background: var(--cyan); }
+    .room-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; }
+    .room-number { font-size: 1.05rem; font-weight: 700; color: var(--navy); }
+    .room-badge { font-size: 0.7rem; padding: 0.22rem 0.6rem; border-radius: 6px; font-weight: 700; }
+    .badge-free { background: rgba(57,181,74,0.12); color: #1e7a2e; }
+    .badge-occupied { background: rgba(0,174,239,0.12); color: #0056A3; }
+    .badge-dirty { background: rgba(231,76,60,0.12); color: #c0392b; }
+    .badge-cleaning { background: rgba(243,156,18,0.12); color: #9a6000; }
+    .room-note { font-size: 0.8rem; color: var(--muted); margin-bottom: 0.65rem; font-weight: 500; }
+    .room-actions { display: flex; gap: 0.65rem; }
     .btn-action {
       flex: 1; padding: 0.8rem; border: none; border-radius: 12px;
-      font-family: var(--font); font-size: 0.88rem; font-weight: 700;
-      cursor: pointer; transition: all 0.2s;
+      font-family: var(--font); font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: all 0.2s;
     }
-    .btn-start { background: #fef9e7; color: #9a7d0a; border: 1.5px solid #f0e8d0; }
-    .btn-start:hover { background: #fef3cc; }
-    .btn-done { background: #eafaf1; color: #1e8449; border: 1.5px solid #d5f5d5; }
-    .btn-done:hover { background: #d5f5d5; }
+    .btn-start { background: rgba(243,156,18,0.12); color: #9a6000; border: 1.5px solid rgba(243,156,18,0.2); }
+    .btn-start:hover { background: rgba(243,156,18,0.2); }
+    .btn-done { background: rgba(57,181,74,0.12); color: #1e7a2e; border: 1.5px solid rgba(57,181,74,0.2); }
+    .btn-done:hover { background: rgba(57,181,74,0.2); }
+    .btn-detail { background: rgba(0,174,239,0.08); color: #0056A3; border: 1.5px solid rgba(0,174,239,0.15); }
 
-    /* MODAL DETALLE */
+    /* MODAL */
     .modal-overlay {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.45);
+      position: fixed; inset: 0; background: rgba(0,0,0,0.5);
       display: flex; align-items: flex-end; justify-content: center;
       z-index: 100; backdrop-filter: blur(4px);
     }
     .modal {
       background: var(--surface); border-radius: 28px 28px 0 0;
       padding: 1.75rem; width: 100%; max-width: 540px;
-      box-shadow: 0 -8px 40px rgba(0,0,0,0.12);
-      max-height: 90vh; overflow-y: auto;
+      box-shadow: 0 -8px 40px rgba(0,0,0,0.12); max-height: 90vh; overflow-y: auto;
     }
     .modal-handle { width: 40px; height: 4px; background: #eee; border-radius: 2px; margin: 0 auto 1.25rem; }
-    .modal h3 { font-size: 1.1rem; font-weight: 700; color: var(--navy); margin-bottom: 1.25rem; }
-
+    .modal h3 { font-size: 1.05rem; font-weight: 800; color: var(--navy); margin-bottom: 1.25rem; }
     .checklist { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1.25rem; }
     .check-item {
       display: flex; align-items: center; gap: 0.85rem;
       background: var(--bg); border: 1.5px solid var(--border); border-radius: 12px;
       padding: 0.9rem 1rem; cursor: pointer; transition: all 0.2s;
     }
-    .check-item.checked { background: #eafaf1; border-color: #d5f5d5; }
-    .check-item input[type="checkbox"] { width: 20px; height: 20px; cursor: pointer; accent-color: var(--gold); }
+    .check-item.checked { background: rgba(57,181,74,0.08); border-color: rgba(57,181,74,0.3); }
+    .check-item input[type="checkbox"] { width: 20px; height: 20px; cursor: pointer; accent-color: var(--green); }
     .check-item label { cursor: pointer; font-size: 0.92rem; color: var(--navy); font-weight: 500; }
-
     .extras-list { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1.25rem; }
     .extra-btn {
       display: flex; justify-content: space-between; align-items: center;
       background: var(--bg); border: 1.5px solid var(--border); border-radius: 12px;
       padding: 0.9rem 1rem; cursor: pointer; transition: all 0.2s;
     }
-    .extra-btn.selected { background: #eafaf1; border-color: #27ae60; }
+    .extra-btn.selected { background: rgba(57,181,74,0.08); border-color: rgba(57,181,74,0.3); }
     .extra-btn-name { font-size: 0.92rem; color: var(--navy); font-weight: 500; }
-    .extra-btn-price { font-weight: 700; color: var(--navy); font-size: 0.85rem; }
-
+    .extra-btn-price { font-weight: 700; color: var(--cyan); font-size: 0.85rem; }
     .total-row {
       display: flex; justify-content: space-between; align-items: center;
       background: var(--bg); border: 1.5px solid var(--border); border-radius: 12px;
       padding: 0.9rem 1rem; margin-bottom: 1.25rem;
     }
     .total-label { font-weight: 700; color: var(--navy); }
-    .total-amount { font-weight: 700; color: var(--navy); font-size: 1.1rem; }
-
+    .total-amount { font-weight: 800; color: var(--cyan); font-size: 1.1rem; }
     .note-input {
       width: 100%; background: var(--bg); border: 1.5px solid var(--border);
       border-radius: 12px; padding: 0.9rem 1rem; color: var(--navy);
       font-family: var(--font); font-size: 0.92rem; margin-bottom: 1.25rem;
-      outline: none; resize: none;
+      outline: none; resize: none; font-weight: 500;
     }
-    .note-input:focus { border-color: var(--gold); }
-
-    .modal-btns { display: flex; gap: 0.75rem; }
+    .note-input:focus { border-color: var(--cyan); }
+    .modal-btns { display: flex; gap: 0.65rem; }
     .btn-cancel {
-      flex: 1; padding: 0.9rem; background: var(--bg); border: 1.5px solid #eee;
-      border-radius: 12px; color: var(--muted); font-family: var(--font);
-      font-size: 0.9rem; font-weight: 600; cursor: pointer;
+      flex: 1; padding: 0.9rem; background: var(--bg); border: 1.5px solid #e0e8f0;
+      border-radius: 12px; color: var(--muted); font-family: var(--font); font-size: 0.88rem; font-weight: 600; cursor: pointer;
     }
     .btn-save {
       flex: 1; padding: 0.9rem;
-      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
       border: none; border-radius: 12px; color: #fff; font-weight: 700;
-      font-family: var(--font); font-size: 0.9rem; cursor: pointer;
-      box-shadow: 0 4px 12px rgba(201,168,76,0.3);
+      font-family: var(--font); font-size: 0.88rem; cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,174,239,0.3);
     }
-
-    .empty-state { text-align: center; color: var(--muted); padding: 3rem; font-size: 0.95rem; }
+    .empty-state { text-align: center; color: var(--muted); padding: 3rem; font-size: 0.9rem; font-weight: 500; }
     .hidden { display: none; }
   </style>
 </head>
@@ -201,22 +199,35 @@
 
   <!-- LOGIN -->
   <div id="login-screen" class="login-page">
-    <div class="auth-box">
-      <div class="auth-logo-wrap">
-        <img src="../images/clean.png" alt="Clean"/>
+    <div class="login-header">
+      <div>
+        <div class="login-header-title" id="login-title">Panel Limpieza</div>
+        <div class="login-header-sub" id="login-sub">NeoFlux Clean</div>
       </div>
-      <div class="auth-title">Panel Clean</div>
-      <div class="auth-sub">Gestión de limpieza</div>
-      <div class="input-wrap">
-        <input type="email" class="form-input" id="clean-email" placeholder="Email"/>
+      <select class="lang-select-header" id="lang-select-login" onchange="changeLang(this.value)">
+        <option value="es">🇪🇸 ES</option>
+        <option value="it">🇮🇹 IT</option>
+        <option value="pt">🇧🇷 PT</option>
+        <option value="fr">🇫🇷 FR</option>
+        <option value="de">🇩🇪 DE</option>
+      </select>
+    </div>
+    <div class="login-body">
+      <div class="auth-box">
+        <div class="auth-icon">🧹</div>
+        <div class="auth-title" id="auth-title">Panel Limpieza</div>
+        <div class="auth-sub" id="auth-sub">Ingresá con tu cuenta</div>
+        <div class="input-wrap">
+          <input type="email" class="form-input" id="clean-email" placeholder="Email"/>
+        </div>
+        <div class="input-wrap">
+          <input type="password" class="form-input" id="clean-password" placeholder="Contraseña"/>
+          <button class="eye-btn" type="button" onclick="toggleEye('clean-password', this)">👁️</button>
+        </div>
+        <button class="btn-primary" id="btn-login" onclick="doLogin()">Ingresar</button>
+        <p class="login-msg" id="login-msg"></p>
+        <a href="../" class="back-link" id="back-link">← Volver al inicio</a>
       </div>
-      <div class="input-wrap">
-        <input type="password" class="form-input" id="clean-password" placeholder="Contraseña"/>
-        <button class="eye-btn" type="button" onclick="toggleEye('clean-password', this)">👁️</button>
-      </div>
-      <button class="btn-primary" id="btn-login" onclick="doLogin()">Ingresar</button>
-      <p class="login-msg" id="login-msg"></p>
-      <a href="../" class="back-link">← Volver al inicio</a>
     </div>
   </div>
 
@@ -224,20 +235,24 @@
   <div id="panel-screen" class="panel">
     <div class="panel-header">
       <div class="panel-header-left">
-        <img src="../images/clean.png" alt="Clean" class="panel-logo"/>
-        <div>
-          <div class="panel-title">Panel Limpieza</div>
-          <div class="panel-sub" id="panel-hotel-name">Cargando...</div>
-        </div>
+        <div class="panel-welcome" id="panel-welcome">Bienvenido</div>
+        <div class="panel-hotel" id="panel-hotel">Cargando...</div>
       </div>
-      <button class="btn-logout" onclick="doLogout()">Salir</button>
+      <div class="panel-header-right">
+        <select class="lang-select-header" id="lang-select-panel" onchange="changeLang(this.value)">
+          <option value="es">🇪🇸</option>
+          <option value="it">🇮🇹</option>
+          <option value="pt">🇧🇷</option>
+          <option value="fr">🇫🇷</option>
+          <option value="de">🇩🇪</option>
+        </select>
+        <button class="btn-logout" onclick="doLogout()" id="btn-logout">Salir</button>
+      </div>
     </div>
 
     <div class="content">
-      <p class="section-title">Habitaciones</p>
-      <div id="rooms-list">
-        <p class="empty-state">Cargando...</p>
-      </div>
+      <p class="section-title" id="st-rooms">Habitaciones</p>
+      <div id="rooms-list"><p class="empty-state">Cargando...</p></div>
     </div>
   </div>
 
@@ -246,45 +261,25 @@
     <div class="modal">
       <div class="modal-handle"></div>
       <h3 id="modal-title">Habitación</h3>
-
-      <p class="section-title">Checklist limpieza</p>
+      <p class="section-title" id="st-checklist">Checklist limpieza</p>
       <div class="checklist">
-        <div class="check-item" onclick="toggleCheck(this, 'sabanas')">
-          <input type="checkbox" id="chk-sabanas"/>
-          <label for="chk-sabanas">🛏️ Sábanas</label>
-        </div>
-        <div class="check-item" onclick="toggleCheck(this, 'toallas')">
-          <input type="checkbox" id="chk-toallas"/>
-          <label for="chk-toallas">🛁 Toallas</label>
-        </div>
-        <div class="check-item" onclick="toggleCheck(this, 'amenities')">
-          <input type="checkbox" id="chk-amenities"/>
-          <label for="chk-amenities">🧴 Amenities</label>
-        </div>
-        <div class="check-item" onclick="toggleCheck(this, 'piso')">
-          <input type="checkbox" id="chk-piso"/>
-          <label for="chk-piso">🧹 Piso</label>
-        </div>
-        <div class="check-item" onclick="toggleCheck(this, 'bano')">
-          <input type="checkbox" id="chk-bano"/>
-          <label for="chk-bano">🚿 Baño</label>
-        </div>
+        <div class="check-item" onclick="toggleCheck(this,'sabanas')"><input type="checkbox" id="chk-sabanas"/><label for="chk-sabanas" id="lbl-sabanas">🛏️ Sábanas</label></div>
+        <div class="check-item" onclick="toggleCheck(this,'toallas')"><input type="checkbox" id="chk-toallas"/><label for="chk-toallas" id="lbl-toallas">🛁 Toallas</label></div>
+        <div class="check-item" onclick="toggleCheck(this,'amenities')"><input type="checkbox" id="chk-amenities"/><label for="chk-amenities" id="lbl-amenities">🧴 Amenities</label></div>
+        <div class="check-item" onclick="toggleCheck(this,'piso')"><input type="checkbox" id="chk-piso"/><label for="chk-piso" id="lbl-piso">🧹 Piso</label></div>
+        <div class="check-item" onclick="toggleCheck(this,'bano')"><input type="checkbox" id="chk-bano"/><label for="chk-bano" id="lbl-bano">🚿 Baño</label></div>
       </div>
-
-      <p class="section-title">Extras utilizados</p>
+      <p class="section-title" id="st-extras">Extras utilizados</p>
       <div class="extras-list" id="extras-list"></div>
-
       <div class="total-row">
-        <span class="total-label">Total extras</span>
+        <span class="total-label" id="lbl-total">Total extras</span>
         <span class="total-amount" id="total-amount">$0</span>
       </div>
-
-      <p class="section-title">Nota</p>
-      <textarea class="note-input" id="room-note" rows="2" placeholder="Ej: falta jabón, cortina rota..."></textarea>
-
+      <p class="section-title" id="st-note">Nota</p>
+      <textarea class="note-input" id="room-note" rows="2" placeholder="Ej: falta jabón..."></textarea>
       <div class="modal-btns">
-        <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
-        <button class="btn-save" onclick="saveClean()">Guardar ✓</button>
+        <button class="btn-cancel" onclick="closeModal()" id="btn-cancel">Cancelar</button>
+        <button class="btn-save" onclick="saveClean()" id="btn-save">Guardar ✓</button>
       </div>
     </div>
   </div>
@@ -294,22 +289,58 @@
     import { signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
     import { doc, getDoc, collection, onSnapshot, updateDoc, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-    let hotelId = null;
-    let currentRoomId = null;
-    let currentRoomStatus = null;
-    let extras = [];
-    let selectedExtras = {};
+    let hotelId = null, currentRoomId = null, currentRoomStatus = null, extras = [], selectedExtras = {};
 
-    const statusLabel = { dirty:'Sucia', cleaning:'Limpiando', free:'Libre', occupied:'Ocupada' };
-    const statusBadge = { dirty:'badge-dirty', cleaning:'badge-cleaning', free:'badge-free', occupied:'badge-occupied' };
-    const statusClass = { dirty:'dirty', cleaning:'cleaning', free:'free', occupied:'occupied' };
-    const sortOrder = { dirty:0, cleaning:1, occupied:2, free:3 };
+    const T = {
+      es: { title:'Panel Limpieza', sub:'NeoFlux Clean', welcome:'Bienvenido a', login:'Ingresar', email:'Email', pass:'Contraseña', err:'Email o contraseña incorrectos', fields:'Completá los campos', back:'← Volver al inicio', logout:'Salir', rooms:'Habitaciones', checklist:'Checklist limpieza', sheets:'🛏️ Sábanas', towels:'🛁 Toallas', amenities:'🧴 Amenities', floor:'🧹 Piso', bathroom:'🚿 Baño', extras:'Extras utilizados', total:'Total extras', note:'Nota', cancel:'Cancelar', save:'Guardar ✓', start:'▶ Empezar', done:'✓ Terminé', detail:'📋 Detalle', free:'Libre', occupied:'Ocupada', dirty:'Sucia', cleaning:'Limpiando', sin_cargo:'Sin cargo', empty:'Sin habitaciones' },
+      it: { title:'Pannello Pulizie', sub:'NeoFlux Clean', welcome:'Benvenuto a', login:'Accedi', email:'Email', pass:'Password', err:'Email o password errati', fields:'Compila i campi', back:'← Torna alla home', logout:'Esci', rooms:'Camere', checklist:'Checklist pulizia', sheets:'🛏️ Lenzuola', towels:'🛁 Asciugamani', amenities:'🧴 Amenities', floor:'🧹 Pavimento', bathroom:'🚿 Bagno', extras:'Extra utilizzati', total:'Totale extra', note:'Nota', cancel:'Annulla', save:'Salva ✓', start:'▶ Inizia', done:'✓ Fatto', detail:'📋 Dettaglio', free:'Libera', occupied:'Occupata', dirty:'Sporca', cleaning:'In pulizia', sin_cargo:'Gratuito', empty:'Nessuna camera' },
+      pt: { title:'Painel Limpeza', sub:'NeoFlux Clean', welcome:'Bem-vindo a', login:'Entrar', email:'Email', pass:'Senha', err:'Email ou senha incorretos', fields:'Preencha os campos', back:'← Voltar ao início', logout:'Sair', rooms:'Quartos', checklist:'Checklist limpeza', sheets:'🛏️ Lençóis', towels:'🛁 Toalhas', amenities:'🧴 Amenities', floor:'🧹 Chão', bathroom:'🚿 Banheiro', extras:'Extras utilizados', total:'Total extras', note:'Nota', cancel:'Cancelar', save:'Salvar ✓', start:'▶ Começar', done:'✓ Terminei', detail:'📋 Detalhe', free:'Livre', occupied:'Ocupado', dirty:'Sujo', cleaning:'Limpando', sin_cargo:'Gratuito', empty:'Sem quartos' },
+      fr: { title:'Panneau Nettoyage', sub:'NeoFlux Clean', welcome:'Bienvenue à', login:'Se connecter', email:'Email', pass:'Mot de passe', err:'Email ou mot de passe incorrect', fields:'Remplissez les champs', back:"← Retour à l'accueil", logout:'Déconnexion', rooms:'Chambres', checklist:'Liste de nettoyage', sheets:'🛏️ Draps', towels:'🛁 Serviettes', amenities:'🧴 Amenities', floor:'🧹 Sol', bathroom:'🚿 Salle de bain', extras:'Extras utilisés', total:'Total extras', note:'Note', cancel:'Annuler', save:'Enregistrer ✓', start:'▶ Commencer', done:'✓ Terminé', detail:'📋 Détail', free:'Libre', occupied:'Occupée', dirty:'Sale', cleaning:'En nettoyage', sin_cargo:'Gratuit', empty:'Pas de chambres' },
+      de: { title:'Reinigungs-Panel', sub:'NeoFlux Clean', welcome:'Willkommen bei', login:'Anmelden', email:'E-Mail', pass:'Passwort', err:'E-Mail oder Passwort falsch', fields:'Alle Felder ausfüllen', back:'← Zurück zur Startseite', logout:'Abmelden', rooms:'Zimmer', checklist:'Reinigungscheckliste', sheets:'🛏️ Bettwäsche', towels:'🛁 Handtücher', amenities:'🧴 Amenities', floor:'🧹 Boden', bathroom:'🚿 Bad', extras:'Verwendete Extras', total:'Extras gesamt', note:'Notiz', cancel:'Abbrechen', save:'Speichern ✓', start:'▶ Starten', done:'✓ Fertig', detail:'📋 Detail', free:'Frei', occupied:'Belegt', dirty:'Schmutzig', cleaning:'Wird gereinigt', sin_cargo:'Kostenlos', empty:'Keine Zimmer' }
+    };
 
+    let lang = localStorage.getItem('nf_lang') || 'es';
+    let L = T[lang];
+
+    function applyLang() {
+      L = T[lang];
+      document.getElementById('lang-select-login').value = lang;
+      if (document.getElementById('lang-select-panel')) document.getElementById('lang-select-panel').value = lang;
+      document.getElementById('login-title').textContent = L.title;
+      document.getElementById('login-sub').textContent = L.sub;
+      document.getElementById('auth-title').textContent = L.title;
+      document.getElementById('auth-sub').textContent = L.email ? 'Ingresá con tu cuenta' : '';
+      document.getElementById('btn-login').textContent = L.login;
+      document.getElementById('clean-email').placeholder = L.email;
+      document.getElementById('clean-password').placeholder = L.pass;
+      document.getElementById('back-link').textContent = L.back;
+      if (document.getElementById('btn-logout')) document.getElementById('btn-logout').textContent = L.logout;
+      if (document.getElementById('st-rooms')) document.getElementById('st-rooms').childNodes[0].textContent = L.rooms + ' ';
+      if (document.getElementById('st-checklist')) document.getElementById('st-checklist').childNodes[0].textContent = L.checklist + ' ';
+      if (document.getElementById('st-extras')) document.getElementById('st-extras').childNodes[0].textContent = L.extras + ' ';
+      if (document.getElementById('st-note')) document.getElementById('st-note').childNodes[0].textContent = L.note + ' ';
+      if (document.getElementById('lbl-total')) document.getElementById('lbl-total').textContent = L.total;
+      if (document.getElementById('btn-cancel')) document.getElementById('btn-cancel').textContent = L.cancel;
+      if (document.getElementById('btn-save')) document.getElementById('btn-save').textContent = L.save;
+      document.getElementById('lbl-sabanas').textContent = L.sheets;
+      document.getElementById('lbl-toallas').textContent = L.towels;
+      document.getElementById('lbl-amenities').textContent = L.amenities;
+      document.getElementById('lbl-piso').textContent = L.floor;
+      document.getElementById('lbl-bano').textContent = L.bathroom;
+    }
+
+    window.changeLang = (l) => { lang = l; localStorage.setItem('nf_lang', l); applyLang(); };
     window.toggleEye = (id, btn) => {
       const input = document.getElementById(id);
       input.type = input.type === 'password' ? 'text' : 'password';
       btn.textContent = input.type === 'password' ? '👁️' : '🙈';
     };
+
+    applyLang();
+
+    const statusBadge = { dirty:'badge-dirty', cleaning:'badge-cleaning', free:'badge-free', occupied:'badge-occupied' };
+    const statusClass = { dirty:'dirty', cleaning:'cleaning', free:'free', occupied:'occupied' };
+    const sortOrder = { dirty:0, cleaning:1, occupied:2, free:3 };
 
     onAuthStateChanged(auth, async (user) => {
       if (user) {
@@ -317,10 +348,12 @@
         hotelId = userDoc.exists() ? userDoc.data().hotelId : user.uid;
         const hotelDoc = await getDoc(doc(db, 'hotels', hotelId));
         if (hotelDoc.exists()) {
-          document.getElementById('panel-hotel-name').textContent = hotelDoc.data().name;
+          document.getElementById('panel-hotel').textContent = hotelDoc.data().name;
+          document.getElementById('panel-welcome').textContent = L.welcome;
         }
         document.getElementById('login-screen').style.display = 'none';
         document.getElementById('panel-screen').style.display = 'block';
+        applyLang();
         await loadExtras();
         loadRooms();
       } else {
@@ -331,66 +364,54 @@
 
     async function loadExtras() {
       const snap = await getDocs(collection(db, 'hotels', hotelId, 'extras'));
-      extras = [];
-      snap.forEach(d => extras.push({ id: d.id, ...d.data() }));
+      extras = []; snap.forEach(d => extras.push({ id: d.id, ...d.data() }));
     }
 
     function loadRooms() {
       onSnapshot(collection(db, 'hotels', hotelId, 'rooms'), (snap) => {
-        const list = document.getElementById('rooms-list');
-        list.innerHTML = '';
-        const rooms = [];
-        snap.forEach(d => rooms.push({ id: d.id, ...d.data() }));
-        if (rooms.length === 0) { list.innerHTML = '<p class="empty-state">No hay habitaciones</p>'; return; }
+        const list = document.getElementById('rooms-list'); list.innerHTML = '';
+        const rooms = []; snap.forEach(d => rooms.push({ id: d.id, ...d.data() }));
+        if (rooms.length === 0) { list.innerHTML = `<p class="empty-state">${L.empty}</p>`; return; }
         rooms.sort((a,b) => sortOrder[a.status] - sortOrder[b.status]);
         rooms.forEach(r => {
           const card = document.createElement('div');
           card.className = `room-card ${statusClass[r.status]}`;
+          const statusText = { dirty:L.dirty, cleaning:L.cleaning, free:L.free, occupied:L.occupied };
           card.innerHTML = `
             <div class="room-card-header">
               <span class="room-number">🚪 ${r.number}</span>
-              <span class="room-status-badge ${statusBadge[r.status]}">${statusLabel[r.status]}</span>
+              <span class="room-badge ${statusBadge[r.status]}">${statusText[r.status]}</span>
             </div>
             ${r.note ? `<p class="room-note">📝 ${r.note}</p>` : ''}
             <div class="room-actions">
-              ${r.status === 'dirty' ? `<button class="btn-action btn-start" onclick="event.stopPropagation();startCleaning('${r.id}')">▶ Empezar limpieza</button>` : ''}
-              ${r.status === 'cleaning' ? `<button class="btn-action btn-done" onclick="event.stopPropagation();openModal('${r.id}','${r.number}','${r.status}','${r.note||''}')">✓ Terminé</button>` : ''}
-              ${r.status === 'free' || r.status === 'occupied' ? `<button class="btn-action btn-start" onclick="event.stopPropagation();openModal('${r.id}','${r.number}','${r.status}','${r.note||''}')">📋 Detalle</button>` : ''}
-            </div>
-          `;
+              ${r.status === 'dirty' ? `<button class="btn-action btn-start" onclick="event.stopPropagation();startCleaning('${r.id}')">${L.start}</button>` : ''}
+              ${r.status === 'cleaning' ? `<button class="btn-action btn-done" onclick="event.stopPropagation();openModal('${r.id}','${r.number}','${r.status}','')">${L.done}</button>` : ''}
+              ${r.status === 'free' || r.status === 'occupied' ? `<button class="btn-action btn-detail" onclick="event.stopPropagation();openModal('${r.id}','${r.number}','${r.status}','${r.note||''}')">${L.detail}</button>` : ''}
+            </div>`;
           card.onclick = () => openModal(r.id, r.number, r.status, r.note||'');
           list.appendChild(card);
         });
       });
     }
 
-    window.startCleaning = async (id) => {
-      await updateDoc(doc(db, 'hotels', hotelId, 'rooms', id), { status: 'cleaning' });
-    };
+    window.startCleaning = async (id) => { await updateDoc(doc(db, 'hotels', hotelId, 'rooms', id), { status: 'cleaning' }); };
 
     window.openModal = (id, number, status, note) => {
-      currentRoomId = id;
-      currentRoomStatus = status;
-      selectedExtras = {};
-      document.getElementById('modal-title').textContent = `🚪 Habitación ${number}`;
+      currentRoomId = id; currentRoomStatus = status; selectedExtras = {};
+      document.getElementById('modal-title').textContent = `🚪 ${number}`;
       document.getElementById('room-note').value = note;
       ['sabanas','toallas','amenities','piso','bano'].forEach(k => {
         const el = document.getElementById('chk-' + k);
-        el.checked = false;
-        el.closest('.check-item').classList.remove('checked');
+        el.checked = false; el.closest('.check-item').classList.remove('checked');
       });
-      const extList = document.getElementById('extras-list');
-      extList.innerHTML = '';
+      const extList = document.getElementById('extras-list'); extList.innerHTML = '';
       if (extras.length === 0) {
-        extList.innerHTML = '<p style="color:var(--muted);font-size:0.85rem">Sin extras configurados</p>';
+        extList.innerHTML = `<p style="color:var(--muted);font-size:.85rem">${L.sin_cargo}</p>`;
       } else {
         extras.forEach(e => {
-          const btn = document.createElement('div');
-          btn.className = 'extra-btn';
-          btn.id = 'ext-' + e.id;
-          btn.innerHTML = `<span class="extra-btn-name">${e.name}</span><span class="extra-btn-price">${e.price > 0 ? '$'+e.price : 'Sin cargo'}</span>`;
-          btn.onclick = () => toggleExtra(e, btn);
-          extList.appendChild(btn);
+          const btn = document.createElement('div'); btn.className = 'extra-btn'; btn.id = 'ext-'+e.id;
+          btn.innerHTML = `<span class="extra-btn-name">${e.name}</span><span class="extra-btn-price">${e.price>0?'$'+e.price:L.sin_cargo}</span>`;
+          btn.onclick = () => toggleExtra(e, btn); extList.appendChild(btn);
         });
       }
       updateTotal();
@@ -398,64 +419,41 @@
     };
 
     window.toggleCheck = (el, key) => {
-      const chk = document.getElementById('chk-' + key);
-      chk.checked = !chk.checked;
-      el.classList.toggle('checked', chk.checked);
+      const chk = document.getElementById('chk-'+key);
+      chk.checked = !chk.checked; el.classList.toggle('checked', chk.checked);
     };
 
     function toggleExtra(e, btn) {
-      if (selectedExtras[e.id]) {
-        delete selectedExtras[e.id];
-        btn.classList.remove('selected');
-      } else {
-        selectedExtras[e.id] = e;
-        btn.classList.add('selected');
-      }
+      if (selectedExtras[e.id]) { delete selectedExtras[e.id]; btn.classList.remove('selected'); }
+      else { selectedExtras[e.id] = e; btn.classList.add('selected'); }
       updateTotal();
     }
-
     function updateTotal() {
-      const total = Object.values(selectedExtras).reduce((s,e) => s + (e.price||0), 0);
-      document.getElementById('total-amount').textContent = '$' + total;
+      const total = Object.values(selectedExtras).reduce((s,e) => s+(e.price||0), 0);
+      document.getElementById('total-amount').textContent = '$'+total;
     }
 
     window.saveClean = async () => {
       const note = document.getElementById('room-note').value.trim();
-      const checklist = {
-        sabanas: document.getElementById('chk-sabanas').checked,
-        toallas: document.getElementById('chk-toallas').checked,
-        amenities: document.getElementById('chk-amenities').checked,
-        piso: document.getElementById('chk-piso').checked,
-        bano: document.getElementById('chk-bano').checked,
-      };
+      const checklist = { sabanas:document.getElementById('chk-sabanas').checked, toallas:document.getElementById('chk-toallas').checked, amenities:document.getElementById('chk-amenities').checked, piso:document.getElementById('chk-piso').checked, bano:document.getElementById('chk-bano').checked };
       const extrasUsed = Object.values(selectedExtras);
-      const total = extrasUsed.reduce((s,e) => s + (e.price||0), 0);
-      await addDoc(collection(db, 'hotels', hotelId, 'cleanings'), {
-        roomId: currentRoomId, checklist, extras: extrasUsed, total, note, date: new Date()
-      });
+      const total = extrasUsed.reduce((s,e) => s+(e.price||0), 0);
+      await addDoc(collection(db, 'hotels', hotelId, 'cleanings'), { roomId: currentRoomId, checklist, extras: extrasUsed, total, note, date: new Date() });
       const newStatus = (currentRoomStatus==='dirty'||currentRoomStatus==='cleaning') ? 'free' : currentRoomStatus;
       await updateDoc(doc(db, 'hotels', hotelId, 'rooms', currentRoomId), { status: newStatus, note: note||'' });
       closeModal();
     };
 
     window.closeModal = () => document.getElementById('modal-room').classList.add('hidden');
-
     window.doLogin = async () => {
       const email = document.getElementById('clean-email').value.trim();
       const password = document.getElementById('clean-password').value;
-      const msg = document.getElementById('login-msg');
-      const btn = document.getElementById('btn-login');
-      if (!email || !password) { msg.className='login-msg error'; msg.textContent='Completá email y contraseña'; return; }
-      btn.disabled = true;
-      msg.className = 'login-msg'; msg.textContent = 'Ingresando...';
-      try {
-        await signInWithEmailAndPassword(auth, email, password);
-      } catch(e) {
-        msg.className = 'login-msg error'; msg.textContent = 'Email o contraseña incorrectos';
-        btn.disabled = false;
-      }
+      const msg = document.getElementById('login-msg'); const btn = document.getElementById('btn-login');
+      if (!email || !password) { msg.className='login-msg error'; msg.textContent=L.fields; return; }
+      btn.disabled=true; msg.className='login-msg'; msg.textContent='...';
+      try { await signInWithEmailAndPassword(auth, email, password); }
+      catch(e) { msg.className='login-msg error'; msg.textContent=L.err; btn.disabled=false; }
     };
-
     window.doLogout = async () => { await signOut(auth); };
   </script>
 </body>

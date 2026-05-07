@@ -20,69 +20,68 @@
     /* HEADER */
     .header {
       background: linear-gradient(135deg, var(--navy), #0d1b2a);
-      padding: 1.1rem 1.5rem;
-      display: flex; align-items: center; justify-content: space-between;
-      position: sticky; top: 0; z-index: 50;
+      padding: 1.25rem 1.5rem;
+      display: flex; align-items: flex-start; justify-content: space-between;
     }
-    .header-left { display: flex; align-items: center; gap: 0.85rem; }
-    .header-logo { width: 44px; height: 44px; object-fit: contain; border-radius: 12px; background: rgba(255,255,255,0.1); padding: 4px; }
-    .header-title { font-size: 1rem; font-weight: 800; color: #fff; }
-    .header-sub { font-size: 0.7rem; color: rgba(255,255,255,0.5); margin-top: 0.1rem; font-weight: 500; }
-    .header-right { display: flex; align-items: center; gap: 0.6rem; }
+    .header-left { flex: 1; }
+    .header-welcome { font-size: 0.75rem; color: rgba(255,255,255,0.5); font-weight: 500; margin-bottom: 0.2rem; }
+    .header-name { font-size: 1.3rem; font-weight: 800; color: #fff; letter-spacing: -0.3px; }
+    .header-right { display: flex; align-items: center; gap: 0.6rem; margin-top: 0.2rem; }
     .trial-badge {
       background: rgba(0,174,239,0.2); border: 1px solid rgba(0,174,239,0.4);
-      border-radius: 8px; padding: 0.3rem 0.65rem;
-      font-size: 0.7rem; font-weight: 700; color: var(--cyan);
+      border-radius: 8px; padding: 0.35rem 0.7rem;
+      font-size: 0.72rem; font-weight: 700; color: var(--cyan);
     }
     .lang-select-header {
       background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 8px; padding: 0.3rem 0.5rem;
-      font-family: var(--font); font-size: 0.75rem; font-weight: 600;
+      border-radius: 8px; padding: 0.35rem 0.5rem;
+      font-family: var(--font); font-size: 0.78rem; font-weight: 600;
       color: #fff; outline: none; cursor: pointer;
     }
     .btn-logout {
       background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 8px; padding: 0.4rem 0.85rem; color: #fff;
-      font-family: var(--font); font-size: 0.78rem; font-weight: 600; cursor: pointer;
+      border-radius: 8px; padding: 0.45rem 0.9rem; color: #fff;
+      font-family: var(--font); font-size: 0.82rem; font-weight: 600; cursor: pointer;
+      transition: background 0.2s;
     }
+    .btn-logout:hover { background: rgba(255,255,255,0.2); }
 
-    /* NAV TABS */
-    .nav-tabs {
-      display: flex; background: var(--surface); border-bottom: 1px solid #eee;
-      overflow-x: auto; scrollbar-width: none; padding: 0 1rem;
+    /* MAIN NAV BUTTONS */
+    .main-content { padding: 1.5rem; max-width: 540px; margin: 0 auto; }
+    .nav-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1rem; margin-bottom: 1.5rem;
     }
-    .nav-tabs::-webkit-scrollbar { display: none; }
-    .nav-tab {
-      flex: 1; min-width: 85px; padding: 0.9rem 0.5rem; border: none;
-      background: transparent; color: var(--muted); font-family: var(--font);
-      font-size: 0.78rem; font-weight: 600; cursor: pointer;
-      border-bottom: 3px solid transparent; transition: all 0.2s; white-space: nowrap;
+    .nav-btn {
+      background: var(--surface); border: 2px solid var(--border);
+      border-radius: 20px; padding: 1.5rem 1rem;
+      display: flex; flex-direction: column; align-items: center;
+      gap: 0.5rem; cursor: pointer; transition: all 0.22s;
+      box-shadow: 0 2px 12px rgba(0,174,239,0.06);
+      text-align: center; border: none; font-family: var(--font);
     }
-    .nav-tab.active { color: var(--cyan); border-bottom-color: var(--cyan); }
+    .nav-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(0,174,239,0.15); }
+    .nav-btn:active { transform: scale(0.97); }
+    .nav-btn.active { border: 2.5px solid var(--cyan); background: #f0f9ff; }
+    .nav-btn-icon { font-size: 2rem; }
+    .nav-btn-label { font-size: 1rem; font-weight: 700; color: var(--navy); }
+    .nav-btn-count {
+      font-size: 1.5rem; font-weight: 800; margin-top: 0.25rem;
+    }
+    .nav-btn-count.cyan { color: var(--cyan); }
+    .nav-btn-count.green { color: var(--green); }
+    .nav-btn-count.red { color: var(--danger); }
+    .nav-btn-count.orange { color: var(--warning); }
+    .nav-btn-sub { font-size: 0.7rem; color: var(--muted); font-weight: 500; }
 
-    /* CONTENT */
-    .content { padding: 1.25rem; max-width: 540px; margin: 0 auto; }
-    .tab-content { display: none; }
-    .tab-content.active { display: block; }
-
-    /* STATS */
-    .stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 0.6rem; margin-bottom: 1.25rem; }
-    .stat-card {
-      background: var(--surface); border: 1.5px solid var(--border);
-      border-radius: 16px; padding: 0.85rem 0.5rem; text-align: center;
-      box-shadow: 0 2px 8px rgba(0,174,239,0.06);
-    }
-    .stat-number { font-size: 1.8rem; font-weight: 800; color: var(--navy); }
-    .stat-number.cyan { color: var(--cyan); }
-    .stat-number.green { color: var(--green); }
-    .stat-number.red { color: var(--danger); }
-    .stat-number.orange { color: var(--warning); }
-    .stat-label { font-size: 0.58rem; color: var(--muted); margin-top: 0.2rem; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+    /* PANELS */
+    .panel { display: none; }
+    .panel.active { display: block; }
 
     /* SECTION TITLE */
     .section-title {
       font-size: 0.68rem; text-transform: uppercase; letter-spacing: 1.5px;
-      color: var(--muted); margin: 1.25rem 0 0.85rem; font-weight: 700;
+      color: var(--muted); margin: 0 0 0.85rem; font-weight: 700;
       display: flex; align-items: center; gap: 0.5rem;
     }
     .section-title::after { content:''; flex:1; height:1px; background: #eee; }
@@ -95,26 +94,20 @@
       transition: all 0.2s; position: relative; overflow: hidden;
       box-shadow: 0 2px 8px rgba(0,0,0,0.04);
     }
-    .room-card::before {
-      content:''; position: absolute; top:0; left:0; right:0; height:4px;
-    }
+    .room-card::before { content:''; position: absolute; top:0; left:0; right:0; height:4px; }
     .room-card.free::before { background: var(--green); }
     .room-card.occupied::before { background: var(--cyan); }
     .room-card.dirty::before { background: var(--danger); }
     .room-card.cleaning::before { background: var(--warning); }
     .room-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,174,239,0.12); border-color: var(--cyan); }
     .room-number { font-size: 1.05rem; font-weight: 700; color: var(--navy); margin-bottom: 0.4rem; }
-    .room-badge {
-      font-size: 0.7rem; padding: 0.22rem 0.6rem; border-radius: 6px;
-      display: inline-block; font-weight: 700;
-    }
+    .room-badge { font-size: 0.7rem; padding: 0.22rem 0.6rem; border-radius: 6px; display: inline-block; font-weight: 700; }
     .badge-free { background: rgba(57,181,74,0.12); color: #1e7a2e; }
     .badge-occupied { background: rgba(0,174,239,0.12); color: #0056A3; }
     .badge-dirty { background: rgba(231,76,60,0.12); color: #c0392b; }
     .badge-cleaning { background: rgba(243,156,18,0.12); color: #9a6000; }
     .room-staff { font-size: 0.68rem; color: var(--muted); margin-top: 0.35rem; font-weight: 500; }
 
-    /* BTN ADD */
     .btn-add {
       width: 100%; padding: 0.9rem; background: transparent;
       border: 2px dashed rgba(0,174,239,0.3); border-radius: 16px;
@@ -136,7 +129,6 @@
     .badge-progress { background: rgba(243,156,18,0.12); color: #9a6000; }
     .badge-done { background: rgba(57,181,74,0.12); color: #1e7a2e; }
 
-    /* LIST ITEMS */
     .list-item {
       background: var(--surface); border: 1.5px solid var(--border);
       border-radius: 14px; padding: 0.9rem 1.1rem; margin-bottom: 0.65rem;
@@ -145,21 +137,17 @@
     .list-item-name { font-weight: 600; font-size: 0.9rem; color: var(--navy); }
     .list-item-value { font-weight: 700; color: var(--cyan); font-size: 0.85rem; }
     .btn-del { background: none; border: none; color: var(--danger); cursor: pointer; font-size: 1rem; }
-    .staff-role-tag {
-      font-size: 0.7rem; color: var(--blue); font-weight: 700;
-      background: rgba(0,86,163,0.1); padding: 0.22rem 0.6rem; border-radius: 6px;
-    }
+    .staff-role-tag { font-size: 0.7rem; color: var(--blue); font-weight: 700; background: rgba(0,86,163,0.1); padding: 0.22rem 0.6rem; border-radius: 6px; }
 
     /* MODALS */
     .modal-overlay {
       position: fixed; inset: 0; background: rgba(0,0,0,0.5);
       display: flex; align-items: center; justify-content: center;
-      padding: 1.5rem; z-index: 100; overflow-y: auto;
-      backdrop-filter: blur(4px);
+      padding: 1.5rem; z-index: 100; overflow-y: auto; backdrop-filter: blur(4px);
     }
     .modal {
-      background: var(--surface); border: 1.5px solid var(--border);
-      border-radius: 24px; padding: 1.75rem; width: 100%; max-width: 350px;
+      background: var(--surface); border-radius: 24px; padding: 1.75rem;
+      width: 100%; max-width: 350px;
       box-shadow: 0 24px 64px rgba(0,0,0,0.12); margin: auto;
     }
     .modal h3 { font-size: 1rem; font-weight: 800; margin-bottom: 1.25rem; color: var(--navy); }
@@ -171,37 +159,15 @@
     }
     .modal input:focus, .modal select:focus { border-color: var(--cyan); }
     .modal-btns { display: flex; gap: 0.65rem; margin-top: 0.5rem; }
-    .btn-cancel {
-      flex: 1; padding: 0.9rem; background: var(--bg); border: 1.5px solid #e0e8f0;
-      border-radius: 12px; color: var(--muted); font-family: var(--font);
-      font-size: 0.88rem; font-weight: 600; cursor: pointer;
-    }
-    .btn-save {
-      flex: 1; padding: 0.9rem;
-      background: linear-gradient(135deg, var(--cyan), var(--blue));
-      border: none; border-radius: 12px; color: #fff; font-weight: 700;
-      font-family: var(--font); font-size: 0.88rem; cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0,174,239,0.3);
-    }
-    .btn-danger-modal {
-      flex: 1; padding: 0.9rem; background: rgba(231,76,60,0.1); border: none;
-      border-radius: 12px; color: var(--danger); font-weight: 700;
-      font-family: var(--font); font-size: 0.88rem; cursor: pointer;
-    }
-    .btn-qr {
-      flex: 1; padding: 0.9rem; background: rgba(0,86,163,0.1); border: none;
-      border-radius: 12px; color: var(--blue); font-weight: 700;
-      font-family: var(--font); font-size: 0.88rem; cursor: pointer;
-    }
+    .btn-cancel { flex: 1; padding: 0.9rem; background: var(--bg); border: 1.5px solid #e0e8f0; border-radius: 12px; color: var(--muted); font-family: var(--font); font-size: 0.88rem; font-weight: 600; cursor: pointer; }
+    .btn-save { flex: 1; padding: 0.9rem; background: linear-gradient(135deg, var(--cyan), var(--blue)); border: none; border-radius: 12px; color: #fff; font-weight: 700; font-family: var(--font); font-size: 0.88rem; cursor: pointer; box-shadow: 0 4px 12px rgba(0,174,239,0.3); }
+    .btn-danger-modal { flex: 1; padding: 0.9rem; background: rgba(231,76,60,0.1); border: none; border-radius: 12px; color: var(--danger); font-weight: 700; font-family: var(--font); font-size: 0.88rem; cursor: pointer; }
+    .btn-qr { flex: 1; padding: 0.9rem; background: rgba(0,86,163,0.1); border: none; border-radius: 12px; color: var(--blue); font-weight: 700; font-family: var(--font); font-size: 0.88rem; cursor: pointer; }
     .msg { margin-top: 0.75rem; font-size: 0.8rem; text-align: center; min-height: 1rem; font-weight: 500; }
     .msg.error { color: var(--danger); }
     .msg.ok { color: var(--green); }
 
-    /* QR */
-    .qr-print-area {
-      background: #fff; border: 1.5px solid #eee; border-radius: 18px;
-      padding: 1.5rem; margin: 1rem 0; text-align: center;
-    }
+    .qr-print-area { background: #fff; border: 1.5px solid #eee; border-radius: 18px; padding: 1.5rem; margin: 1rem 0; text-align: center; }
     .qr-hotel-name { font-size: 0.95rem; font-weight: 700; color: var(--navy); margin-bottom: 0.3rem; }
     .qr-room-name { font-size: 0.8rem; color: var(--muted); margin-bottom: 1rem; font-weight: 500; }
     .qr-hint { font-size: 0.72rem; color: var(--muted); margin-top: 1rem; }
@@ -209,26 +175,18 @@
     #qr-container { display: flex; justify-content: center; }
 
     .empty-state { text-align: center; color: var(--muted); padding: 2.5rem; font-size: 0.9rem; font-weight: 500; }
-    .hidden { display: none; }
-
-    /* ORDER ACTION BTNS */
-    .btn-sm {
-      flex: 1; padding: 0.6rem; border: none; border-radius: 10px;
-      font-family: var(--font); font-size: 0.82rem; font-weight: 700; cursor: pointer;
-    }
+    .btn-sm { flex: 1; padding: 0.6rem; border: none; border-radius: 10px; font-family: var(--font); font-size: 0.82rem; font-weight: 700; cursor: pointer; }
     .btn-sm-progress { background: rgba(243,156,18,0.15); color: #9a6000; }
     .btn-sm-done { background: rgba(57,181,74,0.15); color: #1e7a2e; }
+    .hidden { display: none; }
   </style>
 </head>
 <body>
 
   <div class="header">
     <div class="header-left">
-      <img src="../images/host.png" alt="Host" class="header-logo"/>
-      <div>
-        <div class="header-title">Panel Host</div>
-        <div class="header-sub" id="hotel-name">Cargando...</div>
-      </div>
+      <div class="header-welcome" id="header-welcome">Bienvenido</div>
+      <div class="header-name" id="hotel-name">Cargando...</div>
     </div>
     <div class="header-right">
       <span class="trial-badge hidden" id="trial-badge"></span>
@@ -243,38 +201,57 @@
     </div>
   </div>
 
-  <div class="nav-tabs">
-    <button class="nav-tab active" onclick="showTab('rooms',this)" id="nt-rooms">🚪 Habitaciones</button>
-    <button class="nav-tab" onclick="showTab('orders',this)" id="nt-orders">🛎️ Pedidos</button>
-    <button class="nav-tab" onclick="showTab('extras',this)" id="nt-extras">💰 Extras</button>
-    <button class="nav-tab" onclick="showTab('staff',this)" id="nt-staff">👥 Personal</button>
-  </div>
+  <div class="main-content">
+    <!-- 4 NAV BUTTONS -->
+    <div class="nav-grid">
+      <button class="nav-btn active" onclick="showPanel('rooms', this)">
+        <div class="nav-btn-icon">🚪</div>
+        <div class="nav-btn-label" id="nb-rooms">Habitaciones</div>
+        <div class="nav-btn-count green" id="stat-free">0</div>
+        <div class="nav-btn-sub" id="nb-rooms-sub">libres</div>
+      </button>
+      <button class="nav-btn" onclick="showPanel('orders', this)">
+        <div class="nav-btn-icon">🛎️</div>
+        <div class="nav-btn-label" id="nb-orders">Pedidos</div>
+        <div class="nav-btn-count red" id="stat-orders">0</div>
+        <div class="nav-btn-sub" id="nb-orders-sub">pendientes</div>
+      </button>
+      <button class="nav-btn" onclick="showPanel('extras', this)">
+        <div class="nav-btn-icon">💰</div>
+        <div class="nav-btn-label" id="nb-extras">Extras</div>
+        <div class="nav-btn-count cyan" id="stat-extras">0</div>
+        <div class="nav-btn-sub" id="nb-extras-sub">configurados</div>
+      </button>
+      <button class="nav-btn" onclick="showPanel('staff', this)">
+        <div class="nav-btn-icon">👥</div>
+        <div class="nav-btn-label" id="nb-staff">Personal</div>
+        <div class="nav-btn-count orange" id="stat-staff">0</div>
+        <div class="nav-btn-sub" id="nb-staff-sub">registrados</div>
+      </button>
+    </div>
 
-  <div class="content">
-    <div id="tab-rooms" class="tab-content active">
-      <div class="stats-row">
-        <div class="stat-card"><div class="stat-number green" id="stat-free">0</div><div class="stat-label" id="sl-free">Libres</div></div>
-        <div class="stat-card"><div class="stat-number cyan" id="stat-occupied">0</div><div class="stat-label" id="sl-occupied">Ocupadas</div></div>
-        <div class="stat-card"><div class="stat-number red" id="stat-dirty">0</div><div class="stat-label" id="sl-dirty">Sucias</div></div>
-        <div class="stat-card"><div class="stat-number orange" id="stat-cleaning">0</div><div class="stat-label" id="sl-cleaning">Limpiando</div></div>
-      </div>
+    <!-- PANEL HABITACIONES -->
+    <div id="panel-rooms" class="panel active">
       <p class="section-title" id="st-rooms">Habitaciones</p>
       <div class="rooms-grid" id="rooms-grid"></div>
       <button class="btn-add" onclick="openAddRoom()" id="btn-add-room">+ Agregar habitación</button>
     </div>
 
-    <div id="tab-orders" class="tab-content">
+    <!-- PANEL PEDIDOS -->
+    <div id="panel-orders" class="panel">
       <p class="section-title" id="st-orders">Pedidos activos</p>
       <div id="orders-list"><p class="empty-state">Cargando...</p></div>
     </div>
 
-    <div id="tab-extras" class="tab-content">
+    <!-- PANEL EXTRAS -->
+    <div id="panel-extras" class="panel">
       <p class="section-title" id="st-extras">Extras configurados</p>
       <div id="extras-list"></div>
       <button class="btn-add" onclick="openAddExtra()" id="btn-add-extra">+ Agregar extra</button>
     </div>
 
-    <div id="tab-staff" class="tab-content">
+    <!-- PANEL PERSONAL -->
+    <div id="panel-staff" class="panel">
       <p class="section-title" id="st-staff">Personal registrado</p>
       <div id="staff-list"></div>
       <button class="btn-add" onclick="openAddStaff()" id="btn-add-staff">+ Registrar personal</button>
@@ -284,17 +261,17 @@
   <!-- Modal nueva habitación -->
   <div class="modal-overlay hidden" id="modal-add">
     <div class="modal">
-      <h3 id="m-new-room">🚪 Nueva habitación</h3>
+      <h3>🚪 Nueva habitación</h3>
       <input type="text" id="room-number" placeholder="Número o nombre (ej: 101)"/>
       <select id="room-status">
-        <option value="free" id="opt-free">Libre</option>
-        <option value="occupied" id="opt-occupied">Ocupada</option>
-        <option value="dirty" id="opt-dirty">Sucia</option>
-        <option value="cleaning" id="opt-cleaning">Limpiando</option>
+        <option value="free">Libre</option>
+        <option value="occupied">Ocupada</option>
+        <option value="dirty">Sucia</option>
+        <option value="cleaning">Limpiando</option>
       </select>
       <div class="modal-btns">
-        <button class="btn-cancel" onclick="closeModal()" id="btn-cancel-1">Cancelar</button>
-        <button class="btn-save" onclick="addRoom()" id="btn-save-1">Guardar</button>
+        <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+        <button class="btn-save" onclick="addRoom()">Guardar</button>
       </div>
     </div>
   </div>
@@ -310,16 +287,14 @@
         <option value="dirty">Sucia</option>
         <option value="cleaning">Limpiando</option>
       </select>
-      <select id="edit-room-staff">
-        <option value="">Sin asignar</option>
-      </select>
+      <select id="edit-room-staff"><option value="">Sin asignar</option></select>
       <div class="modal-btns">
         <button class="btn-qr" onclick="showQR()">📱 QR</button>
-        <button class="btn-save" onclick="saveRoom()" id="btn-save-room">Guardar</button>
+        <button class="btn-save" onclick="saveRoom()">Guardar</button>
       </div>
       <div class="modal-btns" style="margin-top:0.6rem">
-        <button class="btn-danger-modal" onclick="deleteRoom()" id="btn-delete-room">🗑️ Eliminar</button>
-        <button class="btn-cancel" onclick="closeModal()" id="btn-back-room">Volver</button>
+        <button class="btn-danger-modal" onclick="deleteRoom()">🗑️ Eliminar</button>
+        <button class="btn-cancel" onclick="closeModal()">Volver</button>
       </div>
     </div>
   </div>
@@ -332,15 +307,15 @@
         <div class="qr-hotel-name" id="qr-hotel-print"></div>
         <div class="qr-room-name" id="qr-room-print"></div>
         <div id="qr-container"></div>
-        <div class="qr-hint" id="qr-hint">📱 Escaneá para hacer Check-In</div>
+        <div class="qr-hint">📱 Escaneá para hacer Check-In</div>
         <div class="qr-url-text" id="qr-url"></div>
       </div>
       <div class="modal-btns">
-        <button class="btn-cancel" onclick="backToEdit()" id="btn-back-qr">← Volver</button>
-        <button class="btn-qr" onclick="printQR()" id="btn-print-qr">🖨️ Imprimir</button>
+        <button class="btn-cancel" onclick="backToEdit()">← Volver</button>
+        <button class="btn-qr" onclick="printQR()">🖨️ Imprimir</button>
       </div>
       <div style="margin-top:0.6rem">
-        <button class="btn-cancel" style="width:100%" onclick="closeModal()" id="btn-close-qr">Cerrar</button>
+        <button class="btn-cancel" style="width:100%" onclick="closeModal()">Cerrar</button>
       </div>
     </div>
   </div>
@@ -348,7 +323,7 @@
   <!-- Modal extra -->
   <div class="modal-overlay hidden" id="modal-extra">
     <div class="modal">
-      <h3 id="m-new-extra">💰 Nuevo extra</h3>
+      <h3>💰 Nuevo extra</h3>
       <input type="text" id="extra-name" placeholder="Nombre (ej: Toalla extra)"/>
       <input type="number" id="extra-price" placeholder="Precio (0 = sin cargo)"/>
       <div class="modal-btns">
@@ -361,7 +336,7 @@
   <!-- Modal personal -->
   <div class="modal-overlay hidden" id="modal-staff">
     <div class="modal">
-      <h3 id="m-new-staff">👥 Registrar personal</h3>
+      <h3>👥 Registrar personal</h3>
       <input type="text" id="staff-name" placeholder="Nombre"/>
       <input type="email" id="staff-email" placeholder="Email"/>
       <input type="password" id="staff-password" placeholder="Contraseña (mín. 6 caracteres)"/>
@@ -385,11 +360,11 @@
     let hotelId = null, hotelNameText = '', editingRoomId = null, editingRoomNumber = '', staffList = [];
 
     const T = {
-      es: { logout:'Salir', rooms:'🚪 Habitaciones', orders:'🛎️ Pedidos', extras:'💰 Extras', staff:'👥 Personal', free:'Libre', occupied:'Ocupada', dirty:'Sucia', cleaning:'Limpiando', add_room:'+ Agregar habitación', add_extra:'+ Agregar extra', add_staff:'+ Registrar personal', save:'Guardar', cancel:'Cancelar', back:'Volver', delete:'🗑️ Eliminar', no_orders:'✅ Sin pedidos pendientes', no_extras:'Sin extras configurados', no_staff:'Sin personal registrado', pending:'Pendiente', progress:'En curso', done:'Completado', libres:'Libres', ocupadas:'Ocupadas', sucias:'Sucias', limpiando:'Limpiando', qr_hint:'📱 Escaneá para hacer Check-In', print:'🖨️ Imprimir', close:'Cerrar', cleaner:'🧹 Mucama', staff_role:'👤 Staff', registered:'✅ Personal registrado', sin_cargo:'Sin cargo' },
-      it: { logout:'Esci', rooms:'🚪 Camere', orders:'🛎️ Ordini', extras:'💰 Extra', staff:'👥 Personale', free:'Libera', occupied:'Occupata', dirty:'Sporca', cleaning:'In pulizia', add_room:'+ Aggiungi camera', add_extra:'+ Aggiungi extra', add_staff:'+ Registra personale', save:'Salva', cancel:'Annulla', back:'Indietro', delete:'🗑️ Elimina', no_orders:'✅ Nessun ordine in sospeso', no_extras:'Nessun extra configurato', no_staff:'Nessun personale registrato', pending:'In attesa', progress:'In corso', done:'Completato', libres:'Libere', ocupadas:'Occupate', sucias:'Sporche', limpiando:'In pulizia', qr_hint:'📱 Scansiona per il Check-In', print:'🖨️ Stampa', close:'Chiudi', cleaner:'🧹 Cameriera', staff_role:'👤 Staff', registered:'✅ Personale registrato', sin_cargo:'Gratuito' },
-      pt: { logout:'Sair', rooms:'🚪 Quartos', orders:'🛎️ Pedidos', extras:'💰 Extras', staff:'👥 Pessoal', free:'Livre', occupied:'Ocupado', dirty:'Sujo', cleaning:'Limpando', add_room:'+ Adicionar quarto', add_extra:'+ Adicionar extra', add_staff:'+ Registrar pessoal', save:'Salvar', cancel:'Cancelar', back:'Voltar', delete:'🗑️ Excluir', no_orders:'✅ Sem pedidos pendentes', no_extras:'Sem extras configurados', no_staff:'Sem pessoal registrado', pending:'Pendente', progress:'Em andamento', done:'Concluído', libres:'Livres', ocupadas:'Ocupados', sucias:'Sujos', limpiando:'Limpando', qr_hint:'📱 Escaneie para Check-In', print:'🖨️ Imprimir', close:'Fechar', cleaner:'🧹 Camareira', staff_role:'👤 Staff', registered:'✅ Pessoal registrado', sin_cargo:'Gratuito' },
-      fr: { logout:'Déconnexion', rooms:'🚪 Chambres', orders:'🛎️ Commandes', extras:'💰 Extras', staff:'👥 Personnel', free:'Libre', occupied:'Occupée', dirty:'Sale', cleaning:'En nettoyage', add_room:'+ Ajouter chambre', add_extra:'+ Ajouter extra', add_staff:'+ Enregistrer personnel', save:'Enregistrer', cancel:'Annuler', back:'Retour', delete:'🗑️ Supprimer', no_orders:'✅ Pas de commandes en attente', no_extras:'Pas d\'extras configurés', no_staff:'Pas de personnel enregistré', pending:'En attente', progress:'En cours', done:'Terminé', libres:'Libres', ocupadas:'Occupées', sucias:'Sales', limpiando:'En nettoyage', qr_hint:'📱 Scannez pour le Check-In', print:'🖨️ Imprimer', close:'Fermer', cleaner:'🧹 Femme de chambre', staff_role:'👤 Staff', registered:'✅ Personnel enregistré', sin_cargo:'Gratuit' },
-      de: { logout:'Abmelden', rooms:'🚪 Zimmer', orders:'🛎️ Bestellungen', extras:'💰 Extras', staff:'👥 Personal', free:'Frei', occupied:'Belegt', dirty:'Schmutzig', cleaning:'Wird gereinigt', add_room:'+ Zimmer hinzufügen', add_extra:'+ Extra hinzufügen', add_staff:'+ Personal registrieren', save:'Speichern', cancel:'Abbrechen', back:'Zurück', delete:'🗑️ Löschen', no_orders:'✅ Keine ausstehenden Bestellungen', no_extras:'Keine Extras konfiguriert', no_staff:'Kein Personal registriert', pending:'Ausstehend', progress:'In Bearbeitung', done:'Abgeschlossen', libres:'Frei', ocupadas:'Belegt', sucias:'Schmutzig', limpiando:'Wird gereinigt', qr_hint:'📱 Scannen für Check-In', print:'🖨️ Drucken', close:'Schließen', cleaner:'🧹 Zimmermädchen', staff_role:'👤 Staff', registered:'✅ Personal registriert', sin_cargo:'Kostenlos' }
+      es: { welcome:'Bienvenido', logout:'Salir', rooms:'🚪 Habitaciones', orders:'🛎️ Pedidos', extras:'💰 Extras', staff:'👥 Personal', libres:'libres', pendientes:'pendientes', configurados:'configurados', registrados:'registrados', add_room:'+ Agregar habitación', add_extra:'+ Agregar extra', add_staff:'+ Registrar personal', free:'Libre', occupied:'Ocupada', dirty:'Sucia', cleaning:'Limpiando', no_orders:'✅ Sin pedidos pendientes', no_extras:'Sin extras configurados', no_staff:'Sin personal registrado', pending:'Pendiente', progress:'En curso', done:'Completado', sin_cargo:'Sin cargo', cleaner:'🧹 Mucama', staff_role:'👤 Staff', registered:'✅ Registrado' },
+      it: { welcome:'Benvenuto', logout:'Esci', rooms:'🚪 Camere', orders:'🛎️ Ordini', extras:'💰 Extra', staff:'👥 Personale', libres:'libere', pendientes:'in attesa', configurados:'configurati', registrados:'registrati', add_room:'+ Aggiungi camera', add_extra:'+ Aggiungi extra', add_staff:'+ Registra personale', free:'Libera', occupied:'Occupata', dirty:'Sporca', cleaning:'In pulizia', no_orders:'✅ Nessun ordine', no_extras:'Nessun extra', no_staff:'Nessun personale', pending:'In attesa', progress:'In corso', done:'Completato', sin_cargo:'Gratuito', cleaner:'🧹 Cameriera', staff_role:'👤 Staff', registered:'✅ Registrato' },
+      pt: { welcome:'Bem-vindo', logout:'Sair', rooms:'🚪 Quartos', orders:'🛎️ Pedidos', extras:'💰 Extras', staff:'👥 Pessoal', libres:'livres', pendientes:'pendentes', configurados:'configurados', registrados:'registrados', add_room:'+ Adicionar quarto', add_extra:'+ Adicionar extra', add_staff:'+ Registrar pessoal', free:'Livre', occupied:'Ocupado', dirty:'Sujo', cleaning:'Limpando', no_orders:'✅ Sem pedidos', no_extras:'Sem extras', no_staff:'Sem pessoal', pending:'Pendente', progress:'Em andamento', done:'Concluído', sin_cargo:'Gratuito', cleaner:'🧹 Camareira', staff_role:'👤 Staff', registered:'✅ Registrado' },
+      fr: { welcome:'Bienvenue', logout:'Déconnexion', rooms:'🚪 Chambres', orders:'🛎️ Commandes', extras:'💰 Extras', staff:'👥 Personnel', libres:'libres', pendientes:'en attente', configurados:'configurés', registrados:'enregistrés', add_room:'+ Ajouter chambre', add_extra:'+ Ajouter extra', add_staff:'+ Enregistrer personnel', free:'Libre', occupied:'Occupée', dirty:'Sale', cleaning:'En nettoyage', no_orders:'✅ Pas de commandes', no_extras:'Pas d\'extras', no_staff:'Pas de personnel', pending:'En attente', progress:'En cours', done:'Terminé', sin_cargo:'Gratuit', cleaner:'🧹 Femme de chambre', staff_role:'👤 Staff', registered:'✅ Enregistré' },
+      de: { welcome:'Willkommen', logout:'Abmelden', rooms:'🚪 Zimmer', orders:'🛎️ Bestellungen', extras:'💰 Extras', staff:'👥 Personal', libres:'frei', pendientes:'ausstehend', configurados:'konfiguriert', registrados:'registriert', add_room:'+ Zimmer hinzufügen', add_extra:'+ Extra hinzufügen', add_staff:'+ Personal registrieren', free:'Frei', occupied:'Belegt', dirty:'Schmutzig', cleaning:'Wird gereinigt', no_orders:'✅ Keine Bestellungen', no_extras:'Keine Extras', no_staff:'Kein Personal', pending:'Ausstehend', progress:'In Bearbeitung', done:'Abgeschlossen', sin_cargo:'Kostenlos', cleaner:'🧹 Zimmermädchen', staff_role:'👤 Staff', registered:'✅ Registriert' }
     };
 
     let lang = localStorage.getItem('nf_lang') || 'es';
@@ -398,28 +373,26 @@
     function applyLang() {
       L = T[lang];
       document.getElementById('lang-select').value = lang;
+      document.getElementById('header-welcome').textContent = L.welcome;
       document.getElementById('btn-logout').textContent = L.logout;
-      document.getElementById('nt-rooms').textContent = L.rooms;
-      document.getElementById('nt-orders').textContent = L.orders;
-      document.getElementById('nt-extras').textContent = L.extras;
-      document.getElementById('nt-staff').textContent = L.staff;
-      document.getElementById('sl-free').textContent = L.libres;
-      document.getElementById('sl-occupied').textContent = L.ocupadas;
-      document.getElementById('sl-dirty').textContent = L.sucias;
-      document.getElementById('sl-cleaning').textContent = L.limpiando;
+      document.getElementById('nb-rooms').textContent = L.rooms;
+      document.getElementById('nb-orders').textContent = L.orders;
+      document.getElementById('nb-extras').textContent = L.extras;
+      document.getElementById('nb-staff').textContent = L.staff;
+      document.getElementById('nb-rooms-sub').textContent = L.libres;
+      document.getElementById('nb-orders-sub').textContent = L.pendientes;
+      document.getElementById('nb-extras-sub').textContent = L.configurados;
+      document.getElementById('nb-staff-sub').textContent = L.registrados;
       document.getElementById('btn-add-room').textContent = L.add_room;
       document.getElementById('btn-add-extra').textContent = L.add_extra;
       document.getElementById('btn-add-staff').textContent = L.add_staff;
-      document.getElementById('qr-hint').textContent = L.qr_hint;
     }
 
     window.changeLang = (l) => { lang = l; localStorage.setItem('nf_lang', l); applyLang(); };
 
-    const statusLabel = () => ({ free:L.free, occupied:L.occupied, dirty:L.dirty, cleaning:L.cleaning });
     const statusBadge = { free:'badge-free', occupied:'badge-occupied', dirty:'badge-dirty', cleaning:'badge-cleaning' };
     const statusClass = { free:'free', occupied:'occupied', dirty:'dirty', cleaning:'cleaning' };
     const orderBadge = { pending:'badge-pending', progress:'badge-progress', done:'badge-done' };
-    const orderLabel = () => ({ pending:L.pending, progress:L.progress, done:L.done });
 
     onAuthStateChanged(auth, async (user) => {
       if (!user) { window.location.href = 'index.html'; return; }
@@ -443,10 +416,10 @@
       loadRooms(); loadExtras(); loadStaff(); loadOrders();
     });
 
-    window.showTab = (tab, btn) => {
-      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-      document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-      document.getElementById('tab-' + tab).classList.add('active');
+    window.showPanel = (panel, btn) => {
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('panel-' + panel).classList.add('active');
       btn.classList.add('active');
     };
 
@@ -454,25 +427,21 @@
       onSnapshot(collection(db, 'hotels', hotelId, 'rooms'), (snap) => {
         const grid = document.getElementById('rooms-grid');
         grid.innerHTML = '';
-        let counts = { free:0, occupied:0, dirty:0, cleaning:0 };
-        const sl = statusLabel();
+        let freeCount = 0;
         snap.forEach(d => {
           const r = d.data();
-          counts[r.status] = (counts[r.status]||0) + 1;
+          if (r.status === 'free') freeCount++;
           const card = document.createElement('div');
           card.className = `room-card ${statusClass[r.status]}`;
           card.innerHTML = `
             <div class="room-number">🚪 ${r.number}</div>
-            <span class="room-badge ${statusBadge[r.status]}">${sl[r.status]}</span>
+            <span class="room-badge ${statusBadge[r.status]}">${L[r.status]||r.status}</span>
             ${r.assignedStaff ? `<div class="room-staff">👤 ${r.assignedStaff}</div>` : ''}
           `;
           card.onclick = () => openEditRoom(d.id, r.number, r.status, r.assignedStaffId);
           grid.appendChild(card);
         });
-        document.getElementById('stat-free').textContent = counts.free;
-        document.getElementById('stat-occupied').textContent = counts.occupied;
-        document.getElementById('stat-dirty').textContent = counts.dirty;
-        document.getElementById('stat-cleaning').textContent = counts.cleaning;
+        document.getElementById('stat-free').textContent = freeCount;
       });
     }
 
@@ -490,7 +459,7 @@
       document.getElementById('edit-room-number').value = number;
       document.getElementById('edit-room-status').value = status;
       const sel = document.getElementById('edit-room-staff');
-      sel.innerHTML = `<option value="">Sin asignar</option>`;
+      sel.innerHTML = '<option value="">Sin asignar</option>';
       staffList.forEach(s => {
         const opt = document.createElement('option');
         opt.value = s.uid; opt.textContent = s.name;
@@ -534,7 +503,7 @@
       win.document.write(`<html><head><title>QR ${editingRoomNumber}</title>
         <style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
         *{box-sizing:border-box;margin:0;padding:0}body{font-family:'Inter',sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;background:#f5f7fa}
-        .wrap{background:#fff;border:2px solid #e8f4fd;border-radius:24px;padding:2.5rem;text-align:center;max-width:320px;box-shadow:0 8px 32px rgba(0,0,0,0.08)}
+        .wrap{background:#fff;border:2px solid #e8f4fd;border-radius:24px;padding:2.5rem;text-align:center;max-width:320px}
         .qr-hotel-name{font-size:1rem;font-weight:700;color:#1A1A2E;margin-bottom:.3rem}.qr-room-name{font-size:.85rem;color:#8892a4;margin-bottom:1.25rem}
         .qr-hint{font-size:.78rem;color:#8892a4;margin-top:1.25rem}.qr-url-text{font-size:.5rem;color:#bbb;margin-top:.4rem;word-break:break-all}img{max-width:200px}</style>
         </head><body><div class="wrap">${area}</div></body></html>`);
@@ -544,11 +513,10 @@
     function loadOrders() {
       const q = query(collection(db, 'hotels', hotelId, 'orders'), orderBy('createdAt', 'desc'));
       onSnapshot(q, (snap) => {
-        const list = document.getElementById('orders-list');
-        list.innerHTML = '';
+        const list = document.getElementById('orders-list'); list.innerHTML = '';
         const orders = []; snap.forEach(d => orders.push({ id: d.id, ...d.data() }));
         const active = orders.filter(o => o.status !== 'done');
-        const ol = orderLabel();
+        document.getElementById('stat-orders').textContent = active.length;
         if (active.length === 0) { list.innerHTML = `<p class="empty-state">${L.no_orders}</p>`; return; }
         active.forEach(o => {
           const card = document.createElement('div'); card.className = 'order-card';
@@ -557,15 +525,15 @@
           card.innerHTML = `
             <div class="order-header">
               <span class="order-room-label">🚪 ${o.roomNumber||'—'}${o.guestName?' · '+o.guestName:''}</span>
-              <span class="order-badge ${orderBadge[o.status]}">${ol[o.status]}</span>
+              <span class="order-badge ${orderBadge[o.status]}">${L[o.status]||o.status}</span>
             </div>
             ${itemsText?`<p style="font-size:.82rem;color:var(--muted);margin-bottom:.3rem">📦 ${itemsText}</p>`:''}
             ${o.note?`<p style="font-size:.78rem;color:var(--muted);margin-bottom:.3rem">📝 ${o.note}</p>`:''}
             ${o.total>0?`<p style="font-size:.82rem;font-weight:700;color:var(--cyan);margin-bottom:.5rem">💰 $${o.total}</p>`:''}
             <p style="font-size:.7rem;color:var(--muted);margin-bottom:.5rem">🕐 ${time}</p>
             <div style="display:flex;gap:.5rem">
-              ${o.status==='pending'?`<button class="btn-sm btn-sm-progress" onclick="updateOrder('${o.id}','progress')">▶ ${ol.progress}</button>`:''}
-              ${o.status==='progress'?`<button class="btn-sm btn-sm-done" onclick="updateOrder('${o.id}','done')">✓ ${ol.done}</button>`:''}
+              ${o.status==='pending'?`<button class="btn-sm btn-sm-progress" onclick="updateOrder('${o.id}','progress')">▶ ${L.progress}</button>`:''}
+              ${o.status==='progress'?`<button class="btn-sm btn-sm-done" onclick="updateOrder('${o.id}','done')">✓ ${L.done}</button>`:''}
             </div>`;
           list.appendChild(card);
         });
@@ -576,6 +544,7 @@
     function loadExtras() {
       onSnapshot(collection(db, 'hotels', hotelId, 'extras'), (snap) => {
         const list = document.getElementById('extras-list'); list.innerHTML = '';
+        document.getElementById('stat-extras').textContent = snap.size;
         if (snap.empty) { list.innerHTML = `<p class="empty-state">${L.no_extras}</p>`; return; }
         snap.forEach(d => {
           const e = d.data(); const item = document.createElement('div'); item.className = 'list-item';
@@ -601,6 +570,7 @@
     function loadStaff() {
       onSnapshot(collection(db, 'hotels', hotelId, 'staff'), (snap) => {
         staffList = []; const list = document.getElementById('staff-list'); list.innerHTML = '';
+        document.getElementById('stat-staff').textContent = snap.size;
         if (snap.empty) { list.innerHTML = `<p class="empty-state">${L.no_staff}</p>`; return; }
         snap.forEach(d => {
           const s = d.data(); staffList.push(s);
