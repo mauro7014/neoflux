@@ -5,35 +5,51 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>NeoFlux — Host</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --gold: #c9a84c; --gold-light: #e8c87a;
-      --navy: #1e2d3d; --font: 'DM Sans', sans-serif;
-      --bg: #f5f7fa; --surface: #fff; --border: #f0e8d0;
-      --muted: #8892a4; --success: #27ae60; --danger: #e74c3c;
+      --cyan: #00AEEF; --green: #39B54A; --blue: #0056A3;
+      --navy: #1A1A2E; --font: 'Inter', sans-serif;
+      --bg: #f5f7fa; --border: #e8f4fd;
+      --muted: #8892a4; --danger: #e74c3c; --success: #39B54A;
     }
     body { background: #fff; font-family: var(--font); min-height: 100vh; }
 
     .login-page {
-      display: flex; align-items: center; justify-content: center;
-      min-height: 100vh; padding: 2rem; background: #fff;
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; min-height: 100vh; padding: 2rem; background: #fff;
     }
+
+    /* LANG BAR */
+    .lang-bar {
+      position: fixed; top: 0; right: 0; left: 0;
+      display: flex; justify-content: flex-end; padding: 0.85rem 1.5rem;
+      background: #fff; border-bottom: 1px solid #f0f0f0; z-index: 10;
+    }
+    .lang-select {
+      background: #f5f5f5; border: 1.5px solid #e0e0e0;
+      border-radius: 10px; padding: 0.4rem 0.75rem;
+      font-family: var(--font); font-size: 0.82rem; font-weight: 600;
+      color: var(--navy); outline: none; cursor: pointer;
+    }
+    .lang-select:focus { border-color: var(--cyan); }
+
     .auth-box {
       background: #fff; border: 2px solid var(--border);
       border-radius: 28px; padding: 2rem; width: 100%; max-width: 380px;
-      box-shadow: 0 8px 40px rgba(201,168,76,0.1);
+      box-shadow: 0 8px 40px rgba(0,174,239,0.1); margin-top: 3rem;
     }
     .auth-logo-wrap {
       width: 80px; height: 80px; border-radius: 50%;
-      background: #fffbf0; border: 2px solid var(--border);
+      background: linear-gradient(135deg, #f0f9ff, #e8f5e9);
+      border: 2px solid var(--border);
       display: flex; align-items: center; justify-content: center;
       margin: 0 auto 1rem;
     }
     .auth-logo-wrap img { width: 56px; height: 56px; object-fit: contain; }
-    .auth-title { text-align: center; font-size: 1.3rem; font-weight: 700; color: var(--navy); margin-bottom: 0.25rem; }
-    .auth-sub { text-align: center; font-size: 0.82rem; color: var(--muted); margin-bottom: 1.75rem; }
+    .auth-title { text-align: center; font-size: 1.3rem; font-weight: 800; color: var(--navy); margin-bottom: 0.2rem; }
+    .auth-sub { text-align: center; font-size: 0.82rem; color: var(--muted); margin-bottom: 1.75rem; font-weight: 500; }
 
     .auth-tabs {
       display: flex; background: var(--bg); border-radius: 14px;
@@ -41,12 +57,12 @@
     }
     .auth-tab {
       flex: 1; padding: 0.7rem; border: none; background: transparent;
-      color: var(--muted); font-family: var(--font); font-size: 0.9rem;
+      color: var(--muted); font-family: var(--font); font-size: 0.88rem;
       font-weight: 600; cursor: pointer; border-radius: 10px; transition: all 0.2s;
     }
     .auth-tab.active {
-      background: linear-gradient(135deg, var(--gold-light), var(--gold));
-      color: #fff; box-shadow: 0 2px 8px rgba(201,168,76,0.3);
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      color: #fff; box-shadow: 0 2px 8px rgba(0,174,239,0.3);
     }
 
     .input-wrap { position: relative; margin-bottom: 0.85rem; }
@@ -54,9 +70,9 @@
       width: 100%; background: var(--bg); border: 2px solid var(--border);
       border-radius: 14px; padding: 1rem 3rem 1rem 1.1rem;
       color: var(--navy); font-family: var(--font); font-size: 0.95rem;
-      outline: none; transition: border-color 0.2s;
+      font-weight: 500; outline: none; transition: border-color 0.2s;
     }
-    .form-input:focus { border-color: var(--gold); }
+    .form-input:focus { border-color: var(--cyan); }
     .form-input::placeholder { color: var(--muted); }
     .eye-btn {
       position: absolute; right: 1rem; top: 50%; transform: translateY(-50%);
@@ -66,22 +82,22 @@
 
     .btn-primary {
       width: 100%; padding: 1.05rem;
-      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
       border: none; border-radius: 14px; color: #fff; font-weight: 700;
       font-family: var(--font); font-size: 1rem; cursor: pointer;
-      box-shadow: 0 4px 16px rgba(201,168,76,0.3); transition: opacity 0.2s;
+      box-shadow: 0 4px 16px rgba(0,174,239,0.3); transition: opacity 0.2s;
       margin-top: 0.25rem;
     }
     .btn-primary:hover { opacity: 0.92; }
     .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
 
-    .msg { margin-top: 0.85rem; font-size: 0.82rem; text-align: center; min-height: 1rem; }
+    .msg { margin-top: 0.85rem; font-size: 0.82rem; text-align: center; min-height: 1rem; font-weight: 500; }
     .msg.error { color: var(--danger); }
     .msg.ok { color: var(--success); }
 
     .back-link {
       display: block; text-align: center; color: var(--muted);
-      font-size: 0.8rem; margin-top: 1.25rem; text-decoration: none;
+      font-size: 0.8rem; margin-top: 1.25rem; text-decoration: none; font-weight: 500;
     }
     .back-link:hover { color: var(--navy); }
 
@@ -96,19 +112,29 @@
   <div id="loading-screen">Verificando sesión...</div>
 
   <div id="auth-screen" class="login-page" style="display:none">
+
+    <div class="lang-bar">
+      <select class="lang-select" id="lang-select" onchange="changeLang(this.value)">
+        <option value="es">🇪🇸 Español</option>
+        <option value="it">🇮🇹 Italiano</option>
+        <option value="pt">🇧🇷 Português</option>
+        <option value="fr">🇫🇷 Français</option>
+        <option value="de">🇩🇪 Deutsch</option>
+      </select>
+    </div>
+
     <div class="auth-box">
       <div class="auth-logo-wrap">
         <img src="../images/neoflux.png" alt="NeoFlux"/>
       </div>
-      <div class="auth-title">Bienvenido</div>
-      <div class="auth-sub">Panel de gestión hotelera</div>
+      <div class="auth-title" id="auth-title">Bienvenido</div>
+      <div class="auth-sub" id="auth-sub">Panel de gestión hotelera</div>
 
       <div class="auth-tabs">
-        <button class="auth-tab active" onclick="showTab('login')">Ingresar</button>
-        <button class="auth-tab" onclick="showTab('register')">Registrarse</button>
+        <button class="auth-tab active" id="tab-btn-login" onclick="showTab('login')" id="t-login">Ingresar</button>
+        <button class="auth-tab" id="tab-btn-register" onclick="showTab('register')">Registrarse</button>
       </div>
 
-      <!-- LOGIN -->
       <div id="tab-login">
         <div class="input-wrap">
           <input type="email" class="form-input" id="login-email" placeholder="Email"/>
@@ -117,11 +143,10 @@
           <input type="password" class="form-input" id="login-password" placeholder="Contraseña"/>
           <button class="eye-btn" type="button" onclick="toggleEye('login-password', this)">👁️</button>
         </div>
-        <button class="btn-primary" id="btn-login" onclick="doLogin()">Ingresar</button>
+        <button class="btn-primary" id="btn-login" onclick="doLogin()" id="b-login">Ingresar</button>
         <p class="msg" id="login-msg"></p>
       </div>
 
-      <!-- REGISTRO -->
       <div id="tab-register" style="display:none">
         <div class="input-wrap">
           <input type="text" class="form-input" id="reg-hotel" placeholder="Nombre del hotel"/>
@@ -146,12 +171,47 @@
     import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
     import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
+    const texts = {
+      es: { welcome:'Bienvenido', sub:'Panel de gestión hotelera', login:'Ingresar', register:'Registrarse', create:'Crear cuenta', email:'Email', pass:'Contraseña', hotel:'Nombre del hotel', minpass:'Contraseña (mín. 6 caracteres)', signing:'Ingresando...', creating:'Creando cuenta...', err_credentials:'Email o contraseña incorrectos', err_fields:'Completá todos los campos', back:'← Volver al inicio' },
+      it: { welcome:'Benvenuto', sub:'Pannello di gestione alberghiera', login:'Accedi', register:'Registrati', create:'Crea account', email:'Email', pass:'Password', hotel:"Nome dell'hotel", minpass:'Password (min. 6 caratteri)', signing:'Accesso...', creating:'Creazione account...', err_credentials:'Email o password errati', err_fields:'Compila tutti i campi', back:'← Torna alla home' },
+      pt: { welcome:'Bem-vindo', sub:'Painel de gestão hoteleira', login:'Entrar', register:'Registrar', create:'Criar conta', email:'Email', pass:'Senha', hotel:'Nome do hotel', minpass:'Senha (mín. 6 caracteres)', signing:'Entrando...', creating:'Criando conta...', err_credentials:'Email ou senha incorretos', err_fields:'Preencha todos os campos', back:'← Voltar ao início' },
+      fr: { welcome:'Bienvenue', sub:'Panneau de gestion hôtelière', login:'Se connecter', register:"S'inscrire", create:'Créer un compte', email:'Email', pass:'Mot de passe', hotel:"Nom de l'hôtel", minpass:'Mot de passe (min. 6 caractères)', signing:'Connexion...', creating:'Création du compte...', err_credentials:'Email ou mot de passe incorrect', err_fields:'Remplissez tous les champs', back:'← Retour à l\'accueil' },
+      de: { welcome:'Willkommen', sub:'Hotelverwaltungs-Panel', login:'Anmelden', register:'Registrieren', create:'Konto erstellen', email:'E-Mail', pass:'Passwort', hotel:'Hotelname', minpass:'Passwort (mind. 6 Zeichen)', signing:'Anmeldung...', creating:'Konto erstellen...', err_credentials:'E-Mail oder Passwort falsch', err_fields:'Alle Felder ausfüllen', back:'← Zurück zur Startseite' }
+    };
+
+    let currentLang = localStorage.getItem('nf_lang') || 'es';
+    let T = texts[currentLang];
+
+    function applyTexts() {
+      T = texts[currentLang];
+      document.getElementById('auth-title').textContent = T.welcome;
+      document.getElementById('auth-sub').textContent = T.sub;
+      document.getElementById('tab-btn-login').textContent = T.login;
+      document.getElementById('tab-btn-register').textContent = T.register;
+      document.getElementById('btn-login').textContent = T.login;
+      document.getElementById('btn-register').textContent = T.create;
+      document.getElementById('login-email').placeholder = T.email;
+      document.getElementById('login-password').placeholder = T.pass;
+      document.getElementById('reg-hotel').placeholder = T.hotel;
+      document.getElementById('reg-email').placeholder = T.email;
+      document.getElementById('reg-password').placeholder = T.minpass;
+      document.querySelector('.back-link').textContent = T.back;
+      document.getElementById('lang-select').value = currentLang;
+    }
+
+    window.changeLang = (lang) => {
+      currentLang = lang;
+      localStorage.setItem('nf_lang', lang);
+      applyTexts();
+    };
+
     onAuthStateChanged(auth, (user) => {
       if (user) {
         window.location.replace('dashboard.html');
       } else {
         document.getElementById('loading-screen').style.display = 'none';
         document.getElementById('auth-screen').style.display = 'flex';
+        applyTexts();
       }
     });
 
@@ -164,9 +224,8 @@
     window.showTab = (tab) => {
       document.getElementById('tab-login').style.display = tab === 'login' ? 'block' : 'none';
       document.getElementById('tab-register').style.display = tab === 'register' ? 'block' : 'none';
-      document.querySelectorAll('.auth-tab').forEach((b,i) => {
-        b.classList.toggle('active', (tab==='login'&&i===0)||(tab==='register'&&i===1));
-      });
+      document.getElementById('tab-btn-login').classList.toggle('active', tab === 'login');
+      document.getElementById('tab-btn-register').classList.toggle('active', tab === 'register');
     };
 
     window.doLogin = async () => {
@@ -174,15 +233,12 @@
       const password = document.getElementById('login-password').value;
       const msg = document.getElementById('login-msg');
       const btn = document.getElementById('btn-login');
-      if (!email || !password) {
-        msg.className = 'msg error'; msg.textContent = 'Completá email y contraseña'; return;
-      }
-      btn.disabled = true;
-      msg.className = 'msg'; msg.textContent = 'Ingresando...';
+      if (!email || !password) { msg.className='msg error'; msg.textContent=T.err_fields; return; }
+      btn.disabled = true; msg.className='msg'; msg.textContent=T.signing;
       try {
         await signInWithEmailAndPassword(auth, email, password);
       } catch(e) {
-        msg.className = 'msg error'; msg.textContent = 'Email o contraseña incorrectos';
+        msg.className='msg error'; msg.textContent=T.err_credentials;
         btn.disabled = false;
       }
     };
@@ -193,11 +249,8 @@
       const password = document.getElementById('reg-password').value;
       const msg = document.getElementById('register-msg');
       const btn = document.getElementById('btn-register');
-      if (!hotel || !email || !password) {
-        msg.className = 'msg error'; msg.textContent = 'Completá todos los campos'; return;
-      }
-      btn.disabled = true;
-      msg.className = 'msg'; msg.textContent = 'Creando cuenta...';
+      if (!hotel || !email || !password) { msg.className='msg error'; msg.textContent=T.err_fields; return; }
+      btn.disabled = true; msg.className='msg'; msg.textContent=T.creating;
       try {
         const cred = await createUserWithEmailAndPassword(auth, email, password);
         await setDoc(doc(db, 'hotels', cred.user.uid), {
@@ -205,7 +258,7 @@
           trialEnds: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000)
         });
       } catch(e) {
-        msg.className = 'msg error'; msg.textContent = e.message;
+        msg.className='msg error'; msg.textContent=e.message;
         btn.disabled = false;
       }
     };
