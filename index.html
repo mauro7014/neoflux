@@ -16,9 +16,9 @@
       --font: 'DM Sans', sans-serif;
       --gold: #c9a84c;
       --gold-light: #e8c87a;
-      --navy: #2a3542;
+      --navy: #1e2d3d;
     }
-    body { background: #fff; font-family: var(--font); min-height: 100vh; overflow-x: hidden; }
+    body { background: #fff; font-family: var(--font); min-height: 100vh; }
 
     /* SPLASH */
     #splash {
@@ -30,88 +30,99 @@
     #splash.fade-out { opacity: 0; pointer-events: none; }
 
     .splash-ring {
-      width: 130px; height: 130px; border-radius: 50%;
-      background: linear-gradient(135deg, #f0f0f0, #ffffff);
-      box-shadow: 0 8px 40px rgba(201,168,76,0.25), 0 2px 8px rgba(0,0,0,0.08);
+      width: 140px; height: 140px; border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 8px 40px rgba(201,168,76,0.2), 0 2px 8px rgba(0,0,0,0.06);
       display: flex; align-items: center; justify-content: center;
       animation: float 2s ease-in-out infinite;
     }
-    .splash-ring img { width: 90px; height: 90px; object-fit: contain; }
-
+    .splash-ring img { width: 96px; height: 96px; object-fit: contain; }
     .splash-name {
-      font-size: 2.2rem; font-weight: 700; color: var(--navy);
+      font-size: 2.4rem; font-weight: 700; color: var(--navy);
       margin-top: 1.5rem; letter-spacing: -1px;
     }
     .splash-name span { color: var(--gold); }
-    .splash-tagline { font-size: 0.85rem; color: #999; margin-top: 0.4rem; }
-
-    .splash-dots {
-      display: flex; gap: 0.4rem; margin-top: 2rem;
-    }
+    .splash-tagline { font-size: 0.85rem; color: #aaa; margin-top: 0.4rem; }
+    .splash-dots { display: flex; gap: 0.4rem; margin-top: 2rem; }
     .splash-dot {
-      width: 8px; height: 8px; border-radius: 50%; background: #e0e0e0;
+      width: 8px; height: 8px; border-radius: 50%; background: #eee;
       animation: dot 1.2s ease-in-out infinite;
     }
     .splash-dot:nth-child(2) { animation-delay: 0.2s; }
     .splash-dot:nth-child(3) { animation-delay: 0.4s; }
-
     @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
-    @keyframes dot { 0%,100%{background:#e0e0e0;transform:scale(1)} 50%{background:var(--gold);transform:scale(1.3)} }
+    @keyframes dot { 0%,100%{background:#eee;transform:scale(1)} 50%{background:var(--gold);transform:scale(1.3)} }
 
     /* LANDING */
     #landing { display: none; min-height: 100vh; background: #fff; }
 
-    .landing-top {
-      padding: 3rem 1.5rem 1.5rem;
+    .landing-hero {
+      background: linear-gradient(160deg, #fffdf7 0%, #fff8e8 100%);
+      border-bottom: 2px solid #f0e8d0;
+      padding: 2.5rem 1.5rem 2rem;
       text-align: center;
     }
     .landing-logo-wrap {
-      width: 90px; height: 90px; border-radius: 50%;
-      background: #f8f8f8;
-      box-shadow: 0 4px 20px rgba(201,168,76,0.15);
+      width: 88px; height: 88px; border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 4px 20px rgba(201,168,76,0.18);
       display: flex; align-items: center; justify-content: center;
       margin: 0 auto 1.25rem;
     }
-    .landing-logo-wrap img { width: 64px; height: 64px; object-fit: contain; }
-    .landing-title { font-size: 1.8rem; font-weight: 700; color: var(--navy); letter-spacing: -0.5px; }
+    .landing-logo-wrap img { width: 62px; height: 62px; object-fit: contain; }
+    .landing-title { font-size: 2rem; font-weight: 700; color: var(--navy); letter-spacing: -0.5px; }
     .landing-title span { color: var(--gold); }
-    .landing-sub { font-size: 0.88rem; color: #999; margin-top: 0.4rem; }
+    .landing-sub { font-size: 0.88rem; color: #aaa; margin-top: 0.4rem; }
 
-    /* MENU CARDS */
-    .menu-grid {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 0.85rem; padding: 1rem 1.25rem;
+    /* MENU */
+    .menu-section { padding: 1.5rem 1.25rem 0.5rem; }
+    .menu-label {
+      font-size: 0.68rem; text-transform: uppercase; letter-spacing: 1.5px;
+      color: #bbb; font-weight: 600; margin-bottom: 1rem;
     }
+    .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
     .menu-card {
       background: #ffffff;
-      border: 1.5px solid #e8c87a;
-      border-radius: 20px; padding: 1.5rem 1rem;
+      border: 2px solid #f0e8d0;
+      border-radius: 22px; padding: 1.5rem 1rem 1.25rem;
       text-align: center; text-decoration: none;
-      transition: all 0.2s; display: flex;
-      flex-direction: column; align-items: center; gap: 0.6rem;
-      box-shadow: 0 2px 12px rgba(201,168,76,0.08);
+      transition: all 0.22s; display: flex;
+      flex-direction: column; align-items: center; gap: 0.65rem;
+      box-shadow: 0 2px 12px rgba(201,168,76,0.07);
     }
-    .menu-card:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(201,168,76,0.18); }
-    .menu-card img { width: 56px; height: 56px; object-fit: contain; }
+    .menu-card:active { transform: scale(0.97); }
+    .menu-card:hover {
+      border-color: var(--gold-light);
+      box-shadow: 0 8px 28px rgba(201,168,76,0.18);
+      transform: translateY(-2px);
+    }
+    .menu-card-img-wrap {
+      width: 62px; height: 62px; border-radius: 16px;
+      background: #fffbf0; display: flex; align-items: center; justify-content: center;
+    }
+    .menu-card-img-wrap img { width: 46px; height: 46px; object-fit: contain; }
     .menu-card-name { font-size: 1rem; font-weight: 700; color: var(--navy); }
-    .menu-card-desc { font-size: 0.72rem; color: #999; }
+    .menu-card-desc { font-size: 0.72rem; color: #bbb; }
 
     /* SUBSCRIBE */
-    .subscribe-wrap { padding: 0.75rem 1.25rem 0.5rem; }
+    .subscribe-section { padding: 1.25rem 1.25rem 0.5rem; }
     .subscribe-btn {
-      display: block; padding: 1.1rem;
-      background: linear-gradient(135deg, #e8c87a, #c9a84c);
-      border-radius: 18px; text-align: center; text-decoration: none;
+      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+      padding: 1.1rem 1.5rem;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      border-radius: 18px; text-decoration: none;
       color: #fff; font-weight: 700; font-size: 1.05rem;
-      box-shadow: 0 4px 20px rgba(201,168,76,0.35);
-      transition: opacity 0.2s; letter-spacing: 0.2px;
+      box-shadow: 0 6px 24px rgba(201,168,76,0.3);
+      transition: all 0.2s; letter-spacing: 0.2px;
     }
-    .subscribe-btn:hover { opacity: 0.92; }
+    .subscribe-btn:hover { opacity: 0.92; transform: translateY(-1px); }
+    .subscribe-btn:active { transform: scale(0.98); }
 
     .footer-note {
-      text-align: center; font-size: 0.75rem; color: #bbb;
-      padding: 0.75rem 1.5rem 2.5rem; line-height: 1.6;
+      text-align: center; font-size: 0.75rem; color: #ccc;
+      padding: 0.85rem 1.5rem 2.5rem; line-height: 1.7;
     }
+    .footer-dot { margin: 0 0.3rem; }
   </style>
 </head>
 <body>
@@ -132,7 +143,7 @@
 
   <!-- LANDING -->
   <div id="landing">
-    <div class="landing-top">
+    <div class="landing-hero">
       <div class="landing-logo-wrap">
         <img src="images/neoflux.png" alt="NeoFlux"/>
       </div>
@@ -140,36 +151,47 @@
       <div class="landing-sub" id="landing-sub">Sistema de gestión hotelera</div>
     </div>
 
-    <div class="menu-grid">
-      <a href="host/" class="menu-card">
-        <img src="images/host.png" alt="Host"/>
-        <div class="menu-card-name">Host</div>
-        <div class="menu-card-desc">Panel propietario</div>
-      </a>
-      <a href="clean/" class="menu-card">
-        <img src="images/clean.png" alt="Clean"/>
-        <div class="menu-card-name">Clean</div>
-        <div class="menu-card-desc">Panel limpieza</div>
-      </a>
-      <a href="order/" class="menu-card">
-        <img src="images/order.png" alt="Order"/>
-        <div class="menu-card-name">Order</div>
-        <div class="menu-card-desc">Panel pedidos</div>
-      </a>
-      <a href="guest/" class="menu-card">
-        <img src="images/guest.png" alt="Guest"/>
-        <div class="menu-card-name">Guest</div>
-        <div class="menu-card-desc">Check-In QR</div>
-      </a>
+    <div class="menu-section">
+      <div class="menu-label">Acceder a</div>
+      <div class="menu-grid">
+        <a href="host/" class="menu-card">
+          <div class="menu-card-img-wrap">
+            <img src="images/host.png" alt="Host"/>
+          </div>
+          <div class="menu-card-name">Host</div>
+          <div class="menu-card-desc">Panel propietario</div>
+        </a>
+        <a href="clean/" class="menu-card">
+          <div class="menu-card-img-wrap">
+            <img src="images/clean.png" alt="Clean"/>
+          </div>
+          <div class="menu-card-name">Clean</div>
+          <div class="menu-card-desc">Panel limpieza</div>
+        </a>
+        <a href="order/" class="menu-card">
+          <div class="menu-card-img-wrap">
+            <img src="images/order.png" alt="Order"/>
+          </div>
+          <div class="menu-card-name">Order</div>
+          <div class="menu-card-desc">Panel pedidos</div>
+        </a>
+        <a href="guest/" class="menu-card">
+          <div class="menu-card-img-wrap">
+            <img src="images/guest.png" alt="Guest"/>
+          </div>
+          <div class="menu-card-name">Guest</div>
+          <div class="menu-card-desc">Check-In QR</div>
+        </a>
+      </div>
     </div>
 
-    <div class="subscribe-wrap">
+    <div class="subscribe-section">
       <a href="subscribe/" class="subscribe-btn" id="btn-sub">
         💳 Suscribirse — 49€/mes
       </a>
     </div>
     <p class="footer-note" id="footer-note">
-      14 días gratis · Sin tarjeta · Cancelás cuando querés
+      14 días gratis <span class="footer-dot">·</span> Sin tarjeta <span class="footer-dot">·</span> Cancelás cuando querés
     </p>
   </div>
 
@@ -177,8 +199,8 @@
     import { t } from './js/i18n.js';
     document.getElementById('splash-tag').textContent = t('tagline');
     document.getElementById('landing-sub').textContent = t('tagline');
-    document.getElementById('btn-sub').textContent = t('subscribe');
-    document.getElementById('footer-note').textContent = t('trial');
+    document.getElementById('btn-sub').innerHTML = '💳 ' + t('subscribe').replace('💳 ', '');
+    document.getElementById('footer-note').innerHTML = t('trial').replace(/·/g, '<span class="footer-dot">·</span>');
 
     setTimeout(() => {
       const splash = document.getElementById('splash');

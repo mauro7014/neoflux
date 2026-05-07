@@ -10,189 +10,231 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --bg: #f5f7fa; --surface: #ffffff; --surface2: #f0f2f5;
-      --border: #e5e7eb; --gold: #e8c87a; --gold2: #c9a84c;
-      --navy: #2a3542; --text: #1a1a2e; --muted: #6b7280;
-      --success: #3fb950; --danger: #f85149; --warning: #d29922;
-      --blue: #2563eb; --font: 'DM Sans', sans-serif; --radius: 16px;
+      --bg: #f5f7fa;
+      --surface: #ffffff;
+      --border: #f0e8d0;
+      --gold: #c9a84c;
+      --gold-light: #e8c87a;
+      --navy: #1e2d3d;
+      --text: #1a1a2e;
+      --muted: #8892a4;
+      --success: #27ae60;
+      --danger: #e74c3c;
+      --warning: #f39c12;
+      --blue: #2563eb;
+      --font: 'DM Sans', sans-serif;
+      --radius: 20px;
     }
     body { background: var(--bg); color: var(--text); font-family: var(--font); min-height: 100vh; }
 
+    /* HEADER */
     .header {
-      background: var(--navy); padding: 1rem 1.25rem;
+      background: var(--surface);
+      border-bottom: 3px solid var(--gold-light);
+      padding: 1.1rem 1.5rem;
       display: flex; align-items: center; justify-content: space-between;
       position: sticky; top: 0; z-index: 50;
+      box-shadow: 0 2px 16px rgba(201,168,76,0.1);
     }
-    .header-left { display: flex; align-items: center; gap: 0.75rem; }
-    .header-logo { width: 42px; height: 42px; object-fit: contain; }
-    .header-title { font-size: 0.95rem; font-weight: 700; color: #fff; }
-    .header-sub { font-size: 0.7rem; color: rgba(255,255,255,0.6); }
-    .header-right { display: flex; align-items: center; gap: 0.5rem; }
+    .header-left { display: flex; align-items: center; gap: 1rem; }
+    .header-logo { width: 48px; height: 48px; object-fit: contain; border-radius: 12px; }
+    .header-title { font-size: 1.1rem; font-weight: 700; color: var(--navy); }
+    .header-sub { font-size: 0.72rem; color: var(--muted); margin-top: 0.1rem; }
+    .header-right { display: flex; align-items: center; gap: 0.6rem; }
     .trial-badge {
-      background: rgba(232,200,122,0.2); border: 1px solid rgba(232,200,122,0.4);
-      border-radius: 8px; padding: 0.3rem 0.6rem; font-size: 0.72rem;
-      font-weight: 600; color: var(--gold);
+      background: linear-gradient(135deg, #fff8e8, #fef3cc);
+      border: 1px solid var(--gold-light); border-radius: 10px;
+      padding: 0.35rem 0.75rem; font-size: 0.72rem; font-weight: 700; color: var(--gold);
     }
     .btn-logout {
-      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 8px; padding: 0.4rem 0.75rem; color: #fff;
-      font-family: var(--font); font-size: 0.78rem; cursor: pointer;
+      background: var(--bg); border: 1.5px solid var(--border);
+      border-radius: 12px; padding: 0.5rem 1rem; color: var(--muted);
+      font-family: var(--font); font-size: 0.82rem; font-weight: 600; cursor: pointer;
+      transition: all 0.2s;
     }
+    .btn-logout:hover { border-color: var(--danger); color: var(--danger); }
 
+    /* NAV TABS */
     .nav-tabs {
-      display: flex; background: var(--surface); border-bottom: 1px solid var(--border);
+      display: flex; background: var(--surface);
+      border-bottom: 1px solid #eee;
       overflow-x: auto; scrollbar-width: none;
+      padding: 0 1rem;
     }
     .nav-tabs::-webkit-scrollbar { display: none; }
     .nav-tab {
-      flex: 1; min-width: 80px; padding: 0.85rem 0.5rem; border: none;
-      background: transparent; color: var(--muted); font-family: var(--font);
-      font-size: 0.78rem; font-weight: 600; cursor: pointer;
-      border-bottom: 2px solid transparent; transition: all 0.2s; white-space: nowrap;
+      flex: 1; min-width: 90px; padding: 1rem 0.5rem;
+      border: none; background: transparent;
+      color: var(--muted); font-family: var(--font);
+      font-size: 0.82rem; font-weight: 600; cursor: pointer;
+      border-bottom: 3px solid transparent; transition: all 0.2s;
+      white-space: nowrap;
     }
-    .nav-tab.active { color: var(--navy); border-bottom-color: var(--navy); }
+    .nav-tab.active { color: var(--navy); border-bottom-color: var(--gold); }
+    .nav-tab:hover { color: var(--navy); }
 
-    .content { padding: 1.25rem; max-width: 520px; margin: 0 auto; }
+    /* CONTENT */
+    .content { padding: 1.5rem; max-width: 540px; margin: 0 auto; }
     .tab-content { display: none; }
     .tab-content.active { display: block; }
 
-    .stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 0.6rem; margin-bottom: 1.25rem; }
+    /* STATS */
+    .stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 0.75rem; margin-bottom: 1.5rem; }
     .stat-card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 14px; padding: 0.75rem 0.5rem; text-align: center;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+      background: var(--surface); border: 1.5px solid var(--border);
+      border-radius: 18px; padding: 1rem 0.5rem; text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      transition: transform 0.2s;
     }
-    .stat-number { font-size: 1.5rem; font-weight: 700; color: var(--navy); }
-    .stat-label { font-size: 0.62rem; color: var(--muted); margin-top: 0.2rem; text-transform: uppercase; letter-spacing: 0.5px; }
+    .stat-card:hover { transform: translateY(-2px); }
+    .stat-number { font-size: 1.8rem; font-weight: 700; color: var(--navy); }
+    .stat-label { font-size: 0.6rem; color: var(--muted); margin-top: 0.25rem; text-transform: uppercase; letter-spacing: 0.5px; }
 
+    /* SECTION TITLE */
     .section-title {
-      font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px;
-      color: var(--muted); margin-bottom: 0.75rem; margin-top: 1.25rem;
-      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1.5px;
+      color: var(--muted); margin: 1.5rem 0 1rem;
+      display: flex; align-items: center; gap: 0.6rem; font-weight: 600;
     }
-    .section-title::after { content:''; flex:1; height:1px; background: var(--border); }
+    .section-title::after { content:''; flex:1; height:1px; background: #eee; }
 
-    .rooms-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem; }
+    /* ROOMS */
+    .rooms-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem; }
     .room-card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 1rem; cursor: pointer;
+      background: var(--surface); border: 1.5px solid var(--border);
+      border-radius: var(--radius); padding: 1.25rem; cursor: pointer;
       transition: all 0.2s; position: relative; overflow: hidden;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
     }
     .room-card::before {
-      content:''; position: absolute; top:0; left:0; right:0; height:3px;
-      background: var(--status-color, var(--border));
+      content:''; position: absolute; top:0; left:0; right:0; height:4px;
+      background: var(--status-color, #eee); border-radius: 20px 20px 0 0;
     }
-    .room-card:hover { border-color: var(--navy); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-    .room-card.free { --status-color: #3fb950; }
+    .room-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); border-color: var(--gold-light); }
+    .room-card.free { --status-color: #27ae60; }
     .room-card.occupied { --status-color: #2563eb; }
-    .room-card.dirty { --status-color: #f85149; }
-    .room-card.cleaning { --status-color: #d29922; }
-    .room-number { font-size: 1.05rem; font-weight: 700; color: var(--text); margin-bottom: 0.4rem; }
+    .room-card.dirty { --status-color: #e74c3c; }
+    .room-card.cleaning { --status-color: #f39c12; }
+    .room-number { font-size: 1.15rem; font-weight: 700; color: var(--text); margin-bottom: 0.5rem; }
     .room-status-badge {
-      font-size: 0.7rem; padding: 0.2rem 0.5rem; border-radius: 6px;
-      display: inline-block; font-weight: 600;
+      font-size: 0.72rem; padding: 0.25rem 0.65rem; border-radius: 8px;
+      display: inline-block; font-weight: 700;
     }
-    .badge-free { background: rgba(63,185,80,0.12); color: #2a8a4a; }
-    .badge-occupied { background: rgba(37,99,235,0.12); color: #2563eb; }
-    .badge-dirty { background: rgba(248,81,73,0.12); color: #c0392b; }
-    .badge-cleaning { background: rgba(210,153,34,0.12); color: #aa6a00; }
-    .room-staff-tag { font-size: 0.68rem; color: var(--muted); margin-top: 0.4rem; }
+    .badge-free { background: #eafaf1; color: #1e8449; }
+    .badge-occupied { background: #eaf0fb; color: #1a5276; }
+    .badge-dirty { background: #fdf2f2; color: #922b21; }
+    .badge-cleaning { background: #fef9e7; color: #9a7d0a; }
+    .room-staff-tag { font-size: 0.68rem; color: var(--muted); margin-top: 0.5rem; }
 
+    /* BTN ADD */
     .btn-add {
-      width: 100%; padding: 0.8rem; background: transparent;
-      border: 1px dashed var(--border); border-radius: var(--radius);
-      color: var(--muted); font-family: var(--font); font-size: 0.9rem;
-      cursor: pointer; transition: all 0.2s; margin-bottom: 0.5rem;
+      width: 100%; padding: 1rem; background: transparent;
+      border: 2px dashed var(--gold-light); border-radius: var(--radius);
+      color: var(--gold); font-family: var(--font); font-size: 0.95rem;
+      font-weight: 600; cursor: pointer; transition: all 0.2s; margin-bottom: 0.75rem;
     }
-    .btn-add:hover { border-color: var(--navy); color: var(--navy); }
+    .btn-add:hover { background: #fffbf0; border-style: solid; }
 
+    /* ORDER CARDS */
     .order-card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 1rem; margin-bottom: 0.75rem;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+      background: var(--surface); border: 1.5px solid var(--border);
+      border-radius: var(--radius); padding: 1.25rem; margin-bottom: 1rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
     }
-    .order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; }
-    .order-room-label { font-weight: 700; font-size: 0.95rem; }
-    .order-badge { font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 6px; font-weight: 600; }
-    .badge-pending { background: rgba(248,81,73,0.12); color: #c0392b; }
-    .badge-progress { background: rgba(210,153,34,0.12); color: #aa6a00; }
-    .badge-done { background: rgba(63,185,80,0.12); color: #2a8a4a; }
+    .order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
+    .order-room-label { font-weight: 700; font-size: 1rem; color: var(--navy); }
+    .order-badge { font-size: 0.72rem; padding: 0.3rem 0.75rem; border-radius: 8px; font-weight: 700; }
+    .badge-pending { background: #fdf2f2; color: #922b21; }
+    .badge-progress { background: #fef9e7; color: #9a7d0a; }
+    .badge-done { background: #eafaf1; color: #1e8449; }
 
+    /* LIST ITEMS */
     .list-item {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 12px; padding: 0.75rem 1rem; margin-bottom: 0.5rem;
+      background: var(--surface); border: 1.5px solid var(--border);
+      border-radius: 14px; padding: 1rem 1.25rem; margin-bottom: 0.75rem;
       display: flex; justify-content: space-between; align-items: center;
       box-shadow: 0 1px 4px rgba(0,0,0,0.04);
     }
-    .list-item-name { font-weight: 600; font-size: 0.9rem; }
-    .list-item-value { font-weight: 700; color: var(--navy); font-size: 0.85rem; }
-    .btn-del { background: none; border: none; color: var(--danger); cursor: pointer; font-size: 1rem; }
+    .list-item-name { font-weight: 600; font-size: 0.95rem; color: var(--text); }
+    .list-item-value { font-weight: 700; color: var(--navy); }
+    .btn-del { background: none; border: none; color: var(--danger); cursor: pointer; font-size: 1.1rem; padding: 0.2rem; }
     .staff-role-tag {
-      font-size: 0.7rem; color: var(--blue); font-weight: 600;
-      background: rgba(37,99,235,0.1); padding: 0.2rem 0.5rem; border-radius: 6px;
+      font-size: 0.72rem; color: var(--blue); font-weight: 700;
+      background: #eaf0fb; padding: 0.3rem 0.65rem; border-radius: 8px;
     }
 
+    /* MODALS */
     .modal-overlay {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+      position: fixed; inset: 0; background: rgba(0,0,0,0.45);
       display: flex; align-items: center; justify-content: center;
       padding: 1.5rem; z-index: 100; overflow-y: auto;
+      backdrop-filter: blur(4px);
     }
     .modal {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 20px; padding: 1.5rem; width: 100%; max-width: 340px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.15); margin: auto;
+      background: var(--surface); border: 1.5px solid var(--border);
+      border-radius: 24px; padding: 1.75rem; width: 100%; max-width: 360px;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.12); margin: auto;
     }
-    .modal h3 { font-size: 1rem; font-weight: 700; margin-bottom: 1rem; color: var(--text); }
+    .modal h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 1.25rem; color: var(--navy); }
     .modal input, .modal select {
-      width: 100%; background: var(--bg); border: 1px solid var(--border);
-      border-radius: 10px; padding: 0.75rem 1rem; color: var(--text);
-      font-family: var(--font); font-size: 0.9rem; margin-bottom: 0.75rem; outline: none;
-      transition: border-color 0.2s;
+      width: 100%; background: var(--bg); border: 1.5px solid #e8e8e8;
+      border-radius: 12px; padding: 0.9rem 1.1rem; color: var(--text);
+      font-family: var(--font); font-size: 0.95rem; margin-bottom: 0.85rem;
+      outline: none; transition: border-color 0.2s;
     }
-    .modal input:focus, .modal select:focus { border-color: var(--navy); }
-    .modal-btns { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
+    .modal input:focus, .modal select:focus { border-color: var(--gold); }
+    .modal-btns { display: flex; gap: 0.75rem; margin-top: 0.5rem; }
     .btn-cancel {
-      flex: 1; padding: 0.75rem; background: transparent; border: 1px solid var(--border);
-      border-radius: 10px; color: var(--muted); font-family: var(--font); cursor: pointer;
+      flex: 1; padding: 0.9rem; background: var(--bg); border: 1.5px solid #e8e8e8;
+      border-radius: 12px; color: var(--muted); font-family: var(--font);
+      font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s;
     }
+    .btn-cancel:hover { border-color: var(--muted); }
     .btn-save {
-      flex: 1; padding: 0.75rem; background: var(--navy); border: none;
-      border-radius: 10px; color: #fff; font-weight: 700; font-family: var(--font); cursor: pointer;
+      flex: 1; padding: 0.9rem;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      border: none; border-radius: 12px; color: #fff; font-weight: 700;
+      font-family: var(--font); font-size: 0.9rem; cursor: pointer;
+      box-shadow: 0 4px 12px rgba(201,168,76,0.3); transition: opacity 0.2s;
     }
+    .btn-save:hover { opacity: 0.9; }
     .btn-danger-modal {
-      flex: 1; padding: 0.75rem; background: rgba(248,81,73,0.1); border: none;
-      border-radius: 10px; color: var(--danger); font-weight: 700; font-family: var(--font); cursor: pointer;
+      flex: 1; padding: 0.9rem; background: #fdf2f2; border: none;
+      border-radius: 12px; color: var(--danger); font-weight: 700;
+      font-family: var(--font); font-size: 0.9rem; cursor: pointer;
     }
     .btn-print {
-      flex: 1; padding: 0.75rem; background: rgba(37,99,235,0.1); border: none;
-      border-radius: 10px; color: var(--blue); font-weight: 700; font-family: var(--font); cursor: pointer;
+      flex: 1; padding: 0.9rem; background: #eaf0fb; border: none;
+      border-radius: 12px; color: var(--blue); font-weight: 700;
+      font-family: var(--font); font-size: 0.9rem; cursor: pointer;
     }
-    .msg { margin-top: 0.75rem; font-size: 0.8rem; text-align: center; min-height: 1rem; }
+    .msg { margin-top: 0.85rem; font-size: 0.82rem; text-align: center; min-height: 1rem; }
     .msg.error { color: var(--danger); }
     .msg.ok { color: var(--success); }
 
+    /* QR */
     .qr-print-area {
-      background: #fff; border: 1px solid var(--border); border-radius: 16px;
-      padding: 1.5rem; margin: 1rem 0; text-align: center;
+      background: #fff; border: 1.5px solid #eee; border-radius: 18px;
+      padding: 1.75rem; margin: 1rem 0; text-align: center;
     }
-    .qr-hotel-name { font-size: 0.9rem; font-weight: 700; color: var(--navy); margin-bottom: 0.3rem; }
-    .qr-room-name { font-size: 0.78rem; color: var(--muted); margin-bottom: 1rem; }
-    .qr-hint { font-size: 0.72rem; color: var(--muted); margin-top: 1rem; }
-    .qr-url-text { font-size: 0.58rem; color: #aaa; margin-top: 0.3rem; word-break: break-all; }
+    .qr-hotel-name { font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: 0.3rem; }
+    .qr-room-name { font-size: 0.82rem; color: var(--muted); margin-bottom: 1.25rem; }
+    .qr-hint { font-size: 0.75rem; color: var(--muted); margin-top: 1.25rem; }
+    .qr-url-text { font-size: 0.55rem; color: #bbb; margin-top: 0.4rem; word-break: break-all; }
     #qr-container { display: flex; justify-content: center; }
 
-    .empty-state { text-align: center; color: var(--muted); padding: 2rem; font-size: 0.9rem; }
+    .empty-state { text-align: center; color: var(--muted); padding: 2.5rem; font-size: 0.95rem; }
     .hidden { display: none; }
   </style>
 </head>
 <body>
 
+  <!-- HEADER -->
   <div class="header">
     <div class="header-left">
       <img src="../images/host.png" alt="Host" class="header-logo"/>
       <div>
-        <div class="header-title">NeoFlux Host</div>
+        <div class="header-title">Panel Host</div>
         <div class="header-sub" id="hotel-name">Cargando...</div>
       </div>
     </div>
@@ -202,6 +244,7 @@
     </div>
   </div>
 
+  <!-- NAV TABS -->
   <div class="nav-tabs">
     <button class="nav-tab active" onclick="showTab('rooms',this)">🚪 Habitaciones</button>
     <button class="nav-tab" onclick="showTab('orders',this)">🛎️ Pedidos</button>
@@ -209,7 +252,9 @@
     <button class="nav-tab" onclick="showTab('staff',this)">👥 Personal</button>
   </div>
 
+  <!-- CONTENT -->
   <div class="content">
+
     <div id="tab-rooms" class="tab-content active">
       <div class="stats-row">
         <div class="stat-card"><div class="stat-number" id="stat-free">0</div><div class="stat-label">Libres</div></div>
@@ -238,6 +283,7 @@
       <div id="staff-list"></div>
       <button class="btn-add" onclick="openAddStaff()">+ Registrar personal</button>
     </div>
+
   </div>
 
   <!-- Modal nueva habitación -->
@@ -273,10 +319,10 @@
         <option value="">Sin asignar</option>
       </select>
       <div class="modal-btns">
-        <button class="btn-cancel" onclick="showQR()">📱 QR</button>
+        <button class="btn-print" onclick="showQR()">📱 Ver QR</button>
         <button class="btn-save" onclick="saveRoom()">Guardar</button>
       </div>
-      <div class="modal-btns" style="margin-top:0.5rem">
+      <div class="modal-btns" style="margin-top:0.6rem">
         <button class="btn-danger-modal" onclick="deleteRoom()">🗑️ Eliminar</button>
         <button class="btn-cancel" onclick="closeModal()">Volver</button>
       </div>
@@ -298,7 +344,7 @@
         <button class="btn-cancel" onclick="backToEdit()">← Volver</button>
         <button class="btn-print" onclick="printQR()">🖨️ Imprimir</button>
       </div>
-      <div style="margin-top:0.5rem">
+      <div style="margin-top:0.6rem">
         <button class="btn-cancel" style="width:100%" onclick="closeModal()">Cerrar</button>
       </div>
     </div>
@@ -361,7 +407,7 @@
         const data = hotelDoc.data();
         hotelNameText = data.name;
         document.getElementById('hotel-name').textContent = data.name;
-        if (data.plan === 'trial' && data.trialEnds) {
+        if (data.trialEnds) {
           const end = data.trialEnds?.toDate?.();
           if (end) {
             const days = Math.ceil((end - new Date()) / 86400000);
@@ -460,7 +506,8 @@
       document.getElementById('qr-room-print').textContent = `🚪 Habitación ${editingRoomNumber}`;
       document.getElementById('qr-container').innerHTML = '';
       new QRCode(document.getElementById('qr-container'), {
-        text: url, width: 180, height: 180, colorDark:'#2a3542', colorLight:'#ffffff'
+        text: url, width: 180, height: 180,
+        colorDark: '#1e2d3d', colorLight: '#ffffff'
       });
       document.getElementById('modal-edit').classList.add('hidden');
       document.getElementById('modal-qr').classList.remove('hidden');
@@ -473,16 +520,16 @@
       const area = document.getElementById('qr-print-area').innerHTML;
       const win = window.open('', '_blank');
       win.document.write(`
-        <html><head><title>QR NeoFlux — Habitación ${editingRoomNumber}</title>
+        <html><head><title>QR — Habitación ${editingRoomNumber}</title>
         <style>
           @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&display=swap');
-          * { box-sizing: border-box; margin: 0; padding: 0; }
-          body { font-family: 'DM Sans', sans-serif; display:flex; align-items:center; justify-content:center; min-height:100vh; background:#f5f7fa; }
-          .wrap { background:#fff; border:2px solid #e5e7eb; border-radius:24px; padding:2.5rem; text-align:center; max-width:320px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
-          .qr-hotel-name { font-size:1rem; font-weight:700; color:#2a3542; margin-bottom:0.3rem; }
-          .qr-room-name { font-size:0.85rem; color:#6b7280; margin-bottom:1.25rem; }
-          .qr-hint { font-size:0.78rem; color:#6b7280; margin-top:1.25rem; }
-          .qr-url-text { font-size:0.55rem; color:#aaa; margin-top:0.4rem; word-break:break-all; }
+          * { box-sizing:border-box; margin:0; padding:0; }
+          body { font-family:'DM Sans',sans-serif; display:flex; align-items:center; justify-content:center; min-height:100vh; background:#f5f7fa; }
+          .wrap { background:#fff; border:2px solid #f0e8d0; border-radius:28px; padding:2.5rem; text-align:center; max-width:320px; box-shadow:0 8px 32px rgba(0,0,0,0.08); }
+          .qr-hotel-name { font-size:1.05rem; font-weight:700; color:#1e2d3d; margin-bottom:0.3rem; }
+          .qr-room-name { font-size:0.85rem; color:#8892a4; margin-bottom:1.25rem; }
+          .qr-hint { font-size:0.78rem; color:#8892a4; margin-top:1.25rem; }
+          .qr-url-text { font-size:0.5rem; color:#bbb; margin-top:0.4rem; word-break:break-all; }
           img { max-width:200px; }
         </style></head>
         <body><div class="wrap">${area}</div></body></html>
@@ -508,107 +555,10 @@
           const time = o.createdAt?.toDate ? o.createdAt.toDate().toLocaleTimeString('es',{hour:'2-digit',minute:'2-digit'}) : '';
           card.innerHTML = `
             <div class="order-header">
-              <span class="order-room-label">🚪 ${o.roomNumber || '—'} ${o.guestName ? '· '+o.guestName : ''}</span>
+              <span class="order-room-label">🚪 ${o.roomNumber || '—'}${o.guestName ? ' · '+o.guestName : ''}</span>
               <span class="order-badge ${orderBadge[o.status]}">${orderLabel[o.status]}</span>
             </div>
-            ${itemsText ? `<p style="font-size:0.82rem;color:var(--muted);margin-bottom:0.3rem">📦 ${itemsText}</p>` : ''}
-            ${o.note ? `<p style="font-size:0.78rem;color:var(--muted);margin-bottom:0.3rem">📝 ${o.note}</p>` : ''}
-            ${o.total > 0 ? `<p style="font-size:0.82rem;font-weight:700;color:var(--navy);margin-bottom:0.5rem">💰 $${o.total}</p>` : ''}
-            <p style="font-size:0.7rem;color:var(--muted);margin-bottom:0.5rem">🕐 ${time}</p>
-            <div style="display:flex;gap:0.5rem">
-              ${o.status==='pending' ? `<button style="flex:1;padding:0.5rem;border:none;border-radius:8px;background:rgba(210,153,34,0.12);color:#aa6a00;font-weight:700;cursor:pointer;font-family:var(--font)" onclick="updateOrder('${o.id}','progress')">En curso</button>` : ''}
-              ${o.status==='progress' ? `<button style="flex:1;padding:0.5rem;border:none;border-radius:8px;background:rgba(63,185,80,0.12);color:#2a8a4a;font-weight:700;cursor:pointer;font-family:var(--font)" onclick="updateOrder('${o.id}','done')">Completado ✓</button>` : ''}
-            </div>
-          `;
-          list.appendChild(card);
-        });
-      });
-    }
-    window.updateOrder = async (id, status) => {
-      await updateDoc(doc(db, 'hotels', hotelId, 'orders', id), { status });
-    };
-
-    // EXTRAS
-    function loadExtras() {
-      onSnapshot(collection(db, 'hotels', hotelId, 'extras'), (snap) => {
-        const list = document.getElementById('extras-list');
-        list.innerHTML = '';
-        if (snap.empty) { list.innerHTML = '<p class="empty-state">Sin extras configurados</p>'; return; }
-        snap.forEach(d => {
-          const e = d.data();
-          const item = document.createElement('div');
-          item.className = 'list-item';
-          item.innerHTML = `
-            <span class="list-item-name">${e.name}</span>
-            <div style="display:flex;align-items:center;gap:0.75rem">
-              <span class="list-item-value">${e.price > 0 ? '$'+e.price : 'Sin cargo'}</span>
-              <button class="btn-del" onclick="deleteExtra('${d.id}')">🗑️</button>
-            </div>
-          `;
-          list.appendChild(item);
-        });
-      });
-    }
-    window.openAddExtra = () => document.getElementById('modal-extra').classList.remove('hidden');
-    window.addExtra = async () => {
-      const name = document.getElementById('extra-name').value.trim();
-      const price = parseFloat(document.getElementById('extra-price').value) || 0;
-      if (!name) return;
-      await addDoc(collection(db, 'hotels', hotelId, 'extras'), { name, price });
-      closeModal();
-      document.getElementById('extra-name').value = '';
-      document.getElementById('extra-price').value = '';
-    };
-    window.deleteExtra = async (id) => {
-      await deleteDoc(doc(db, 'hotels', hotelId, 'extras', id));
-    };
-
-    // STAFF
-    function loadStaff() {
-      onSnapshot(collection(db, 'hotels', hotelId, 'staff'), (snap) => {
-        staffList = [];
-        const list = document.getElementById('staff-list');
-        list.innerHTML = '';
-        if (snap.empty) { list.innerHTML = '<p class="empty-state">Sin personal registrado</p>'; return; }
-        snap.forEach(d => {
-          const s = d.data();
-          staffList.push(s);
-          const item = document.createElement('div');
-          item.className = 'list-item';
-          item.innerHTML = `
-            <div>
-              <p class="list-item-name">${s.name}</p>
-              <p style="font-size:0.72rem;color:var(--muted)">${s.email}</p>
-            </div>
-            <span class="staff-role-tag">${s.role==='cleaner' ? '🧹 Mucama' : '👤 Staff'}</span>
-          `;
-          list.appendChild(item);
-        });
-      });
-    }
-    window.openAddStaff = () => document.getElementById('modal-staff').classList.remove('hidden');
-    window.addStaff = async () => {
-      const name = document.getElementById('staff-name').value.trim();
-      const email = document.getElementById('staff-email').value.trim();
-      const password = document.getElementById('staff-password').value;
-      const role = document.getElementById('staff-role').value;
-      const msg = document.getElementById('staff-msg');
-      msg.className = 'msg'; msg.textContent = 'Registrando...';
-      try {
-        const cred = await createUserWithEmailAndPassword(auth, email, password);
-        await setDoc(doc(db, 'users', cred.user.uid), { name, email, role, hotelId });
-        await addDoc(collection(db, 'hotels', hotelId, 'staff'), { name, email, uid: cred.user.uid, role });
-        msg.className = 'msg ok'; msg.textContent = '✅ Personal registrado';
-        document.getElementById('staff-name').value = '';
-        document.getElementById('staff-email').value = '';
-        document.getElementById('staff-password').value = '';
-      } catch(e) {
-        msg.className = 'msg error'; msg.textContent = e.message;
-      }
-    };
-
-    window.closeModal = () => document.querySelectorAll('.modal-overlay').forEach(m => m.classList.add('hidden'));
-    window.doLogout = async () => { await signOut(auth); window.location.href = 'index.html'; };
-  </script>
-</body>
-</html>
+            ${itemsText ? `<p style="font-size:0.85rem;color:var(--muted);margin-bottom:0.4rem">📦 ${itemsText}</p>` : ''}
+            ${o.note ? `<p style="font-size:0.82rem;color:var(--muted);margin-bottom:0.4rem">📝 ${o.note}</p>` : ''}
+            ${o.total > 0 ? `<p style="font-size:0.85rem;font-weight:700;color:var(--navy);margin-bottom:0.6rem">💰 $${o.total}</p>` : ''}
+            <p style="font-size:0.72
