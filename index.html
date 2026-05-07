@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="theme-color" content="#0d1117"/>
+  <meta name="theme-color" content="#ffffff"/>
   <link rel="icon" type="image/png" href="images/neoflux.png"/>
   <link rel="apple-touch-icon" href="images/neoflux.png"/>
   <link rel="manifest" href="manifest.json"/>
@@ -12,73 +12,105 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root { --font: 'DM Sans', sans-serif; --gold: #e8c87a; --bg: #0d1117; }
-    body { background: var(--bg); font-family: var(--font); min-height: 100vh; overflow: hidden; }
+    :root {
+      --font: 'DM Sans', sans-serif;
+      --gold: #c9a84c;
+      --gold-light: #e8c87a;
+      --navy: #2a3542;
+    }
+    body { background: #fff; font-family: var(--font); min-height: 100vh; overflow-x: hidden; }
 
     /* SPLASH */
     #splash {
-      position: fixed; inset: 0; background: var(--bg);
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      z-index: 100; transition: opacity 0.6s ease;
+      position: fixed; inset: 0; background: #ffffff;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      z-index: 100; transition: opacity 0.5s ease;
     }
     #splash.fade-out { opacity: 0; pointer-events: none; }
-    .splash-logo { width: 120px; animation: pulse 1.5s ease-in-out infinite; }
+
+    .splash-ring {
+      width: 130px; height: 130px; border-radius: 50%;
+      background: linear-gradient(135deg, #f0f0f0, #ffffff);
+      box-shadow: 0 8px 40px rgba(201,168,76,0.25), 0 2px 8px rgba(0,0,0,0.08);
+      display: flex; align-items: center; justify-content: center;
+      animation: float 2s ease-in-out infinite;
+    }
+    .splash-ring img { width: 90px; height: 90px; object-fit: contain; }
+
     .splash-name {
-      font-size: 2rem; font-weight: 700; color: #fff; margin-top: 1rem; letter-spacing: -0.5px;
+      font-size: 2.2rem; font-weight: 700; color: var(--navy);
+      margin-top: 1.5rem; letter-spacing: -1px;
     }
     .splash-name span { color: var(--gold); }
-    .splash-tagline { font-size: 0.85rem; color: #8b949e; margin-top: 0.5rem; }
-    .splash-loader {
-      width: 40px; height: 4px; background: #21262d; border-radius: 2px;
-      margin-top: 2rem; overflow: hidden;
+    .splash-tagline { font-size: 0.85rem; color: #999; margin-top: 0.4rem; }
+
+    .splash-dots {
+      display: flex; gap: 0.4rem; margin-top: 2rem;
     }
-    .splash-loader-bar {
-      height: 100%; background: var(--gold); border-radius: 2px;
-      animation: load 1.8s ease forwards;
+    .splash-dot {
+      width: 8px; height: 8px; border-radius: 50%; background: #e0e0e0;
+      animation: dot 1.2s ease-in-out infinite;
     }
-    @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.05)} }
-    @keyframes load { from{width:0} to{width:100%} }
+    .splash-dot:nth-child(2) { animation-delay: 0.2s; }
+    .splash-dot:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+    @keyframes dot { 0%,100%{background:#e0e0e0;transform:scale(1)} 50%{background:var(--gold);transform:scale(1.3)} }
 
     /* LANDING */
-    #landing {
-      display: none; min-height: 100vh;
-      background: linear-gradient(180deg, #0d1117 0%, #161b22 100%);
-    }
-    .landing-header {
-      padding: 2rem 1.5rem 0; text-align: center;
-    }
-    .landing-logo { width: 90px; margin-bottom: 0.75rem; }
-    .landing-title { font-size: 1.6rem; font-weight: 700; color: #fff; letter-spacing: -0.5px; }
-    .landing-title span { color: var(--gold); }
-    .landing-sub { font-size: 0.85rem; color: #8b949e; margin-top: 0.3rem; }
+    #landing { display: none; min-height: 100vh; background: #fff; }
 
+    .landing-top {
+      padding: 3rem 1.5rem 1.5rem;
+      text-align: center;
+    }
+    .landing-logo-wrap {
+      width: 90px; height: 90px; border-radius: 50%;
+      background: #f8f8f8;
+      box-shadow: 0 4px 20px rgba(201,168,76,0.15);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1.25rem;
+    }
+    .landing-logo-wrap img { width: 64px; height: 64px; object-fit: contain; }
+    .landing-title { font-size: 1.8rem; font-weight: 700; color: var(--navy); letter-spacing: -0.5px; }
+    .landing-title span { color: var(--gold); }
+    .landing-sub { font-size: 0.88rem; color: #999; margin-top: 0.4rem; }
+
+    /* MENU CARDS */
     .menu-grid {
       display: grid; grid-template-columns: 1fr 1fr;
-      gap: 0.75rem; padding: 1.5rem;
+      gap: 0.85rem; padding: 1rem 1.25rem;
     }
     .menu-card {
-      background: #161b22; border: 1px solid #21262d; border-radius: 20px;
-      padding: 1.25rem 1rem; text-align: center; text-decoration: none;
-      transition: all 0.2s; display: flex; flex-direction: column;
-      align-items: center; gap: 0.6rem;
+      background: #ffffff;
+      border: 1.5px solid #e8c87a;
+      border-radius: 20px; padding: 1.5rem 1rem;
+      text-align: center; text-decoration: none;
+      transition: all 0.2s; display: flex;
+      flex-direction: column; align-items: center; gap: 0.6rem;
+      box-shadow: 0 2px 12px rgba(201,168,76,0.08);
     }
-    .menu-card:hover { border-color: var(--gold); transform: translateY(-2px); }
-    .menu-card img { width: 52px; height: 52px; object-fit: contain; }
-    .menu-card-name { font-size: 0.9rem; font-weight: 700; color: #fff; }
-    .menu-card-desc { font-size: 0.7rem; color: #8b949e; }
+    .menu-card:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(201,168,76,0.18); }
+    .menu-card img { width: 56px; height: 56px; object-fit: contain; }
+    .menu-card-name { font-size: 1rem; font-weight: 700; color: var(--navy); }
+    .menu-card-desc { font-size: 0.72rem; color: #999; }
 
+    /* SUBSCRIBE */
+    .subscribe-wrap { padding: 0.75rem 1.25rem 0.5rem; }
     .subscribe-btn {
-      display: block; margin: 0 1.5rem 1rem; padding: 1rem;
-      background: linear-gradient(135deg, var(--gold), #c9a84c);
-      border-radius: 16px; text-align: center; text-decoration: none;
-      color: #000; font-weight: 700; font-size: 1rem;
-      box-shadow: 0 4px 20px rgba(232,200,122,0.3);
-      transition: opacity 0.2s;
+      display: block; padding: 1.1rem;
+      background: linear-gradient(135deg, #e8c87a, #c9a84c);
+      border-radius: 18px; text-align: center; text-decoration: none;
+      color: #fff; font-weight: 700; font-size: 1.05rem;
+      box-shadow: 0 4px 20px rgba(201,168,76,0.35);
+      transition: opacity 0.2s; letter-spacing: 0.2px;
     }
-    .subscribe-btn:hover { opacity: 0.9; }
+    .subscribe-btn:hover { opacity: 0.92; }
+
     .footer-note {
-      text-align: center; font-size: 0.75rem; color: #8b949e;
-      padding: 0 1.5rem 2rem;
+      text-align: center; font-size: 0.75rem; color: #bbb;
+      padding: 0.75rem 1.5rem 2.5rem; line-height: 1.6;
     }
   </style>
 </head>
@@ -86,16 +118,24 @@
 
   <!-- SPLASH -->
   <div id="splash">
-    <img src="images/neoflux.png" alt="NeoFlux" class="splash-logo"/>
+    <div class="splash-ring">
+      <img src="images/neoflux.png" alt="NeoFlux"/>
+    </div>
     <div class="splash-name">Neo<span>Flux</span></div>
-    <div class="splash-tagline" id="splash-tagline">Sistema de gestión hotelera</div>
-    <div class="splash-loader"><div class="splash-loader-bar"></div></div>
+    <div class="splash-tagline" id="splash-tag">Sistema de gestión hotelera</div>
+    <div class="splash-dots">
+      <div class="splash-dot"></div>
+      <div class="splash-dot"></div>
+      <div class="splash-dot"></div>
+    </div>
   </div>
 
   <!-- LANDING -->
   <div id="landing">
-    <div class="landing-header">
-      <img src="images/neoflux.png" alt="NeoFlux" class="landing-logo"/>
+    <div class="landing-top">
+      <div class="landing-logo-wrap">
+        <img src="images/neoflux.png" alt="NeoFlux"/>
+      </div>
       <div class="landing-title">Neo<span>Flux</span></div>
       <div class="landing-sub" id="landing-sub">Sistema de gestión hotelera</div>
     </div>
@@ -104,28 +144,30 @@
       <a href="host/" class="menu-card">
         <img src="images/host.png" alt="Host"/>
         <div class="menu-card-name">Host</div>
-        <div class="menu-card-desc" id="desc-host">Panel propietario</div>
+        <div class="menu-card-desc">Panel propietario</div>
       </a>
       <a href="clean/" class="menu-card">
         <img src="images/clean.png" alt="Clean"/>
         <div class="menu-card-name">Clean</div>
-        <div class="menu-card-desc" id="desc-clean">Panel limpieza</div>
+        <div class="menu-card-desc">Panel limpieza</div>
       </a>
       <a href="order/" class="menu-card">
         <img src="images/order.png" alt="Order"/>
         <div class="menu-card-name">Order</div>
-        <div class="menu-card-desc" id="desc-order">Panel pedidos</div>
+        <div class="menu-card-desc">Panel pedidos</div>
       </a>
       <a href="guest/" class="menu-card">
         <img src="images/guest.png" alt="Guest"/>
         <div class="menu-card-name">Guest</div>
-        <div class="menu-card-desc" id="desc-guest">Check-In QR</div>
+        <div class="menu-card-desc">Check-In QR</div>
       </a>
     </div>
 
-    <a href="subscribe/" class="subscribe-btn" id="btn-subscribe">
-      💳 Suscribirse — 49€/mes
-    </a>
+    <div class="subscribe-wrap">
+      <a href="subscribe/" class="subscribe-btn" id="btn-sub">
+        💳 Suscribirse — 49€/mes
+      </a>
+    </div>
     <p class="footer-note" id="footer-note">
       14 días gratis · Sin tarjeta · Cancelás cuando querés
     </p>
@@ -133,27 +175,19 @@
 
   <script type="module">
     import { t } from './js/i18n.js';
-
-    // Aplicar traducciones
-    document.getElementById('splash-tagline').textContent = t('tagline');
+    document.getElementById('splash-tag').textContent = t('tagline');
     document.getElementById('landing-sub').textContent = t('tagline');
-    document.getElementById('btn-subscribe').textContent = t('subscribe');
+    document.getElementById('btn-sub').textContent = t('subscribe');
     document.getElementById('footer-note').textContent = t('trial');
-    document.getElementById('desc-host').textContent = t('desc_host') || 'Panel propietario';
-    document.getElementById('desc-clean').textContent = t('desc_clean') || 'Panel limpieza';
-    document.getElementById('desc-order').textContent = t('desc_order') || 'Panel pedidos';
-    document.getElementById('desc-guest').textContent = t('desc_guest') || 'Check-In QR';
 
-    // Splash → Landing después de 2s
     setTimeout(() => {
       const splash = document.getElementById('splash');
-      const landing = document.getElementById('landing');
       splash.classList.add('fade-out');
       setTimeout(() => {
         splash.style.display = 'none';
-        landing.style.display = 'block';
-      }, 600);
-    }, 2000);
+        document.getElementById('landing').style.display = 'block';
+      }, 500);
+    }, 2200);
   </script>
 </body>
 </html>
